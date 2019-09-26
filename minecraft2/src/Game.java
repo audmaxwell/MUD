@@ -19,7 +19,20 @@ public class Game {
 	private  ArrayList<Room> old_locations = new ArrayList<Room>(Arrays.asList(Shelter));
 	private  ArrayList<Room> scientist_locations = new ArrayList<Room>(Arrays.asList(Shelter));
 
-	Mobs cat = new Mobs()
+	Mobs cat = new Mobs("Cat", cat_locations, Guest_room);
+	Mobs tom = new Mobs("Tom", tom_locations, Front_yard);
+	Mobs caesar = new Mobs("Caesar Zepelli", caesar_locations, Rubble_pile);
+	Mobs old = new Mobs("Old Woman", old_locations, Shelter);
+	Mobs scientist = new Mobs("Scientist", scientist_locations, Shelter);
+	
+	Room Guest_room = new Room("Guest Room");
+	Room Living_room = new Room("Living Room");
+	Room Kitchen = new Room("Kitchen");
+	Room Basement = new Room("Basement");
+	Room Front_yard = new Room("Front Yard");
+	Room Rubble_pile = new Room("Rubble Pile");
+	Room Shelter = new Room("Shelter");
+	Room Stream = new Room("Stream");
 
 
 
