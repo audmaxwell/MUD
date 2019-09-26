@@ -4,8 +4,19 @@ import java.util.Arrays;
 
 public class Game {
 	
-	private  ArrayList<Room> letter_rooms = new ArrayList<Room>(Arrays.asList());
-	private  ArrayList<Room> picture_rooms = new ArrayList<Room>(Arrays.asList());
+	Room Guest_room = new Room("Guest Room", "The room that you woke up in seems to be some kind of bedroom. A simple room design, there is the bed you woke up in, a dresser, mirror, and a small bedside table that seems to have some kind of envelope on it.");
+	Room Living_room = new Room("Living Room","A simple living room with a couch, TV and table. There seems to be a framed picture on the table.");
+	Room Kitchen = new Room("Kitchen","A dimly lit kitchen with all the standard appliences, including a refridgerator that doesn't seem to be running, maybe there's some stuff in it...");
+	Room Basement = new Room("Basement","");
+	Room Front_yard = new Room("Front Yard","");
+	Room Rubble_pile = new Room("Rubble Pile","");
+	Room Shelter = new Room("Shelter","");
+	Room Stream = new Room("Stream","");
+	Room Lab = new Room("Lab","");
+
+	
+	private  ArrayList<Room> letter_rooms = new ArrayList<Room>(Arrays.asList(Guest_room));
+	private  ArrayList<Room> picture_rooms = new ArrayList<Room>(Arrays.asList(Living_room));
 	private  ArrayList<Room> block_rooms = new ArrayList<Room>(Arrays.asList(Shelter));
 	private  ArrayList<Room> drive_rooms = new ArrayList<Room>(Arrays.asList(Lab));
 	private  ArrayList<Room> eggs_rooms = new ArrayList<Room>(Arrays.asList(Rubble_pile));
@@ -18,32 +29,8 @@ public class Game {
 	private  ArrayList<Room> caesar_locations = new ArrayList<Room>(Arrays.asList(Rubble_pile));
 	private  ArrayList<Room> old_locations = new ArrayList<Room>(Arrays.asList(Shelter));
 	private  ArrayList<Room> scientist_locations = new ArrayList<Room>(Arrays.asList(Shelter));
-
-	Mobs cat = new Mobs("Cat", cat_locations, Guest_room);
-	Mobs tom = new Mobs("Tom", tom_locations, Front_yard);
-	Mobs caesar = new Mobs("Caesar Zepelli", caesar_locations, Rubble_pile);
-	Mobs old = new Mobs("Old Woman", old_locations, Shelter);
-	Mobs scientist = new Mobs("Scientist", scientist_locations, Shelter);
 	
-	Room Guest_room = new Room("Guest Room");
-	Room Living_room = new Room("Living Room");
-	Room Kitchen = new Room("Kitchen");
-	Room Basement = new Room("Basement");
-	Room Front_yard = new Room("Front Yard");
-	Room Rubble_pile = new Room("Rubble Pile");
-	Room Shelter = new Room("Shelter");
-	Room Stream = new Room("Stream");
-
-
-
-
-
-
-
-
-
-
-
+	
 	
 	Item letter = new Item("Letter", "A small letter that seems to be addresed to you.", letter_rooms );
 	Item picture = new Item("Picture", "A framed picture of you alongside what seems to be a family.", picture_rooms);
@@ -53,6 +40,13 @@ public class Game {
 	Item key = new Item("Key", "A small brass key. Perhaps it unlocks a door somewhere.", key_rooms);
 	Item bucket = new Item("Bucket", "A yellow plastic bucket, probably belongs to someone.", bucket_rooms);
 	Item computer = new Item("Computer", "A standard desktop computer, looks like a flash drive could be plugged into it.", computer_rooms);
+	
+	Mobs cat = new Mobs("Cat", cat_locations, Guest_room);
+	Mobs tom = new Mobs("Tom", tom_locations, Front_yard);
+	Mobs caesar = new Mobs("Caesar Zepelli", caesar_locations, Rubble_pile);
+	Mobs old = new Mobs("Old Woman", old_locations, Shelter);
+	Mobs scientist = new Mobs("Scientist", scientist_locations, Shelter);
+	
 	
 
 	public static void main(String[] args) {
