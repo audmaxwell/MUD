@@ -47,6 +47,15 @@ public class Game {
 	Mobs old = new Mobs("Old Woman", old_locations, Shelter);
 	Mobs scientist = new Mobs("Scientist", scientist_locations, Shelter);
 	
+	private HashMap<String, Room> kitchexits = new HashMap <>();
+	private ArrayList<Items> kitchenitems = new ArrayList<>();
+	private ArrayList<Room> letter_rooms = new ArrayList<>(); 
+	Items letter = new Items("Letter", "A small letter that seems to be addresed to you.", letter_rooms );
+	Room Kitchen = new Room("Kitchen", "u r room", kitchexits, kitchenitems);
+	kitchenitems.add(letter);
+	
+	
+	
 	
 
 	public static void main(String[] args) {
