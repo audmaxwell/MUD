@@ -1,7 +1,6 @@
 
-public class Items {
+import java.util.ArrayList;
 
-}
 public class Item {
 	private String name;
 	private String desc;
@@ -22,7 +21,7 @@ public class Item {
 	}
 	
 	public void use() {
-		if(use_room.contains(Player.room)) {
+		if(use_room.contains(Player.Room)) {
 			
 		}else {
 			System.out.println("This item cannot be used in this room.");
