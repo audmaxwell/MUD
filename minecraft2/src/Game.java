@@ -1,31 +1,13 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-
-public class Game {
-		
-	private ArrayList<Item> bed_items = new ArrayList<Item>();
-	private ArrayList<Item> hall_items = new ArrayList<Item>();
-	private ArrayList<Item> guest_items = new ArrayList<Item>();
-	private ArrayList<Item> living_items = new ArrayList<Item>();
-	private ArrayList<Item> kitchen_items = new ArrayList<Item>();
-	private ArrayList<Item> basement_items = new ArrayList<Item>();
-	private ArrayList<Item> yard_items = new ArrayList<Item>();
-	private ArrayList<Item> rubble_items = new ArrayList<Item>();
-	private ArrayList<Item> shelter_items = new ArrayList<Item>();
-	private ArrayList<Item> stream_items = new ArrayList<Item>();
-	private ArrayList<Item> lab_items = new ArrayList<Item>();
-	
-	private HashMap<String, Room> bed_exits = new HashMap <>();
-	private HashMap<String, Room> hall_exits = new HashMap <>();
-	private HashMap<String, Room> guest_exits = new HashMap <>();
-	private HashMap<String, Room> living_exits = new HashMap <>();
-	private HashMap<String, Room> kitchen_exits = new HashMap <>();
-	private HashMap<String, Room> basement_exits = new HashMap <>();
-	private HashMap<String, Room> yard_exits = new HashMap <>();
-	private HashMap<String, Room> rubble_exits = new HashMap <>();
-	private HashMap<String, Room> shelter_exits = new HashMap <>();
-	private HashMap<String, Room> stream_exits = new HashMap <>();
+private static HashMap<String, Room> bed_exits = new HashMap <>();
+	private static HashMap<String, Room> hall_exits = new HashMap <>();
+	private static HashMap<String, Room> guest_exits = new HashMap <>();
+	private static HashMap<String, Room> living_exits = new HashMap <>();
+	private static HashMap<String, Room> kitchen_exits = new HashMap <>();
+	private static HashMap<String, Room> basement_exits = new HashMap <>();
+	private static HashMap<String, Room> yard_exits = new HashMap <>();
+	private static HashMap<String, Room> rubble_exits = new HashMap <>();
+	private static HashMap<String, Room> shelter_exits = new HashMap <>();
+	private static HashMap<String, Room> stream_exits = new HashMap <>();
 	private static HashMap<String, Room> lab_exits = new HashMap <>();
 	
 	private  ArrayList<Room> letter_rooms = new ArrayList<Room>(Arrays.asList());
