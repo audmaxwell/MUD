@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class Game {
-	
+		
 	private ArrayList<Item> guest_items = new ArrayList<Item>();
 	private ArrayList<Item> living_items = new ArrayList<Item>();
 	private ArrayList<Item> kitchen_items = new ArrayList<Item>();
@@ -34,11 +34,24 @@ public class Game {
 	private  ArrayList<Room> bucket_rooms = new ArrayList<Room>(Arrays.asList());
 	private  ArrayList<Room> computer_rooms = new ArrayList<Room>(Arrays.asList());
 	
+	private ArrayList<String> cat_dialogue = new ArrayList<String>(Arrays.asList());
+	private ArrayList<String> tom_dialogue = new ArrayList<String>(Arrays.asList());
+	private ArrayList<String> caesar_dialogue = new ArrayList<String>(Arrays.asList());
+	private ArrayList<String> old_dialogue = new ArrayList<String>(Arrays.asList());
+	private ArrayList<String> scientist_dialogue = new ArrayList<String>(Arrays.asList());
+
 	private  ArrayList<Room> cat_locations = new ArrayList<Room>(Arrays.asList());
 	private  ArrayList<Room> tom_locations = new ArrayList<Room>(Arrays.asList());
 	private  ArrayList<Room> caesar_locations = new ArrayList<Room>(Arrays.asList());
 	private  ArrayList<Room> old_locations = new ArrayList<Room>(Arrays.asList());
 	private  ArrayList<Room> scientist_locations = new ArrayList<Room>(Arrays.asList());
+	
+	private ArrayList<Item> cat_items = new ArrayList<Item>(Arrays.asList());
+	private ArrayList<Item> tom_items = new ArrayList<Item>(Arrays.asList());
+	private ArrayList<Item> caesar_items = new ArrayList<Item>(Arrays.asList());
+	private ArrayList<Item> old_items = new ArrayList<Item>(Arrays.asList());
+	private ArrayList<Item> scientist_items = new ArrayList<Item>(Arrays.asList());
+
 	
 	Item letter = new Item("Letter", "A small letter that seems to be addresed to you.", letter_rooms );
 	Item picture = new Item("Picture", "A framed picture of you alongside what seems to be a family.", picture_rooms);
@@ -59,11 +72,15 @@ public class Game {
 	Room Stream = new Room("Stream","You followed a short trail into the woods and find yourself next to a flowing stream.", stream_exits, stream_items);
 	Room Lab = new Room("Lab","The deepest layer of the house, a medium sized room with various tables and strange instruments. In the corner of the room you can see a computer.", lab_exits, lab_items);
 
-	Mobs cat = new Mobs("Cat", cat_locations, Guest_room);
-	Mobs tom = new Mobs("Tom", tom_locations, Front_yard);
-	Mobs caesar = new Mobs("Caesar Zepelli", caesar_locations, Rubble_pile);
-	Mobs old = new Mobs("Old Woman", old_locations, Shelter);
-	Mobs scientist = new Mobs("Scientist", scientist_locations, Shelter);
+	Mobs cat = new Mobs("Cat", cat_locations, Guest_room, cat_dialogue, cat_items);
+	Mobs tom = new Mobs("Tom", tom_locations, Front_yard, tom_dialogue, tom_items);
+	Mobs caesar = new Mobs("Caesar Zepelli", caesar_locations, Rubble_pile, caesar_dialogue, caesar_items);
+	Mobs old = new Mobs("Old Woman", old_locations, Shelter, old_dialogue, old_items);
+	Mobs scientist = new Mobs("Scientist", scientist_locations, Shelter, scientist_dialogue, scientist_items);
+	
+	caesar_items.add(eggs);
+	old_items.add(bucket);
+	
 	
 	guest_items.add(letter);
 	living_items.add(picture);
@@ -97,6 +114,7 @@ public class Game {
 	caesar_locations.add(Rubble_pile);
 	old_locations.add(Shelter);
 	scientist_locations.add(Shelter);
+
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
