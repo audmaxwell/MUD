@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,7 +16,7 @@ public class Game {
 	private ArrayList<Item> stream_items = new ArrayList<Item>();
 	private ArrayList<Item> lab_items = new ArrayList<Item>();
 	
-	private HashMap<String, Room> bed_exits = new HashMap <>("");
+	private HashMap<String, Room> bed_exits = new HashMap <>();
 	private HashMap<String, Room> hall_exits = new HashMap <>();
 	private HashMap<String, Room> guest_exits = new HashMap <>();
 	private HashMap<String, Room> living_exits = new HashMap <>();
@@ -83,64 +82,75 @@ public class Game {
 	Mobs caesar = new Mobs("Caesar Zepelli", caesar_locations, Rubble_pile, caesar_dialogue, caesar_items);
 	Mobs old = new Mobs("Old Woman", old_locations, Shelter, old_dialogue, old_items);
 	Mobs scientist = new Mobs("Scientist", scientist_locations, Shelter, scientist_dialogue, scientist_items);
-	
-	caesar_items.add(eggs);
-	old_items.add(bucket);
+		
 	
 	
-	guest_items.add(letter);
-	living_items.add(picture);
-	kitchen_items.add(eggs);
-	rubble_items.add(cinder_block);
-	shelter_items.add(flash_drive);
-	shelter_items.add(key);
-	stream_items.add(bucket);
-	lab_items.add(computer);
 	
-	letter_rooms.add(Guest_room);
-	picture_rooms.add(Living_room);
-	block_rooms.add(Rubble_pile);
-	drive_rooms.add(Shelter);
-	eggs_rooms.add(Kitchen);
-	key_rooms.add(Shelter);
-	bucket_rooms.add(Stream);
-	computer_rooms.add(Lab);
+	public void initializeItems() {
+		caesar_items.add(eggs);
+		old_items.add(bucket);
+		
+		guest_items.add(letter);
+		living_items.add(picture);
+		kitchen_items.add(eggs);
+		rubble_items.add(cinder_block);
+		shelter_items.add(flash_drive);
+		shelter_items.add(key);
+		stream_items.add(bucket);
+		lab_items.add(computer);
+
+	}
 	
-	cat_locations.add(Guest_room);
-	cat_locations.add(Living_room);
-	cat_locations.add(Kitchen);
-	cat_locations.add(Basement);
-	tom_locations.add(Guest_room);
-	tom_locations.add(Living_room);
-	tom_locations.add(Kitchen);
-	tom_locations.add(Basement);
-	tom_locations.add(Lab);
-	tom_locations.add(Yard);
-	tom_locations.add(Stream);
-	caesar_locations.add(Rubble_pile);
-	old_locations.add(Shelter);
-	scientist_locations.add(Shelter);
+	public void initializeRooms() {
+		letter_rooms.add(Guest_room);
+		picture_rooms.add(Living_room);
+		block_rooms.add(Rubble_pile);
+		drive_rooms.add(Shelter);
+		eggs_rooms.add(Kitchen);
+		key_rooms.add(Shelter);
+		bucket_rooms.add(Stream);
+		computer_rooms.add(Lab);
+	}
 	
-	bed_exits.put("forwards", Hallway);
-	hall_exits.put("forwards", Guest_room);
-	hall_exits.put("backwards", Bed_room);
-	hall_exits.put("down", Living_room);
-	guest_exits.put("backwards", Hallway);
-	living_exits.put("right", Kitchen);
-	living_exits.put("down", Basement);
-	living_exits.put("up", Hallway);
-	kitchen_exits.put("forwards", Front_yard);
-	kitchen_exits.put("left", Living_room);
-	basement_exits.put("up", Living_room);
-	basement_exits.put("forwards", Lab);
-	yard_exits.put("backwards", Kitchen);
-	yard_exits.put("forwards", Rubble_pile);
-	rubble_exits.put("forwards", Shelter);
-	rubble_exits.put("backwards", Front_yard);
-	shelter_exits.put("backwards", Rubble_pile);
-	shelter_exits.put("forwards", Stream);
-	stream_exits.put("backwards", Shelter);
-	lab_exits.put("backwards", Basement);
+	public void initializeLocations() {
+		cat_locations.add(Guest_room);
+		cat_locations.add(Living_room);
+		cat_locations.add(Kitchen);
+		cat_locations.add(Basement);
+		tom_locations.add(Guest_room);
+		tom_locations.add(Living_room);
+		tom_locations.add(Kitchen);
+		tom_locations.add(Basement);
+		tom_locations.add(Lab);
+		tom_locations.add(Front_yard);
+		tom_locations.add(Stream);
+		caesar_locations.add(Rubble_pile);
+		old_locations.add(Shelter);
+		scientist_locations.add(Shelter);
+	}
+	
+	public void initializeExits() {
+		bed_exits.put("forwards", Hallway);
+		hall_exits.put("forwards", Guest_room);
+		hall_exits.put("backwards", Bed_room);
+		hall_exits.put("down", Living_room);
+		guest_exits.put("backwards", Hallway);
+		living_exits.put("right", Kitchen);
+		living_exits.put("down", Basement);
+		living_exits.put("up", Hallway);
+		kitchen_exits.put("forwards", Front_yard);
+		kitchen_exits.put("left", Living_room);
+		basement_exits.put("up", Living_room);
+		basement_exits.put("forwards", Lab);
+		yard_exits.put("backwards", Kitchen);
+		yard_exits.put("forwards", Rubble_pile);
+		rubble_exits.put("forwards", Shelter);
+		rubble_exits.put("backwards", Front_yard);
+		shelter_exits.put("backwards", Rubble_pile);
+		shelter_exits.put("forwards", Stream);
+		stream_exits.put("backwards", Shelter);
+		lab_exits.put("backwards", Basement);
+	}
 	
 	
 
