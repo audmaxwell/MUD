@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 public class Game {
 		
+	private ArrayList<Item> bed_items = new ArrayList<Item>();
+	private ArrayList<Item> hall_items = new ArrayList<Item>();
 	private ArrayList<Item> guest_items = new ArrayList<Item>();
 	private ArrayList<Item> living_items = new ArrayList<Item>();
 	private ArrayList<Item> kitchen_items = new ArrayList<Item>();
@@ -14,7 +16,9 @@ public class Game {
 	private ArrayList<Item> shelter_items = new ArrayList<Item>();
 	private ArrayList<Item> stream_items = new ArrayList<Item>();
 	private ArrayList<Item> lab_items = new ArrayList<Item>();
-
+	
+	private HashMap<String, Room> bed_exits = new HashMap <>("");
+	private HashMap<String, Room> hall_exits = new HashMap <>();
 	private HashMap<String, Room> guest_exits = new HashMap <>();
 	private HashMap<String, Room> living_exits = new HashMap <>();
 	private HashMap<String, Room> kitchen_exits = new HashMap <>();
@@ -23,7 +27,7 @@ public class Game {
 	private HashMap<String, Room> rubble_exits = new HashMap <>();
 	private HashMap<String, Room> shelter_exits = new HashMap <>();
 	private HashMap<String, Room> stream_exits = new HashMap <>();
-	private HashMap<String, Room> lab_exits = new HashMap <>();
+	private static HashMap<String, Room> lab_exits = new HashMap <>();
 	
 	private  ArrayList<Room> letter_rooms = new ArrayList<Room>(Arrays.asList());
 	private  ArrayList<Room> picture_rooms = new ArrayList<Room>(Arrays.asList());
@@ -62,7 +66,9 @@ public class Game {
 	Item bucket = new Item("Bucket", "A yellow plastic bucket, probably belongs to someone.", bucket_rooms);
 	Item computer = new Item("Computer", "A standard desktop computer, looks like a flash drive could be plugged into it.", computer_rooms);
 	
-	Room Guest_room = new Room("Guest Room", "The room that you woke up in seems to be some kind of bedroom. A simple room design, there is the bed you woke up in, a dresser, mirror, and a small bedside table that seems to have some kind of envelope on it.", guest_exits, guest_items);
+	Room Bed_room = new Room("Bed Room", "The room that you woke up in seems to be some kind of bedroom. A simple room design, there is the bed you woke up in, a dresser, and a mirror.", bed_exits, bed_items);
+	Room Hallway = new Room("Hallway", "A short hallway with a door on the other side and stairs leading down.", hall_exits, hall_items);
+	Room Guest_room = new Room("Guest Room", "A small bedroom, looks to be an extra room. There is a table next to the bed with an envelope on it." , guest_exits, guest_items);
 	Room Living_room = new Room("Living Room","A simple living room with a couch, TV and table. There seems to be a framed picture on the table.", living_exits, living_items);
 	Room Kitchen = new Room("Kitchen","A dimly lit kitchen with all the standard appliences, including a refridgerator that doesn't seem to be running, maybe there's some stuff in it...", kitchen_exits, kitchen_items);
 	Room Basement = new Room("Basement","A fairly clean basement with some empty cardboard boxes scattered around and a closed door at the other end of the room.", basement_exits, basement_items);
@@ -114,10 +120,34 @@ public class Game {
 	caesar_locations.add(Rubble_pile);
 	old_locations.add(Shelter);
 	scientist_locations.add(Shelter);
+	
+	bed_exits.put("forwards", Hallway);
+	hall_exits.put("forwards", Guest_room);
+	hall_exits.put("backwards", Bed_room);
+	hall_exits.put("down", Living_room);
+	guest_exits.put("backwards", Hallway);
+	living_exits.put("right", Kitchen);
+	living_exits.put("down", Basement);
+	living_exits.put("up", Hallway);
+	kitchen_exits.put("forwards", Front_yard);
+	kitchen_exits.put("left", Living_room);
+	basement_exits.put("up", Living_room);
+	basement_exits.put("forwards", Lab);
+	yard_exits.put("backwards", Kitchen);
+	yard_exits.put("forwards", Rubble_pile);
+	rubble_exits.put("forwards", Shelter);
+	rubble_exits.put("backwards", Front_yard);
+	shelter_exits.put("backwards", Rubble_pile);
+	shelter_exits.put("forwards", Stream);
+	stream_exits.put("backwards", Shelter);
+	lab_exits.put("backwards", Basement);
+	
+	
 
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		System.out.println(lab_exits);
 
 	}
 
