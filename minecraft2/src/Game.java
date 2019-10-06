@@ -1,14 +1,15 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
-
+/*
+ * @author Audrey Maxwell and Ethan Buckborough
+ */
 public class Game {
 
-	/**
-	 *
+	/*
 	 * @param itemHashMap
 	 * @return a HashMap of the rooms where the key is the room name and the value is the corresponding room object.
+	 * A method to initialize and create all of the Room class objects
 	 */
 	public HashMap<String, Room> initializeRooms(HashMap<String, Item> itemHashMap) {
 		HashMap<String, Room> bed_exits = new HashMap <>();
@@ -30,7 +31,7 @@ public class Game {
 		ArrayList<Item> rubble_pile_items = new ArrayList<Item>();
 		rubble_pile_items.add(itemHashMap.get("cinder block"));
 		ArrayList<Item> shelter_items = new ArrayList<Item>();
-		shelter_items.add(itemHashMap.get("flash"));
+		shelter_items.add(itemHashMap.get("flash drive"));
 		shelter_items.add(itemHashMap.get("key"));
 		ArrayList<Item> kitchen_items = new ArrayList<Item>();
 		kitchen_items.add(itemHashMap.get("eggs"));
@@ -86,6 +87,12 @@ public class Game {
 
 		return rooms;
 	}
+	
+	/*
+	 * @param roomHashMap
+	 * @return A hashmap of the mobs where the key is a string of the mob's name and the value is the corresponding mob object
+	 * A method to initialize and create all of the mob class objects
+	 */
 	public HashMap<String, Mob> initializeMobs(HashMap<String, Room> roomHashMap){
 		ArrayList<String> cat_dialogue = new ArrayList<>();
 		ArrayList<Room> cat_locations = new ArrayList<>();
@@ -131,15 +138,19 @@ public class Game {
 		return mobHashMap;
 	}
 
+	/*
+	 * Initializes and creates the Item class objects. 
+	 * Creates a hashmap 'itemHashMap' that has an item's name as a string as the key and the value is the corresponding Item object
+	 */
 	public HashMap<String, Item> initializeItems() {
-		Item letter = new Item("Letter", "A small letter that seems to be addressed to you.", "", "K");
-		Item picture = new Item("Picture", "A framed picture of you alongside what seems to be a family.","", "K");
-		Item cinder_block = new Item("Cinder Block", "A heavy piece of concrete, seems very sturdy.", "","K");
-		Item flash_drive = new Item("Flash Drive", "A small flash drive given to you by the scientist. You'll need some sort of computer to see what's on it.", "Lab", "K");
-		Item eggs = new Item("Eggs", "A carton of a dozen eggs. Have probably been rotten for a while...", "Rubble_pile", "You insert the flash drive into the computer and a list of files and documents pop up on screen. Your eyes are drawn to a document labeled ‘Final experiment thoughts’.");
+		Item letter = new Item("Letter", "A small letter that seems to be addressed to you.", "", "");
+		Item picture = new Item("Picture", "A framed picture of you alongside what seems to be a family.","", "");
+		Item cinder_block = new Item("Cinder Block", "A heavy piece of concrete, seems very sturdy.", "","");
+		Item flash_drive = new Item("Flash Drive", "A small flash drive given to you by the scientist. You'll need some sort of computer to see what's on it.", "Lab", "You insert the flash drive into the computer and a list of various files and documents pops up on the screen. Your eye is drawn to a particular document named ‘Final experiment thoughts’.");
+		Item eggs = new Item("Eggs", "A carton of a dozen eggs. Have probably been rotten for a while...", "Rubble_pile", "");
 		Item key = new Item("Key", "A small brass key. Perhaps it unlocks a door somewhere.", "Basement", "You put the key into the lock and turn, prepared for it to do nothing. To your surprise the key turns and the door opens. You see a dark room through the doorway. There must be a reason as to why this room has been locked away...");
-		Item bucket = new Item("Bucket", "A yellow plastic bucket, probably belongs to someone.", "Shelter", "K");
-		Item computer = new Item("Computer", "A standard desktop computer, looks like a flash drive could be plugged into it.", "Lab", "K");
+		Item bucket = new Item("Bucket", "A yellow plastic bucket, probably belongs to someone.", "Shelter", "");
+		Item computer = new Item("Computer", "A standard desktop computer, looks like a flash drive could be plugged into it.", "Lab", "");
 
 		HashMap<String, Item> itemHashMap = new HashMap<>();
 		itemHashMap.put(letter.getName().toLowerCase(), letter);
@@ -154,6 +165,11 @@ public class Game {
 		return itemHashMap;
 	}
 
+	/*Creates a scanner that continues in a loop until the user inputs 'exit' as well as responding to to commands and inputs
+	 * Gives the player a brief text tutorial telling them how to play the game and the basic commands
+	 * This tutorial can be displayed again at any time by entering the 'help' command
+	 * When the player enters a room, the scanner will return a description of the room, the items currently in the room, and the exits of the room and the rooms they lead to
+	 */
 	private void startGame(){
 		HashMap<String, Item> items = initializeItems();
 		HashMap<String, Room> rooms = initializeRooms(items);
@@ -191,11 +207,18 @@ public class Game {
 
 	/**
 	 *
-	 * @param player the peen
+	 * @param player 
+	 * @return creates a new instance of the player class
 	 * @param input
+	 * @return the input that the user puts into the scanner
 	 * @param items
+	 * @return The Hashmap of the item objects
 	 * @param mobs
+	 * @return The hashmap of the Mob objects
 	 * @param rooms
+	 * @return The hashmap of the room objects
+	 * Reads the user input to determine if the user is trying to use a valid command, if the command is valid then the corresponding method will be called
+	 * if the input is invalid, then the system will return a statement informing the user that the command they entered is invalid
 	 */
 	public void parseInput(Player player, String input, HashMap<String, Item> items, HashMap<String, Mob> mobs, HashMap<String, Room> rooms){
 		 String[] in = input.split(" ");
@@ -252,7 +275,7 @@ public class Game {
 	}
 
 
-
+	//Main methods that creates a new game object and uses the startGame method to start the game
 	public static void main(String[] args) {
 		Game game = new Game();
 		game.startGame();
