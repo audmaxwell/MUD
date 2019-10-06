@@ -1,145 +1,263 @@
-private static HashMap<String, Room> bed_exits = new HashMap <>();
-	private static HashMap<String, Room> hall_exits = new HashMap <>();
-	private static HashMap<String, Room> guest_exits = new HashMap <>();
-	private static HashMap<String, Room> living_exits = new HashMap <>();
-	private static HashMap<String, Room> kitchen_exits = new HashMap <>();
-	private static HashMap<String, Room> basement_exits = new HashMap <>();
-	private static HashMap<String, Room> yard_exits = new HashMap <>();
-	private static HashMap<String, Room> rubble_exits = new HashMap <>();
-	private static HashMap<String, Room> shelter_exits = new HashMap <>();
-	private static HashMap<String, Room> stream_exits = new HashMap <>();
-	private static HashMap<String, Room> lab_exits = new HashMap <>();
-	
-	private  ArrayList<Room> letter_rooms = new ArrayList<Room>(Arrays.asList());
-	private  ArrayList<Room> picture_rooms = new ArrayList<Room>(Arrays.asList());
-	private  ArrayList<Room> block_rooms = new ArrayList<Room>(Arrays.asList());
-	private  ArrayList<Room> drive_rooms = new ArrayList<Room>(Arrays.asList());
-	private  ArrayList<Room> eggs_rooms = new ArrayList<Room>(Arrays.asList());
-	private  ArrayList<Room> key_rooms = new ArrayList<Room>(Arrays.asList());
-	private  ArrayList<Room> bucket_rooms = new ArrayList<Room>(Arrays.asList());
-	private  ArrayList<Room> computer_rooms = new ArrayList<Room>(Arrays.asList());
-	
-	private ArrayList<String> cat_dialogue = new ArrayList<String>(Arrays.asList());
-	private ArrayList<String> tom_dialogue = new ArrayList<String>(Arrays.asList());
-	private ArrayList<String> caesar_dialogue = new ArrayList<String>(Arrays.asList());
-	private ArrayList<String> old_dialogue = new ArrayList<String>(Arrays.asList());
-	private ArrayList<String> scientist_dialogue = new ArrayList<String>(Arrays.asList());
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Scanner;
 
-	private  ArrayList<Room> cat_locations = new ArrayList<Room>(Arrays.asList());
-	private  ArrayList<Room> tom_locations = new ArrayList<Room>(Arrays.asList());
-	private  ArrayList<Room> caesar_locations = new ArrayList<Room>(Arrays.asList());
-	private  ArrayList<Room> old_locations = new ArrayList<Room>(Arrays.asList());
-	private  ArrayList<Room> scientist_locations = new ArrayList<Room>(Arrays.asList());
-	
-	private ArrayList<Item> cat_items = new ArrayList<Item>(Arrays.asList());
-	private ArrayList<Item> tom_items = new ArrayList<Item>(Arrays.asList());
-	private ArrayList<Item> caesar_items = new ArrayList<Item>(Arrays.asList());
-	private ArrayList<Item> old_items = new ArrayList<Item>(Arrays.asList());
-	private ArrayList<Item> scientist_items = new ArrayList<Item>(Arrays.asList());
+public class Game {
 
-	
-	Item letter = new Item("Letter", "A small letter that seems to be addresed to you.", letter_rooms );
-	Item picture = new Item("Picture", "A framed picture of you alongside what seems to be a family.", picture_rooms);
-	Item cinder_block = new Item("Cinder Block", "A heavy piece of concrete, seems very sturdy.", block_rooms);
-	Item flash_drive = new Item("Flash Drive", "A small flash drive given to you by the scientist. You'll need some sort of computer to see what's on it.", drive_rooms);
-	Item eggs = new Item("Eggs", "A carton of a dozen eggs. Have probably been rotten for a while...", eggs_rooms);
-	Item key = new Item("Key", "A small brass key. Perhaps it unlocks a door somewhere.", key_rooms);
-	Item bucket = new Item("Bucket", "A yellow plastic bucket, probably belongs to someone.", bucket_rooms);
-	Item computer = new Item("Computer", "A standard desktop computer, looks like a flash drive could be plugged into it.", computer_rooms);
-	
-	Room Bed_room = new Room("Bed Room", "The room that you woke up in seems to be some kind of bedroom. A simple room design, there is the bed you woke up in, a dresser, and a mirror.", bed_exits, bed_items);
-	Room Hallway = new Room("Hallway", "A short hallway with a door on the other side and stairs leading down.", hall_exits, hall_items);
-	Room Guest_room = new Room("Guest Room", "A small bedroom, looks to be an extra room. There is a table next to the bed with an envelope on it." , guest_exits, guest_items);
-	Room Living_room = new Room("Living Room","A simple living room with a couch, TV and table. There seems to be a framed picture on the table.", living_exits, living_items);
-	Room Kitchen = new Room("Kitchen","A dimly lit kitchen with all the standard appliences, including a refridgerator that doesn't seem to be running, maybe there's some stuff in it...", kitchen_exits, kitchen_items);
-	Room Basement = new Room("Basement","A fairly clean basement with some empty cardboard boxes scattered around and a closed door at the other end of the room.", basement_exits, basement_items);
-	Room Front_yard = new Room("Front Yard","You step out into the yard and see that this is the only standing house in the area, all the others have been reduced to heaps of rubble and ash. You don't see any people walking around, but maybe you can find someone by searching around.", yard_exits, yard_items);
-	Room Rubble_pile = new Room("Rubble Pile","You happen upon a fairly large pile of rubble. Next to it you see an odd looking man moving pieces of rubble from one side of the pile to the other and then back again.", rubble_exits, rubble_items);
-	Room Shelter = new Room("Shelter","You find yourself in a makeshift shelter that seems to be an abandoned convenience store. Inside the building you see an old woman who looks like she might need something.", shelter_exits, shelter_items);
-	Room Stream = new Room("Stream","You followed a short trail into the woods and find yourself next to a flowing stream.", stream_exits, stream_items);
-	Room Lab = new Room("Lab","The deepest layer of the house, a medium sized room with various tables and strange instruments. In the corner of the room you can see a computer.", lab_exits, lab_items);
+	/**
+	 *
+	 * @param itemHashMap
+	 * @return a HashMap of the rooms where the key is the room name and the value is the corresponding room object.
+	 */
+	public HashMap<String, Room> initializeRooms(HashMap<String, Item> itemHashMap) {
+		HashMap<String, Room> bed_exits = new HashMap <>();
+		HashMap<String, Room> hall_exits = new HashMap <>();
+		HashMap<String, Room> guest_exits = new HashMap <>();
+		HashMap<String, Room> living_exits = new HashMap <>();
+		HashMap<String, Room> kitchen_exits = new HashMap <>();
+		HashMap<String, Room> basement_exits = new HashMap <>();
+		HashMap<String, Room> yard_exits = new HashMap <>();
+		HashMap<String, Room> rubble_exits = new HashMap <>();
+		HashMap<String, Room> shelter_exits = new HashMap <>();
+		HashMap<String, Room> stream_exits = new HashMap <>();
+		HashMap<String, Room> lab_exits = new HashMap <>();
 
-	Mobs cat = new Mobs("Cat", cat_locations, Guest_room, cat_dialogue, cat_items);
-	Mobs tom = new Mobs("Tom", tom_locations, Front_yard, tom_dialogue, tom_items);
-	Mobs caesar = new Mobs("Caesar Zepelli", caesar_locations, Rubble_pile, caesar_dialogue, caesar_items);
-	Mobs old = new Mobs("Old Woman", old_locations, Shelter, old_dialogue, old_items);
-	Mobs scientist = new Mobs("Scientist", scientist_locations, Shelter, scientist_dialogue, scientist_items);
-		
-	
-	
-	
-	public void initializeItems() {
-		caesar_items.add(eggs);
-		old_items.add(bucket);
-		
-		guest_items.add(letter);
-		living_items.add(picture);
-		kitchen_items.add(eggs);
-		rubble_items.add(cinder_block);
-		shelter_items.add(flash_drive);
-		shelter_items.add(key);
-		stream_items.add(bucket);
-		lab_items.add(computer);
+		ArrayList<Item> guest_room_items = new ArrayList<Item>();
+		guest_room_items.add(itemHashMap.get("letter"));
+		ArrayList<Item> living_room_items = new ArrayList<Item>();
+		living_room_items.add(itemHashMap.get("picture"));
+		ArrayList<Item> rubble_pile_items = new ArrayList<Item>();
+		rubble_pile_items.add(itemHashMap.get("cinder block"));
+		ArrayList<Item> shelter_items = new ArrayList<Item>();
+		shelter_items.add(itemHashMap.get("flash"));
+		shelter_items.add(itemHashMap.get("key"));
+		ArrayList<Item> kitchen_items = new ArrayList<Item>();
+		kitchen_items.add(itemHashMap.get("eggs"));
+		ArrayList<Item> stream_items = new ArrayList<Item>();
+		stream_items.add(itemHashMap.get("bucket"));
+
+		Room bed_room = new Room("Bed Room", "The room that you woke up in seems to be some kind of bedroom. A simple room design, there is the bed you woke up in, a dresser, and a mirror.", bed_exits, new ArrayList<>());
+		Room hallway = new Room("Hallway", "A short hallway with a door on the other side and stairs leading down.", hall_exits, new ArrayList<>());
+		Room guest_room = new Room("Guest Room", "A small bedroom, looks to be an extra room. There is a table next to the bed with an envelope on it." , guest_exits, guest_room_items);
+		Room living_room = new Room("Living Room","A simple living room with a couch, TV and table. There seems to be a framed picture on the table.", living_exits, living_room_items);
+		Room kitchen = new Room("Kitchen","A dimly lit kitchen with all the standard appliances, including a refrigerator that doesn't seem to be running, maybe there's some stuff in it...", kitchen_exits, kitchen_items);
+		Room basement = new Room("Basement","A fairly clean basement with some empty cardboard boxes scattered around and a closed door at the other end of the room.", basement_exits, new ArrayList<>());
+		Room front_yard = new Room("Front Yard","You step out into the yard and see that this is the only standing house in the area, all the others have been reduced to heaps of rubble and ash. You don't see any people walking around, but maybe you can find someone by searching around.", yard_exits, new ArrayList<>());
+		Room rubble_pile = new Room("Rubble Pile","You happen upon a fairly large pile of rubble. Next to it you see an odd looking man moving pieces of rubble from one side of the pile to the other and then back again.", rubble_exits, rubble_pile_items);
+		Room shelter = new Room("Shelter","You find yourself in a makeshift shelter that seems to be an abandoned convenience store. Inside the building you see an old woman who looks like she might need something.", shelter_exits, shelter_items);
+		Room stream = new Room("Stream","You followed a short trail into the woods and find yourself next to a flowing stream.", stream_exits, stream_items);
+		Room lab = new Room("Lab","The deepest layer of the house, a medium sized room with various tables and strange instruments. In the corner of the room you can see a computer.", lab_exits, new ArrayList<>());
+
+		bed_exits.put("forwards", hallway);
+		hall_exits.put("forwards", guest_room);
+		hall_exits.put("backwards", bed_room);
+		hall_exits.put("down", living_room);
+		guest_exits.put("backwards", hallway);
+		living_exits.put("right", kitchen);
+		living_exits.put("down", basement);
+		living_exits.put("up", hallway);
+		kitchen_exits.put("forwards", front_yard);
+		kitchen_exits.put("left", living_room);
+		basement_exits.put("up", living_room);
+		basement_exits.put("forwards", lab);
+		yard_exits.put("backwards", kitchen);
+		yard_exits.put("forwards", rubble_pile);
+		rubble_exits.put("forwards", shelter);
+		rubble_exits.put("backwards", front_yard);
+		shelter_exits.put("backwards", rubble_pile);
+		shelter_exits.put("forwards", stream);
+		stream_exits.put("backwards", shelter);
+		lab_exits.put("backwards", basement);
+
+		HashMap<String, Room> rooms = new HashMap<>();
+		rooms.put(bed_room.getName().toLowerCase(), bed_room);
+		rooms.put(hallway.getName().toLowerCase(), hallway);
+		rooms.put(guest_room.getName().toLowerCase(), guest_room);
+		rooms.put(living_room.getName().toLowerCase(), living_room);
+		rooms.put(kitchen.getName().toLowerCase(), kitchen);
+		rooms.put(basement.getName().toLowerCase(), basement);
+		rooms.put(front_yard.getName().toLowerCase(), front_yard);
+		rooms.put(rubble_pile.getName().toLowerCase(), rubble_pile);
+		rooms.put(shelter.getName().toLowerCase(), shelter);
+		rooms.put(stream.getName().toLowerCase(), stream);
+		rooms.put(lab.getName().toLowerCase(), lab);
+
+
+		return rooms;
+	}
+	public HashMap<String, Mob> initializeMobs(HashMap<String, Room> roomHashMap){
+		ArrayList<String> cat_dialogue = new ArrayList<>();
+		ArrayList<Room> cat_locations = new ArrayList<>();
+		cat_locations.add(roomHashMap.get("Guest Room"));
+		cat_locations.add(roomHashMap.get("Living Room"));
+		cat_locations.add(roomHashMap.get("Kitchen"));
+		cat_locations.add(roomHashMap.get("Basement"));
+		Mob cat = new Mob("Cat", cat_locations, cat_dialogue, "", "bed room");
+
+		ArrayList<String> tom_dialogue = new ArrayList<>();
+		ArrayList<Room> tom_locations = new ArrayList<>();
+		tom_locations.add(roomHashMap.get("Guest Room"));
+		tom_locations.add(roomHashMap.get("Living Room"));
+		tom_locations.add(roomHashMap.get("Kitchen"));
+		tom_locations.add(roomHashMap.get("Basement"));
+		tom_locations.add(roomHashMap.get("Lab"));
+		tom_locations.add(roomHashMap.get("Front Yard"));
+		tom_locations.add(roomHashMap.get("Stream"));
+		Mob tom = new Mob("Tom", tom_locations, tom_dialogue, "", "living room");
+
+		ArrayList<String> caesar_dialogue = new ArrayList<>();
+		ArrayList<Room> caesar_locations = new ArrayList<>();
+		caesar_locations.add(roomHashMap.get("Rubble Pile"));
+		Mob caesar = new Mob("Caesar Zepelli", caesar_locations, caesar_dialogue, "Eggs", "rubble pile");
+
+		ArrayList<String> old_dialogue = new ArrayList<>();
+		ArrayList<Room> old_locations = new ArrayList<>();
+		old_locations.add(roomHashMap.get("Shelter"));
+		Mob old = new Mob("Old Woman", old_locations, old_dialogue, "Bucket", "shelter");
+
+		ArrayList<String> scientist_dialogue = new ArrayList<>();
+		ArrayList<Room> scientist_locations = new ArrayList<>();
+		scientist_locations.add(roomHashMap.get("Shelter"));
+		Mob scientist = new Mob("Scientist", scientist_locations, scientist_dialogue, "","shelter");
+
+		HashMap<String, Mob> mobHashMap = new HashMap<>();
+		mobHashMap.put(cat.getName().toLowerCase(), cat);
+		mobHashMap.put(tom.getName().toLowerCase(), tom);
+		mobHashMap.put(caesar.getName().toLowerCase(), caesar);
+		mobHashMap.put(old.getName().toLowerCase(), old);
+		mobHashMap.put(scientist.getName().toLowerCase(), scientist);
+
+		return mobHashMap;
+	}
+
+	public HashMap<String, Item> initializeItems() {
+		Item letter = new Item("Letter", "A small letter that seems to be addressed to you.", "", "K");
+		Item picture = new Item("Picture", "A framed picture of you alongside what seems to be a family.","", "K");
+		Item cinder_block = new Item("Cinder Block", "A heavy piece of concrete, seems very sturdy.", "","K");
+		Item flash_drive = new Item("Flash Drive", "A small flash drive given to you by the scientist. You'll need some sort of computer to see what's on it.", "Lab", "K");
+		Item eggs = new Item("Eggs", "A carton of a dozen eggs. Have probably been rotten for a while...", "Rubble_pile", "K");
+		Item key = new Item("Key", "A small brass key. Perhaps it unlocks a door somewhere.", "Basement", "K");
+		Item bucket = new Item("Bucket", "A yellow plastic bucket, probably belongs to someone.", "Shelter", "K");
+		Item computer = new Item("Computer", "A standard desktop computer, looks like a flash drive could be plugged into it.", "Lab", "K");
+
+		HashMap<String, Item> itemHashMap = new HashMap<>();
+		itemHashMap.put(letter.getName().toLowerCase(), letter);
+		itemHashMap.put(picture.getName().toLowerCase(), picture);
+		itemHashMap.put(cinder_block.getName().toLowerCase(), cinder_block);
+		itemHashMap.put(flash_drive.getName().toLowerCase(), flash_drive);
+		itemHashMap.put(eggs.getName().toLowerCase(), eggs);
+		itemHashMap.put(key.getName().toLowerCase(), key);
+		itemHashMap.put(bucket.getName().toLowerCase(), bucket);
+		itemHashMap.put(computer.getName().toLowerCase(), computer);
+
+		return itemHashMap;
+	}
+
+	private void startGame(){
+		HashMap<String, Item> items = initializeItems();
+		HashMap<String, Room> rooms = initializeRooms(items);
+		HashMap<String, Mob> mobs = initializeMobs(rooms);
+		Player player = new Player(rooms.get("bed room"), new ArrayList<>());
+
+		System.out.println();
+		// TODO Auto-generated method stub
+		System.out.println("You wake up in an unfamiliar bedroom.");
+		System.out.println("You can enter 'help' at any time to access playable actions.");
+		String instructions = "To exit a given room, enter 'move' followed by a direction."
+				+ " You can move forwards, backwards, right, left, up, and down. \n"
+				+ "Some locations may contain items that you can interact with. \n"
+				+ "Items can be added to your inventory by entering 'take' followed by the item. Check your inventory by entering 'inventory'."
+				+ "The commands 'drop', 'use', and 'examine' can all be executed when followed by an item in your inventory.";
+
+		Scanner in = new Scanner(System.in);
+		while(true) {
+			System.out.println(player.look());
+			System.out.println("Exits : \n" + player.exits());
+			String input = in.nextLine();
+			if(input.equals("exit")) {
+				break;
+			}
+			if (input.equals("help")){
+				System.out.println(instructions);
+			}
+			else{
+				parseInput(player, input, items, mobs, rooms);
+			}
+		}
+		System.out.println("Thank you for playing.");
 
 	}
-	
-	public void initializeRooms() {
-		letter_rooms.add(Guest_room);
-		picture_rooms.add(Living_room);
-		block_rooms.add(Rubble_pile);
-		drive_rooms.add(Shelter);
-		eggs_rooms.add(Kitchen);
-		key_rooms.add(Shelter);
-		bucket_rooms.add(Stream);
-		computer_rooms.add(Lab);
+
+	/**
+	 *
+	 * @param player the peen
+	 * @param input
+	 * @param items
+	 * @param mobs
+	 * @param rooms
+	 */
+	public void parseInput(Player player, String input, HashMap<String, Item> items, HashMap<String, Mob> mobs, HashMap<String, Room> rooms){
+		 String[] in = input.split(" ");
+		 String command = in[0];
+		 switch (command.toLowerCase()){
+			 case "take":
+			 	if (in.length == 2) {
+					System.out.println(player.take(items.get(in[1])));
+				}
+			 	else{
+					System.out.println("Invalid command.");
+				}
+			 	break;
+			 case "look":
+				 System.out.println(player.look());
+				 break;
+			 case "move":
+				 if (in.length == 2) {
+					 System.out.println(player.move(in[1]));
+				 }
+				 else{
+					 System.out.println("Invalid command.");
+				 }
+			 	break;
+			 case "exits":
+				 System.out.println(player.exits());
+				 break;
+			 case "inventory":
+			 	if(player.getInventory().isEmpty()){
+					System.out.println("There is nothing in your inventory");
+				}
+			 	else {
+					System.out.println(player.getInventory());
+				}
+				 break;
+			 case "drop":
+				 if (in.length == 2) {
+					 System.out.println(player.drop(items.get(in[1])));
+				 }
+				 else{
+					 System.out.println("Invalid command.");
+				 }
+					break;
+			 case "examine":
+				 if (in.length == 2) {
+					 System.out.println(player.examine(items.get(in[1])));
+				 }
+				 else{
+					 System.out.println("Invalid command.");
+				 }
+
+		 }
+
 	}
-	
-	public void initializeLocations() {
-		cat_locations.add(Guest_room);
-		cat_locations.add(Living_room);
-		cat_locations.add(Kitchen);
-		cat_locations.add(Basement);
-		tom_locations.add(Guest_room);
-		tom_locations.add(Living_room);
-		tom_locations.add(Kitchen);
-		tom_locations.add(Basement);
-		tom_locations.add(Lab);
-		tom_locations.add(Front_yard);
-		tom_locations.add(Stream);
-		caesar_locations.add(Rubble_pile);
-		old_locations.add(Shelter);
-		scientist_locations.add(Shelter);
-	}
-	
-	public void initializeExits() {
-		bed_exits.put("forwards", Hallway);
-		hall_exits.put("forwards", Guest_room);
-		hall_exits.put("backwards", Bed_room);
-		hall_exits.put("down", Living_room);
-		guest_exits.put("backwards", Hallway);
-		living_exits.put("right", Kitchen);
-		living_exits.put("down", Basement);
-		living_exits.put("up", Hallway);
-		kitchen_exits.put("forwards", Front_yard);
-		kitchen_exits.put("left", Living_room);
-		basement_exits.put("up", Living_room);
-		basement_exits.put("forwards", Lab);
-		yard_exits.put("backwards", Kitchen);
-		yard_exits.put("forwards", Rubble_pile);
-		rubble_exits.put("forwards", Shelter);
-		rubble_exits.put("backwards", Front_yard);
-		shelter_exits.put("backwards", Rubble_pile);
-		shelter_exits.put("forwards", Stream);
-		stream_exits.put("backwards", Shelter);
-		lab_exits.put("backwards", Basement);
-	}
-	
-	
+
 
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println(lab_exits);
+		Game game = new Game();
+		game.startGame();
+
+		
 
 	}
 
