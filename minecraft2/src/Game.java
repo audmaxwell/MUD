@@ -136,8 +136,8 @@ public class Game {
 		Item picture = new Item("Picture", "A framed picture of you alongside what seems to be a family.","", "K");
 		Item cinder_block = new Item("Cinder Block", "A heavy piece of concrete, seems very sturdy.", "","K");
 		Item flash_drive = new Item("Flash Drive", "A small flash drive given to you by the scientist. You'll need some sort of computer to see what's on it.", "Lab", "K");
-		Item eggs = new Item("Eggs", "A carton of a dozen eggs. Have probably been rotten for a while...", "Rubble_pile", "K");
-		Item key = new Item("Key", "A small brass key. Perhaps it unlocks a door somewhere.", "Basement", "K");
+		Item eggs = new Item("Eggs", "A carton of a dozen eggs. Have probably been rotten for a while...", "Rubble_pile", "You insert the flash drive into the computer and a list of files and documents pop up on screen. Your eyes are drawn to a document labeled ‘Final experiment thoughts’.");
+		Item key = new Item("Key", "A small brass key. Perhaps it unlocks a door somewhere.", "Basement", "You put the key into the lock and turn, prepared for it to do nothing. To your surprise the key turns and the door opens. You see a dark room through the doorway. There must be a reason as to why this room has been locked away...");
 		Item bucket = new Item("Bucket", "A yellow plastic bucket, probably belongs to someone.", "Shelter", "K");
 		Item computer = new Item("Computer", "A standard desktop computer, looks like a flash drive could be plugged into it.", "Lab", "K");
 
