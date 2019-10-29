@@ -1,0 +1,88 @@
+import java.util.Scanner;
+
+public class UI {
+    private Player player;
+    public UI(Player player){
+        this.player = player;
+    }
+    public void startGame(){
+        System.out.println("You wake up in an unfamiliar bedroom.");
+        System.out.println("You can enter 'help' at any time to access playable actions.");
+        String instructions = "To exit a given room, enter 'move' followed by a direction."
+                + " You can move forwards, backwards, right, left, up, and down. \n"
+                + "Some locations may contain items that you can interact with. \n"
+                + "Items can be added to your inventory by entering 'take' followed by the item. Check your inventory by entering 'inventory'."
+                + "The commands 'drop', 'use', and 'examine' can all be executed when followed by an item in your inventory.";
+
+        Scanner in = new Scanner(System.in);
+        while(true) {
+            System.out.println(player.look());
+            System.out.println("Exits : \n" + player.exits());
+            String input = in.nextLine();
+            if(input.equals("exit")) {
+                break;
+            }
+            if (input.equals("help")){
+                System.out.println(instructions);
+            }
+            else{
+                parseInput(player, input);
+            }
+        }
+        System.out.println("Thank you for playing.");
+
+    }
+    public void parseInput(Player player, String input){
+        String[] in = input.split(" ");
+        String command = in[0];
+        switch (command.toLowerCase()){
+            case "take":
+                if (in.length == 2) {
+                    System.out.println(player.take(in[1].toLowerCase()));
+                }
+                else{
+                    System.out.println("Invalid command.");
+                }
+                break;
+            case "look":
+                System.out.println(player.look());
+                break;
+            case "move":
+                if (in.length == 2) {
+                    System.out.println(player.move(in[1].toLowerCase()));
+                }
+                else{
+                    System.out.println("Invalid command.");
+                }
+                break;
+            case "exits":
+                System.out.println(player.exits());
+                break;
+            case "inventory":
+                if(player.getInventory().isEmpty()){
+                    System.out.println("There is nothing in your inventory");
+                }
+                else {
+                    System.out.println(player.getInventory());
+                }
+                break;
+            case "drop":
+                if (in.length == 2) {
+                    System.out.println(player.drop(in[1].toLowerCase()));
+                }
+                else{
+                    System.out.println("Invalid command.");
+                }
+                break;
+            case "examine":
+                if (in.length == 2) {
+                    System.out.println(player.examine(in[1].toLowerCase()));
+                }
+                else{
+                    System.out.println("Invalid command.");
+                }
+                break;
+
+        }
+    }
+}
