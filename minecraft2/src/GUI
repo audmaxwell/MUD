@@ -1,0 +1,62 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Scanner;
+
+public class GUI {
+    private Player player;
+    private ImageIcon bedroom;
+    private ImageIcon hallway;
+    private JFrame frame;
+    public GUI(Player player){
+        this.player = player;
+
+
+
+    }
+    public void startGame(){
+        ImageIcon bedroom = new ImageIcon("src/images/bedroom.jpg");
+        ImageIcon buttonimg = new ImageIcon("images/tumblr_inline_owb47liIoH1rhwzwl_75sq.png");
+        JButton forwards = new JButton("forwards", buttonimg);
+        JButton backwards = new JButton("backwards");
+        JButton left = new JButton("left");
+        JButton right = new JButton("right");
+        JButton up = new JButton("up");
+        JButton down = new JButton("down");
+
+        JTextArea desc = new JTextArea(player.look());
+        desc.setFont(desc.getFont().deriveFont(20f));
+        desc.setLineWrap(true);
+        desc.setMaximumSize(new Dimension(1000,500));
+        forwards.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                desc.setText(player.move("forwards"));
+            }
+        });
+
+        JFrame frame = new JFrame("Image display");
+        frame.setSize(1000, 1000);
+        JLabel bed = new JLabel(bedroom);
+        bed.setPreferredSize(new Dimension(1000,1000));
+        frame.add(bed, BorderLayout.CENTER);
+
+        desc.setPreferredSize(new Dimension(300,100));
+        frame.add(desc,BorderLayout.SOUTH);
+        JPanel commands = new JPanel();
+        commands.setPreferredSize(new Dimension(200,300));
+        commands.setLayout(new GridLayout(3,2));
+        commands.add(forwards);
+        commands.add(backwards);
+        commands.add(right);
+        commands.add(left);
+        commands.add(up);
+        commands.add(down);
+        commands.setSize(new Dimension(300,500));
+        frame.add(commands,BorderLayout.EAST);
+        frame.setVisible(true);
+
+    }
+
+}
