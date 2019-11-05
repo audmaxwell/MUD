@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,17 +21,30 @@ public class Game {
 		HashMap<String, Room> stream_exits = new HashMap<>();
 		HashMap<String, Room> lab_exits = new HashMap<>();
 
-		Room bedroom = new Room("Bed Room", "The room that you woke up in seems to be some kind of bedroom. A simple room design, there is the bed you woke up in, a dresser, and a mirror.", bed_exits, new ArrayList<>());
-		Room hallway = new Room("Hallway", "A short hallway with a door on the other side and stairs leading down.", hall_exits, new ArrayList<>());
-		Room guestroom = new Room("Guest Room", "A small bedroom, looks to be an extra room. There is a table next to the bed with an envelope on it.", guest_exits, new ArrayList<>());
-		Room livingroom = new Room("Living Room", "A simple living room with a couch, TV and table. There seems to be a framed picture on the table.", living_exits, new ArrayList<>());
-		Room kitchen = new Room("Kitchen", "A dimly lit kitchen with all the standard appliances, including a refrigerator that doesn't seem to be running, maybe there's some stuff in it...", kitchen_exits, new ArrayList<>());
-		Room basement = new Room("Basement", "A fairly clean basement with some empty cardboard boxes scattered around and a closed door at the other end of the room.", basement_exits, new ArrayList<>());
-		Room frontyard = new Room("Front Yard", "You step out into the yard and see that this is the only standing house in the area, all the others have been reduced to heaps of rubble and ash. You don't see any people walking around, but maybe you can find someone by searching around.", yard_exits, new ArrayList<>());
-		Room rubblepile = new Room("Rubble Pile", "You happen upon a fairly large pile of rubble. Next to it you see an odd looking man moving pieces of rubble from one side of the pile to the other and then back again.", rubble_exits, new ArrayList<>());
-		Room shelter = new Room("Shelter", "You find yourself in a makeshift shelter that seems to be an abandoned convenience store. Inside the building you see an old woman who looks like she might need something.", shelter_exits, new ArrayList<>());
-		Room stream = new Room("Stream", "You followed a short trail into the woods and find yourself next to a flowing stream.", stream_exits, new ArrayList<>());
-		Room lab = new Room("Lab", "The deepest layer of the house, a medium sized room with various tables and strange instruments. In the corner of the room you can see a computer.", lab_exits, new ArrayList<>());
+		ImageIcon bedimg = new ImageIcon("src/images/bedroom.jpg");
+		ImageIcon hallimg = new ImageIcon("src/images/hallway.png");
+		ImageIcon guestimg = new ImageIcon("src/images/guestroom.jpg");
+		ImageIcon livingimg = new ImageIcon("src/images/livingroom.png");
+		ImageIcon frontimg = new ImageIcon("src/images/frontyard.jpeg");
+		ImageIcon kitchimg = new ImageIcon("src/images/kitchen.jpg");
+		ImageIcon baseimg = new ImageIcon("src/images/basement.jpeg");
+		ImageIcon rubbleimg = new ImageIcon("src/images/rubblepile.jpg");
+		ImageIcon sheltimg = new ImageIcon("src/images/shelter.jpg");
+		ImageIcon streamimg = new ImageIcon("src/images/stream.png");
+		ImageIcon labimg = new ImageIcon("src/images/lab.jpg");
+
+		Room bedroom = new Room("Bed Room", "The room that you woke up in seems to be some kind of bedroom. A simple room design, there is the bed you woke up in, a dresser, and a mirror.", bed_exits, new ArrayList<>(), bedimg);
+		Room hallway = new Room("Hallway", "A short hallway with a door on the other side and stairs leading down.", hall_exits, new ArrayList<>(), hallimg);
+		Room guestroom = new Room("Guest Room", "A small bedroom, looks to be an extra room. There is a table next to the bed with an envelope on it.", guest_exits, new ArrayList<>(), guestimg);
+		Room livingroom = new Room("Living Room", "A simple living room with a couch, TV and table. There seems to be a framed picture on the table.", living_exits, new ArrayList<>(),livingimg);
+		Room kitchen = new Room("Kitchen", "A dimly lit kitchen with all the standard appliances, including a refrigerator that doesn't seem to be running, maybe there's some stuff in it...", kitchen_exits, new ArrayList<>(), kitchimg);
+		Room basement = new Room("Basement", "A fairly clean basement with some empty cardboard boxes scattered around and a closed door at the other end of the room.", basement_exits, new ArrayList<>(),baseimg);
+		Room frontyard = new Room("Front Yard", "You step out into the yard and see that this is the only standing house in the area, all the others have been reduced to heaps of rubble and ash. You don't see any people walking around, but maybe you can find someone by searching around.", yard_exits, new ArrayList<>(),frontimg);
+		Room rubblepile = new Room("Rubble Pile", "You happen upon a fairly large pile of rubble. Next to it you see an odd looking man moving pieces of rubble from one side of the pile to the other and then back again.", rubble_exits, new ArrayList<>(),rubbleimg);
+		Room shelter = new Room("Shelter", "You find yourself in a makeshift shelter that seems to be an abandoned convenience store. Inside the building you see an old woman who looks like she might need something.", shelter_exits, new ArrayList<>(),sheltimg);
+		Room stream = new Room("Stream", "You followed a short trail into the woods and find yourself next to a flowing stream.", stream_exits, new ArrayList<>(),streamimg);
+		Room lab = new Room("Lab", "The deepest layer of the house, a medium sized room with various tables and strange instruments. In the corner of the room you can see a computer.", lab_exits, new ArrayList<>(),labimg);
+
 
 		bed_exits.put("forwards", hallway);
 		hall_exits.put("forwards", guestroom);
@@ -74,6 +88,8 @@ public class Game {
 		this.player = player;
 
 
+
+
 	}
 
 
@@ -84,8 +100,8 @@ public class Game {
 
 		public static void main (String[]args){
 			Game game = new Game();
-			UI ui = new UI(game.player);
-			ui.startGame();
+			GUI gui = new GUI(game.player);
+			gui.startGame();
 
 
 		}
