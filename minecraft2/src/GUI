@@ -12,48 +12,45 @@ public class GUI {
     private JFrame invFrame;
     private JLabel invLabel;
     private JComboBox<Item> inv;
-    private JLabel center;
     public GUI(Player player){
         this.player = player;
-        this.center = new JLabel();
 
 
 
     }
     public void startGame(){
-        JButton forwards = new JButton("forwards");
+        ImageIcon bedroom = new ImageIcon("src/images/bedroom.jpg");
+        ImageIcon buttonimg = new ImageIcon("images/tumblr_inline_owb47liIoH1rhwzwl_75sq.png");
+        JButton forwards = new JButton("forwards", buttonimg);
         JButton backwards = new JButton("backwards");
         JButton left = new JButton("left");
         JButton right = new JButton("right");
         JButton up = new JButton("up");
         JButton down = new JButton("down");
-
         
         JButton examine = new JButton("Examine");
         JButton drop = new JButton("Drop");
         JButton use = new JButton("Use");
+        JButton pick_up = new JButton("Pick Up Item");
         JLabel invLabel = new JLabel("");
         JLabel emptyInv = new JLabel("Your Inventory Does Not Contain Any Items.");
+        JLabel error = new JLabel("");
         
-            JComboBox<Item> inv = new JComboBox<Item>(player.getItemArray());
+        JComboBox<Item> inv = new JComboBox<Item>();
         
         JFrame invFrame = new JFrame("Inventory");
         invFrame.setSize(1000, 1000);
         
         JPanel invComs = new JPanel();
         invComs.setPreferredSize(new Dimension(200,300));
-        invComs.setLayout(new GridLayout(1,3));
+        invComs.setLayout(new GridLayout(1,4));
+        invComs.add(pick_up);
         invComs.add(examine);
         invComs.add(use);
         invComs.add(drop);
         
-        //Initialize Inventory with ComboBox or Label depending on whether inventory is empty or not
-        if(player.getItemArray() == null) {
-        	invFrame.add(emptyInv, BorderLayout.WEST);
-        } else {
-            invFrame.add(inv, BorderLayout.WEST);
-        }
-        
+        invFrame.add(emptyInv, BorderLayout.WEST);
+        invFrame.add(error, BorderLayout.CENTER);
         invFrame.add(invLabel, BorderLayout.EAST);
         invFrame.add(invComs, BorderLayout.SOUTH);
         invFrame.setVisible(true);
@@ -61,34 +58,60 @@ public class GUI {
         
         examine.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		String item_desc = inv.getItemAt(inv.getSelectedIndex()).examine();
-        		invLabel.setText(item_desc);
+        		if(player.getItemArray() == null) {
+        			String no_item = "No items in inventory";
+        			error.setText(no_item);
+        		} else {
+        			String item_desc = inv.getItemAt(inv.getSelectedIndex()).examine();
+            		invLabel.setText(item_desc);
+        		}
         	}
         });
         
         use.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		if(player.getItemArray() == null) {
+        			String no_item = "No items in inventory";
+        			error.setText(no_item);
+        		} else {
         		player.use(inv.getItemAt(inv.getSelectedIndex()).getName());
+        		}
         	}
         });
         
         drop.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		player.drop(inv.getItemAt(inv.getSelectedIndex()).getName());
+        		if(player.getItemArray() == null) {
+        			String no_item = "No items in inventory";
+        			error.setText(no_item);
+        		} else {
+            		player.drop(inv.getItemAt(inv.getSelectedIndex()).getName());
+        		}
         	}
         });
+        
+        pick_up.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		invFrame.remove(emptyInv);
+        		int i = 0;
+        		inv.addItem(player.getItemArray()[i]);
+        		i++;
+        		invFrame.add(inv, BorderLayout.WEST);
+        	}
+        });
+
         JTextArea desc = new JTextArea(player.look());
         desc.setFont(desc.getFont().deriveFont(20f));
         desc.setLineWrap(true);
         desc.setMaximumSize(new Dimension(1000,500));
+        
         forwards.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("forwards") + player.exits());
-                center.setIcon(player.roomImage());
-
+                desc.setText(player.move("forwards"));
             }
         });
+        
         backwards.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -97,6 +120,7 @@ public class GUI {
 
             }
         });
+        
         up.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -105,6 +129,7 @@ public class GUI {
 
             }
         });
+        
         down.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -113,6 +138,7 @@ public class GUI {
 
             }
         });
+        
         left.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -121,6 +147,7 @@ public class GUI {
 
             }
         });
+        
         right.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -129,7 +156,7 @@ public class GUI {
 
             }
         });
-
+        
 
         JFrame frame = new JFrame("Image display");
         frame.setSize(1000, 1000);
@@ -152,8 +179,6 @@ public class GUI {
         commands.setSize(new Dimension(300,500));
         frame.add(commands,BorderLayout.EAST);
         frame.setVisible(true);
-
-
     }
 
 }
