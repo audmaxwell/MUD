@@ -12,21 +12,22 @@ public class GUI {
     private JFrame invFrame;
     private JLabel invLabel;
     private JComboBox<Item> inv;
+    private JLabel center;
     public GUI(Player player){
         this.player = player;
+        this.center = new JLabel();
 
 
 
     }
     public void startGame(){
-        ImageIcon bedroom = new ImageIcon("src/images/bedroom.jpg");
-        ImageIcon buttonimg = new ImageIcon("images/tumblr_inline_owb47liIoH1rhwzwl_75sq.png");
-        JButton forwards = new JButton("forwards", buttonimg);
+        JButton forwards = new JButton("forwards");
         JButton backwards = new JButton("backwards");
         JButton left = new JButton("left");
         JButton right = new JButton("right");
         JButton up = new JButton("up");
         JButton down = new JButton("down");
+
         
         JButton examine = new JButton("Examine");
         JButton drop = new JButton("Drop");
@@ -76,7 +77,6 @@ public class GUI {
         		player.drop(inv.getItemAt(inv.getSelectedIndex()).getName());
         	}
         });
-
         JTextArea desc = new JTextArea(player.look());
         desc.setFont(desc.getFont().deriveFont(20f));
         desc.setLineWrap(true);
@@ -84,16 +84,60 @@ public class GUI {
         forwards.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("forwards"));
+                desc.setText(player.move("forwards") + player.exits());
+                center.setIcon(player.roomImage());
+
+            }
+        });
+        backwards.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                desc.setText(player.move("backwards"));
+                center.setIcon(player.roomImage());
+
+            }
+        });
+        up.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                desc.setText(player.move("up"));
+                center.setIcon(player.roomImage());
+
+            }
+        });
+        down.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                desc.setText(player.move("down"));
+                center.setIcon(player.roomImage());
+
+            }
+        });
+        left.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                desc.setText(player.move("left"));
+                center.setIcon(player.roomImage());
+
+            }
+        });
+        right.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                desc.setText(player.move("right"));
+                center.setIcon(player.roomImage());
+
             }
         });
 
+
         JFrame frame = new JFrame("Image display");
         frame.setSize(1000, 1000);
-        JLabel bed = new JLabel(bedroom);
-        bed.setPreferredSize(new Dimension(1000,1000));
-        frame.add(bed, BorderLayout.CENTER);
-
+        System.out.println("hi");
+        ImageIcon roomimg = player.roomImage();
+        center.setIcon(roomimg);
+        center.setPreferredSize(new Dimension(1000,1000));
+        frame.add(center, BorderLayout.CENTER);
         desc.setPreferredSize(new Dimension(300,100));
         frame.add(desc,BorderLayout.SOUTH);
         JPanel commands = new JPanel();
@@ -108,6 +152,7 @@ public class GUI {
         commands.setSize(new Dimension(300,500));
         frame.add(commands,BorderLayout.EAST);
         frame.setVisible(true);
+
 
     }
 
