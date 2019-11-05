@@ -102,7 +102,7 @@ public class GUI {
         JButton examine = new JButton("Examine");
         JButton drop = new JButton("Drop");
         JButton use = new JButton("Use");
-        JButton pick_up = new JButton("Pick Up Item");
+        JButton take = new JButton("Take");
         JLabel invLabel = new JLabel("");
         JLabel emptyInv = new JLabel("Your Inventory Does Not Contain Any Items.");
         JLabel error = new JLabel("");
@@ -112,20 +112,8 @@ public class GUI {
         JFrame invFrame = new JFrame("Inventory");
         invFrame.setSize(1000, 1000);
 
-        JPanel invComs = new JPanel();
-        invComs.setPreferredSize(new Dimension(200,300));
-        invComs.setLayout(new GridLayout(1,4));
-        invComs.add(pick_up);
-        invComs.add(examine);
-        invComs.add(use);
-        invComs.add(drop);
 
-        invFrame.add(emptyInv, BorderLayout.WEST);
-        invFrame.add(error, BorderLayout.CENTER);
-        invFrame.add(invLabel, BorderLayout.EAST);
-        invFrame.add(invComs, BorderLayout.SOUTH);
-        invFrame.setVisible(true);
-        invFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
         examine.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -161,16 +149,36 @@ public class GUI {
             }
         });
 
-        pick_up.addActionListener(new ActionListener() {
+
+        take.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                player.take("letter");
-                invFrame.remove(emptyInv);
-                int i = 0;
-                inv.addItem(player.getInventory().get(i));
-                i++;
-                invFrame.add(inv, BorderLayout.WEST);
+                if (player.getRoomItems().size() == 0){
+                    error.setText("There are no items in this room.");
+                }
+                else{
+                    player.take(player.getRoomItems().get(0).getName().toLowerCase());
+                    invFrame.remove(emptyInv);
+                    inv.addItem(player.getInventory().get(0));
+                    invFrame.add(inv, BorderLayout.CENTER);
+                    SwingUtilities.updateComponentTreeUI(invFrame);
+                }
+
             }
+
         });
+        JPanel invComs = new JPanel();
+        invComs.setPreferredSize(new Dimension(200,300));
+        invComs.setLayout(new GridLayout(1,4));
+        invComs.add(take);
+        invComs.add(examine);
+        invComs.add(use);
+        invComs.add(drop);
+        invFrame.add(emptyInv, BorderLayout.WEST);
+        invFrame.add(error, BorderLayout.CENTER);
+        invFrame.add(invLabel, BorderLayout.EAST);
+        invFrame.add(invComs, BorderLayout.SOUTH);
+        invFrame.setVisible(true);
+        invFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
 
