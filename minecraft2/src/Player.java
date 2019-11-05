@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,6 +10,11 @@ public class Player {
 		this.inventory = new ArrayList<>();
 		
 	}
+
+	public String getRoom() {
+		return room.getName();
+	}
+
 	public String examine(String item){
 		for (Item i: inventory){
 			if (i.getName().equals(item)){
@@ -69,16 +75,13 @@ public class Player {
 		}
 		return inven;
 	}
-	
-	public Item[] getItemArray() {
-		if(inventory.isEmpty() == true) {
-			return null;
-		} else {
-			return (Item[]) (inventory.toArray());
-		}
-	}
+
 	public String look() {
 		return room.look();
+	}
+
+	public ImageIcon roomImage() {
+		return room.getImage();
 	}
 
 	public String talk(Mob mob){
