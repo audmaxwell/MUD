@@ -9,15 +9,21 @@ public class Room {
 	private String desc;
 	private HashMap<String, Room> exits;
 	private ArrayList<Item> items;
+	private ImageIcon image;
 
-	public Room(String name, String desc, HashMap<String, Room> exits, ArrayList<Item> items) {
+	public Room(String name, String desc, HashMap<String, Room> exits, ArrayList<Item> items, ImageIcon image) {
 		this.name = name;
 		this.desc = desc;
 		this.exits = exits;
 		this.items = items;
+		this.image = image;
 	}
 	public ArrayList<Item> getItems(){
 		return items;
+	}
+
+	public ImageIcon getImage(){
+		return image;
 	}
 	public void addItem(Item item){
 		items.add(item);
