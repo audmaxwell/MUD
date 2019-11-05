@@ -69,6 +69,14 @@ public class Player {
 		}
 		return inven;
 	}
+	
+	public Item[] getItemArray() {
+		if(inventory.isEmpty() == true) {
+			return null;
+		} else {
+			return (Item[]) (inventory.toArray());
+		}
+	}
 	public String look() {
 		return room.look();
 	}
