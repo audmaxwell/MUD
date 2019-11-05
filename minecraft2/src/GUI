@@ -9,6 +9,9 @@ public class GUI {
     private ImageIcon bedroom;
     private ImageIcon hallway;
     private JFrame frame;
+    private JFrame invFrame;
+    private JLabel invLabel;
+    private JComboBox<Item> inv;
     public GUI(Player player){
         this.player = player;
 
@@ -24,6 +27,55 @@ public class GUI {
         JButton right = new JButton("right");
         JButton up = new JButton("up");
         JButton down = new JButton("down");
+        
+        JButton examine = new JButton("Examine");
+        JButton drop = new JButton("Drop");
+        JButton use = new JButton("Use");
+        JLabel invLabel = new JLabel("");
+        JLabel emptyInv = new JLabel("Your Inventory Does Not Contain Any Items.");
+        
+            JComboBox<Item> inv = new JComboBox<Item>(player.getItemArray());
+        
+        JFrame invFrame = new JFrame("Inventory");
+        invFrame.setSize(1000, 1000);
+        
+        JPanel invComs = new JPanel();
+        invComs.setPreferredSize(new Dimension(200,300));
+        invComs.setLayout(new GridLayout(1,3));
+        invComs.add(examine);
+        invComs.add(use);
+        invComs.add(drop);
+        
+        //Initialize Inventory with ComboBox or Label depending on whether inventory is empty or not
+        if(player.getItemArray() == null) {
+        	invFrame.add(emptyInv, BorderLayout.WEST);
+        } else {
+            invFrame.add(inv, BorderLayout.WEST);
+        }
+        
+        invFrame.add(invLabel, BorderLayout.EAST);
+        invFrame.add(invComs, BorderLayout.SOUTH);
+        invFrame.setVisible(true);
+        invFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        examine.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		String item_desc = inv.getItemAt(inv.getSelectedIndex()).examine();
+        		invLabel.setText(item_desc);
+        	}
+        });
+        
+        use.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		player.use(inv.getItemAt(inv.getSelectedIndex()).getName());
+        	}
+        });
+        
+        drop.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		player.drop(inv.getItemAt(inv.getSelectedIndex()).getName());
+        	}
+        });
 
         JTextArea desc = new JTextArea(player.look());
         desc.setFont(desc.getFont().deriveFont(20f));
