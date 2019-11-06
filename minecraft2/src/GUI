@@ -138,13 +138,21 @@ public class GUI {
             }
         });
 
-        drop.addActionListener(new ActionListener() {
+       drop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(player.getInventory().size() == 0) {
                     String no_item = "No items in inventory";
                     error.setText(no_item);
                 } else {
-                    player.drop(inv.getItemAt(inv.getSelectedIndex()));
+                    player.drop(player.getInventory().get(0).toLowerCase());
+                    inv.removeItem(player.getInventory().get(0));
+                    error.setText("");
+                    invLabel.setText("");
+                    if(inv.getItemCount() == 0) {
+                    	invFrame.remove(inv);
+                    	invFrame.add(emptyInv);
+                    	SwingUtilities.updateComponentTreeUI(invFrame);
+                    }
                 }
             }
         });
