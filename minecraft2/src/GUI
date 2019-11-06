@@ -115,7 +115,7 @@ public class GUI {
 
 
 
-       examine.addActionListener(new ActionListener() {
+        examine.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(player.getInventory().size() == 0) {
                     String no_item = "No items in inventory";
@@ -141,20 +141,20 @@ public class GUI {
             }
         });
 
-       drop.addActionListener(new ActionListener() {
+        drop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(player.getInventory().size() == 0) {
                     String no_item = "No items in inventory";
                     error.setText(no_item);
                 } else {
-                    player.drop(player.getInventory().get(0).toLowerCase());
-                    inv.removeItem(player.getInventory().get(0));
+                    player.drop(inv.getSelectedItem().toString().toLowerCase());
+                    inv.removeItem(inv.getSelectedItem());
                     error.setText("");
                     invLabel.setText("");
                     if(inv.getItemCount() == 0) {
-                    	invFrame.remove(inv);
-                    	invFrame.add(emptyInv);
-                    	SwingUtilities.updateComponentTreeUI(invFrame);
+                        invFrame.remove(inv);
+                        invFrame.add(emptyInv);
+                        SwingUtilities.updateComponentTreeUI(invFrame);
                     }
                 }
             }
@@ -163,18 +163,18 @@ public class GUI {
 
         take.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	if(player.getRoomItems().size() == 0) {
-            		error.setText("There are no items in this room");
-            	} else {
-            		player.take(player.getRoomItems().get(0).getName().toLowerCase());
-            		invFrame.remove(emptyInv);
-            		int i = (player.getInventory().size() - 1);
-            		inv.addItem(player.getInventory().get(i));
-            		invFrame.add(inv, BorderLayout.WEST);
-            		SwingUtilities.updateComponentTreeUI(invFrame);
-            		error.setText("");
-            	}
-                
+                if(player.getRoomItems().size() == 0) {
+                    error.setText("There are no items in this room");
+                } else {
+                    player.take(player.getRoomItems().get(0).getName().toLowerCase());
+                    invFrame.remove(emptyInv);
+                    int i = (player.getInventory().size() - 1);
+                    inv.addItem(player.getInventory().get(i));
+                    invFrame.add(inv, BorderLayout.WEST);
+                    SwingUtilities.updateComponentTreeUI(invFrame);
+                    error.setText("");
+                }
+
             }
         });
         JPanel invComs = new JPanel();
