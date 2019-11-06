@@ -1,282 +1,113 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
- * GUI class to manage all visual components
+ * game class initializes all objects needed for game and calls + runs GUI class
  */
-public class GUI {
-    private Player player;
-    private ImageIcon bedroom;
-    private ImageIcon hallway;
-    private JFrame frame;
-    private JLabel center;
+public class Game {
+	Player player;
 
     /**
-     * GUI constructor takes in a player to perform all commands and operations
-     * @param player
+     * constructor initializes all rooms and items and creates player object
      */
-    public GUI(Player player){
-        this.player = player;
-        this.center = new JLabel();
+	public Game() {
+		HashMap<String, Room> bed_exits = new HashMap<>();
+		HashMap<String, Room> hall_exits = new HashMap<>();
+		HashMap<String, Room> guest_exits = new HashMap<>();
+		HashMap<String, Room> living_exits = new HashMap<>();
+		HashMap<String, Room> kitchen_exits = new HashMap<>();
+		HashMap<String, Room> basement_exits = new HashMap<>();
+		HashMap<String, Room> yard_exits = new HashMap<>();
+		HashMap<String, Room> rubble_exits = new HashMap<>();
+		HashMap<String, Room> shelter_exits = new HashMap<>();
+		HashMap<String, Room> stream_exits = new HashMap<>();
+		HashMap<String, Room> lab_exits = new HashMap<>();
+
+		ImageIcon bedimg = new ImageIcon("src/images/bedroom.jpg");
+		ImageIcon hallimg = new ImageIcon("src/images/hallway.png");
+		ImageIcon guestimg = new ImageIcon("src/images/guestroom.jpg");
+		ImageIcon livingimg = new ImageIcon("src/images/livingroom.png");
+		ImageIcon frontimg = new ImageIcon("src/images/frontyard.jpeg");
+		ImageIcon kitchimg = new ImageIcon("src/images/kitchen.jpg");
+		ImageIcon baseimg = new ImageIcon("src/images/basement.jpeg");
+		ImageIcon rubbleimg = new ImageIcon("src/images/rubblepile.jpg");
+		ImageIcon sheltimg = new ImageIcon("src/images/shelter.jpg");
+		ImageIcon streamimg = new ImageIcon("src/images/stream.png");
+		ImageIcon labimg = new ImageIcon("src/images/lab.jpg");
+
+		Room bedroom = new Room("Bed Room", "The room that you woke up in seems to be some kind of bedroom. A simple room design, there is the bed you woke up in, a dresser, and a mirror.", bed_exits, new ArrayList<>(), bedimg);
+		Room hallway = new Room("Hallway", "A short hallway with a door on the other side and stairs leading down.", hall_exits, new ArrayList<>(), hallimg);
+		Room guestroom = new Room("Guest Room", "A small bedroom, looks to be an extra room. There is a table next to the bed with an envelope on it.", guest_exits, new ArrayList<>(), guestimg);
+		Room livingroom = new Room("Living Room", "A simple living room with a couch, TV and table. There seems to be a framed picture on the table.", living_exits, new ArrayList<>(),livingimg);
+		Room kitchen = new Room("Kitchen", "A dimly lit kitchen with all the standard appliances, including a refrigerator that doesn't seem to be running, maybe there's some stuff in it...", kitchen_exits, new ArrayList<>(), kitchimg);
+		Room basement = new Room("Basement", "A fairly clean basement with some empty cardboard boxes scattered around and a closed door at the other end of the room.", basement_exits, new ArrayList<>(),baseimg);
+		Room frontyard = new Room("Front Yard", "You step out into the yard and see that this is the only standing house in the area, all the others have been reduced to heaps of rubble and ash. You don't see any people walking around, but maybe you can find someone by searching around.", yard_exits, new ArrayList<>(),frontimg);
+		Room rubblepile = new Room("Rubble Pile", "You happen upon a fairly large pile of rubble. Next to it you see an odd looking man moving pieces of rubble from one side of the pile to the other and then back again.", rubble_exits, new ArrayList<>(),rubbleimg);
+		Room shelter = new Room("Shelter", "You find yourself in a makeshift shelter that seems to be an abandoned convenience store. Inside the building you see an old woman who looks like she might need something.", shelter_exits, new ArrayList<>(),sheltimg);
+		Room stream = new Room("Stream", "You followed a short trail into the woods and find yourself next to a flowing stream.", stream_exits, new ArrayList<>(),streamimg);
+		Room lab = new Room("Lab", "The deepest layer of the house, a medium sized room with various tables and strange instruments. In the corner of the room you can see a computer.", lab_exits, new ArrayList<>(),labimg);
 
 
-    }
+		bed_exits.put("forwards", hallway);
+		hall_exits.put("forwards", guestroom);
+		hall_exits.put("backwards", bedroom);
+		hall_exits.put("down", livingroom);
+		guest_exits.put("backwards", hallway);
+		living_exits.put("right", kitchen);
+		living_exits.put("down", basement);
+		living_exits.put("up", hallway);
+		kitchen_exits.put("forwards", frontyard);
+		kitchen_exits.put("left", livingroom);
+		basement_exits.put("up", livingroom);
+		basement_exits.put("forwards", lab);
+		yard_exits.put("backwards", kitchen);
+		yard_exits.put("forwards", rubblepile);
+		rubble_exits.put("forwards", shelter);
+		rubble_exits.put("backwards", frontyard);
+		shelter_exits.put("backwards", rubblepile);
+		shelter_exits.put("forwards", stream);
+		stream_exits.put("backwards", shelter);
+		lab_exits.put("backwards", basement);
 
-    /**
-     * startGame method creates two windows; one for all movement commands, room images and descriptions,
-     * the other window handles inventory and inventory commands
-     */
-    public void startGame(){
-        JButton forwards = new JButton("forwards");
-        JButton backwards = new JButton("backwards");
-        JButton left = new JButton("left");
-        JButton right = new JButton("right");
-        JButton up = new JButton("up");
-        JButton down = new JButton("down");
+		Item letter = new Item("Letter", "A small letter that seems to be addressed to you.", "", "K");
+		Item picture = new Item("Picture", "A framed picture of you alongside what seems to be a family.", "", "K");
+		Item cinder_block = new Item("Cinder_block", "A heavy piece of concrete, seems very sturdy.", "", "K");
+		Item flash_drive = new Item("Flash_drive", "A small flash drive given to you by the scientist. You'll need some sort of computer to see what's on it.", "Lab", "K");
+		Item eggs = new Item("Eggs", "A carton of a dozen eggs. Have probably been rotten for a while...", "Rubble_pile", "You insert the flash drive into the computer and a list of files and documents pop up on screen. Your eyes are drawn to a document labeled ‘Final experiment thoughts’.");
+		Item key = new Item("Key", "A small brass key. Perhaps it unlocks a door somewhere.", "Basement", "You put the key into the lock and turn, prepared for it to do nothing. To your surprise the key turns and the door opens. You see a dark room through the doorway. There must be a reason as to why this room has been locked away...");
+		Item bucket = new Item("Bucket", "A yellow plastic bucket, probably belongs to someone.", "Shelter", "K");
+		Item computer = new Item("Computer", "A standard desktop computer, looks like a flash drive could be plugged into it.", "Lab", "K");
 
-        JButton examine = new JButton("Examine");
-        JButton drop = new JButton("Drop");
-        JButton use = new JButton("Use");
-        JButton take = new JButton("Take");
-        JLabel invLabel = new JLabel("");
-        JLabel emptyInv = new JLabel("Your Inventory Does Not Contain Any Items.");
-        JLabel error = new JLabel("");
-
-        JComboBox<String> inv = new JComboBox<>();
-        JComboBox<String> roominv = new JComboBox<>();
-
-        JFrame invFrame = new JFrame("Inventory");
-        invFrame.setSize(1000, 1000);
-
-        JTextArea desc = new JTextArea(player.look());
-        desc.setFont(desc.getFont().deriveFont(20f));
-        desc.setLineWrap(true);
-        desc.setMaximumSize(new Dimension(1000,500));
-        forwards.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("forwards") + player.exits());
-                center.setIcon(player.roomImage());
-                if(player.getRoomItems().size() != 0) {
-                    for(int i = 0; i < player.getRoomItems().size() ; i++)
-                    roominv.addItem(player.getRoomItems().get(i).getName());
-                    invFrame.add(roominv,BorderLayout.EAST);
-                    SwingUtilities.updateComponentTreeUI(invFrame);
-
-                }
-
-            }
-        });
-        backwards.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("backwards")  + player.exits());
-                center.setIcon(player.roomImage());
-                if(player.getRoomItems().size() != 0) {
-                    for(int i = 0; i < player.getRoomItems().size() ; i++)
-                        roominv.addItem(player.getRoomItems().get(i).getName());
-                    invFrame.add(roominv,BorderLayout.EAST);
-                    SwingUtilities.updateComponentTreeUI(invFrame);
-
-                }
-
-            }
-        });
-        up.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("up")  + player.exits());
-                center.setIcon(player.roomImage());
-                if(player.getRoomItems().size() != 0) {
-                    for(int i = 0; i < player.getRoomItems().size() ; i++)
-                        roominv.addItem(player.getRoomItems().get(i).getName());
-                    invFrame.add(roominv,BorderLayout.EAST);
-                    SwingUtilities.updateComponentTreeUI(invFrame);
-
-                }
-
-            }
-        });
-        down.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("down")  + player.exits());
-                center.setIcon(player.roomImage());
-                if(player.getRoomItems().size() != 0) {
-                    for(int i = 0; i < player.getRoomItems().size() ; i++)
-                        roominv.addItem(player.getRoomItems().get(i).getName());
-                    invFrame.add(roominv,BorderLayout.EAST);
-                    SwingUtilities.updateComponentTreeUI(invFrame);
-
-                }
-
-            }
-        });
-        left.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("left") + player.exits());
-                center.setIcon(player.roomImage());
-                if(player.getRoomItems().size() != 0) {
-                    for(int i = 0; i < player.getRoomItems().size() ; i++)
-                        roominv.addItem(player.getRoomItems().get(i).getName());
-                    invFrame.add(roominv,BorderLayout.EAST);
-                    SwingUtilities.updateComponentTreeUI(invFrame);
-
-                }
-
-            }
-        });
-        right.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("right") + player.exits());
-                center.setIcon(player.roomImage());
-                if(player.getRoomItems().size() != 0) {
-                    for(int i = 0; i < player.getRoomItems().size() ; i++)
-                        roominv.addItem(player.getRoomItems().get(i).getName());
-                    invFrame.add(roominv,BorderLayout.EAST);
-                    SwingUtilities.updateComponentTreeUI(invFrame);
-
-                }
-
-            }
-        });
-
-
-        JFrame frame = new JFrame("Image display");
-        frame.setSize(1000, 1000);
-        ImageIcon roomimg = player.roomImage();
-        center.setIcon(roomimg);
-        center.setPreferredSize(new Dimension(1000,1000));
-        frame.add(center, BorderLayout.CENTER);
-        desc.setPreferredSize(new Dimension(300,100));
-        frame.add(desc,BorderLayout.SOUTH);
-        JPanel commands = new JPanel();
-        commands.setPreferredSize(new Dimension(200,300));
-        commands.setLayout(new GridLayout(3,2));
-        commands.add(forwards);
-        commands.add(backwards);
-        commands.add(right);
-        commands.add(left);
-        commands.add(up);
-        commands.add(down);
-        commands.setSize(new Dimension(300,500));
-        frame.add(commands,BorderLayout.EAST);
-        frame.setVisible(true);
+		guestroom.addItem(letter);
+		livingroom.addItem(picture);
+		rubblepile.addItem(cinder_block);
+		shelter.addItem(flash_drive);
+		shelter.addItem(key);
+		stream.addItem(bucket);
+		kitchen.addItem(eggs);
+		basement.addItem(computer);
+		Player player = new Player(bedroom);
+		this.player = player;
 
 
 
 
+	}
 
-        examine.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(player.getInventory().size() == 0) {
-                    String no_item = "No items in inventory";
-                    error.setText(no_item);
-                } else {
-                    String item_desc = player.examine(inv.getItemAt(inv.getSelectedIndex()));
-                    invLabel.setText(item_desc);
-                    error.setText("");
-                }
-            }
-        });
+	/**
+	 * main creates a game and GUI object, passes the player from game into the GUI constructor
+	 * uses .startGame method in GUI to run the program
+	 * @param args
+	 */
+		public static void main (String[]args){
+			Game game = new Game();
+			GUI gui = new GUI(game.player);
+			gui.startGame();
 
 
-/**
- * use actionlistener currently returns nothing as no items can be used until we implement the MOB class
- */
-        use.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(player.getInventory().size() == 0) {
-                    String no_item = "No items in inventory";
-                    error.setText(no_item);
-                } else {
-                    player.use(player.getInventory().get(0).toLowerCase());
-                    error.setText("");
+		}
 
-                }
-            }
-        });
-
-        drop.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(player.getInventory().size() == 0) {
-                    String no_item = "No items in inventory";
-                    error.setText(no_item);
-                }
-                if (inv.getSelectedItem() == null){
-                    error.setText("Please select an item.");
-                }else {
-                    player.drop(inv.getSelectedItem().toString().toLowerCase());
-                    inv.removeItem(inv.getSelectedItem());
-                    roominv.addItem(player.getRoomItems().get(player.getRoomItems().size() - 1).getName());
-                    error.setText("");
-                    invLabel.setText("");
-                    desc.setText(player.look());
-                    if(inv.getItemCount() == 0) {
-                        invFrame.remove(inv);
-                        invFrame.add(emptyInv);
-                        desc.setText(player.look());
-                        SwingUtilities.updateComponentTreeUI(invFrame);
-                    }
-                }
-            }
-        });
-
-
-        take.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(player.getRoomItems().size() == 0) {
-                    error.setText("There are no items in this room");
-                } else {
-                    if (roominv.getSelectedItem() == null){
-                        error.setText("Please select an item.");
-                    }else {
-                        invFrame.remove(emptyInv);
-                        player.take(roominv.getSelectedItem().toString().toLowerCase());
-                        int i = (player.getInventory().size() - 1);
-                        inv.addItem(player.getInventory().get(i));
-                        invFrame.add(inv, BorderLayout.WEST);
-                        desc.setText(player.look());
-                        error.setText("");
-                        SwingUtilities.updateComponentTreeUI(invFrame);
-
-                        roominv.removeItem(roominv.getSelectedItem());
-                        error.setText("");
-                        invLabel.setText("");
-                        desc.setText(player.look());
-                        if(inv.getItemCount() == 0) {
-                            invFrame.remove(inv);
-                            invFrame.add(emptyInv);
-                            desc.setText(player.look());
-                            SwingUtilities.updateComponentTreeUI(invFrame);
-                        }
-                    }
-
-                }
-
-            }
-        });
-        JPanel invComs = new JPanel();
-        invComs.setPreferredSize(new Dimension(200,300));
-        invComs.setLayout(new GridLayout(1,4));
-        invComs.add(take);
-        invComs.add(drop);
-        invComs.add(examine);
-        invComs.add(use);
-        invFrame.add(emptyInv, BorderLayout.WEST);
-        invFrame.add(error, BorderLayout.CENTER);
-        invFrame.add(invLabel, BorderLayout.EAST);
-        invFrame.add(invComs, BorderLayout.SOUTH);
-        invFrame.setVisible(true);
-        invFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-
-    }
-
-}
+	}
