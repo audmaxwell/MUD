@@ -11,6 +11,14 @@ public class Room {
 	private ArrayList<Item> items;
 	private ImageIcon image;
 
+	/*
+	 * @param exits
+	 * @return A Hashmap of the rooms where the key is the direction typed and the value is the room that exit takes the player to
+	 * @param items
+	 * @return an arraylist of items that contains all the items in a particular room
+	 * @param image
+	 * @return The image that gets displayed on the Room JPanel
+	 */
 	public Room(String name, String desc, HashMap<String, Room> exits, ArrayList<Item> items, ImageIcon image) {
 		this.name = name;
 		this.desc = desc;
@@ -18,25 +26,34 @@ public class Room {
 		this.items = items;
 		this.image = image;
 	}
+	//Returns the items from a room's arraylist of items
 	public ArrayList<Item> getItems(){
 		return items;
 	}
 
+	//Returns a room's image
 	public ImageIcon getImage(){
 		return image;
 	}
+	//Adds an item to a room
 	public void addItem(Item item){
 		items.add(item);
 
 	}
+	//Removes an item from a room
 	public void removeItem(Item item){
 		items.remove(item);
 	}
 
+	//returns the name of a room
 	public String getName(){
 		return this.name;
 	}
-
+	
+	/*Checks if the room's item arraylist contains any items and returns the room's description.
+	 * If the arraylist is empty, returns a statement telling the player that there are no items in the room.
+	 * Otherwise it returns a statement informing the player of the items in the room.
+	 */
 	public String look() {
 		String output = desc;
 		if(items.size() == 0){
@@ -52,10 +69,12 @@ public class Room {
 		return output;
 	}
 
+	//Returns a room's exits
 	public HashMap<String, Room> getExits(){
 		return exits;
 	}
 
+	//Returns a string of the exits that a room contains
 	public ArrayList<String> exit() {
 		ArrayList<String> directions = new ArrayList<>();
 		for(String key : exits.keySet()){
