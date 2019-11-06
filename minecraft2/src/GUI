@@ -117,7 +117,7 @@ public class GUI {
 
         examine.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(player.getInventory() == null) {
+                if(player.getInventory().size() == 0) {
                     String no_item = "No items in inventory";
                     error.setText(no_item);
                 } else {
@@ -129,7 +129,7 @@ public class GUI {
 
         use.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(player.getInventory() == null) {
+                if(player.getInventory().size() == 0) {
                     String no_item = "No items in inventory";
                     error.setText(no_item);
                 } else {
@@ -140,7 +140,7 @@ public class GUI {
 
         drop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(player.getInventory() == null) {
+                if(player.getInventory().size() == 0) {
                     String no_item = "No items in inventory";
                     error.setText(no_item);
                 } else {
