@@ -4,10 +4,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * game class initializes all objects needed for game and calls + runs GUI class
+ */
 public class Game {
 	Player player;
 
-
+    /**
+     * constructor initializes all rooms and items and creates player object
+     */
 	public Game() {
 		HashMap<String, Room> bed_exits = new HashMap<>();
 		HashMap<String, Room> hall_exits = new HashMap<>();
@@ -92,12 +97,11 @@ public class Game {
 
 	}
 
-
-	//ui starts here
-	//no initialization
-	//everything previous is games constructor
-	//UI.run
-
+	/**
+	 * main creates a game and GUI object, passes the player from game into the GUI constructor
+	 * uses .startGame method in GUI to run the program
+	 * @param args
+	 */
 		public static void main (String[]args){
 			Game game = new Game();
 			GUI gui = new GUI(game.player);
