@@ -37,6 +37,20 @@ public class GUI {
         JButton up = new JButton("up");
         JButton down = new JButton("down");
 
+        JButton examine = new JButton("Examine");
+        JButton drop = new JButton("Drop");
+        JButton use = new JButton("Use");
+        JButton take = new JButton("Take");
+        JLabel invLabel = new JLabel("");
+        JLabel emptyInv = new JLabel("Your Inventory Does Not Contain Any Items.");
+        JLabel error = new JLabel("");
+
+        JComboBox<String> inv = new JComboBox<>();
+        JComboBox<String> roominv = new JComboBox<>();
+
+        JFrame invFrame = new JFrame("Inventory");
+        invFrame.setSize(1000, 1000);
+
         JTextArea desc = new JTextArea(player.look());
         desc.setFont(desc.getFont().deriveFont(20f));
         desc.setLineWrap(true);
@@ -46,46 +60,88 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 desc.setText(player.move("forwards") + player.exits());
                 center.setIcon(player.roomImage());
+                if(player.getRoomItems().size() != 0) {
+                    for(int i = 0; i < player.getRoomItems().size() ; i++)
+                    roominv.addItem(player.getRoomItems().get(i).getName());
+                    invFrame.add(roominv,BorderLayout.EAST);
+                    SwingUtilities.updateComponentTreeUI(invFrame);
+
+                }
 
             }
         });
         backwards.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("backwards"));
+                desc.setText(player.move("backwards")  + player.exits());
                 center.setIcon(player.roomImage());
+                if(player.getRoomItems().size() != 0) {
+                    for(int i = 0; i < player.getRoomItems().size() ; i++)
+                        roominv.addItem(player.getRoomItems().get(i).getName());
+                    invFrame.add(roominv,BorderLayout.EAST);
+                    SwingUtilities.updateComponentTreeUI(invFrame);
+
+                }
 
             }
         });
         up.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("up"));
+                desc.setText(player.move("up")  + player.exits());
                 center.setIcon(player.roomImage());
+                if(player.getRoomItems().size() != 0) {
+                    for(int i = 0; i < player.getRoomItems().size() ; i++)
+                        roominv.addItem(player.getRoomItems().get(i).getName());
+                    invFrame.add(roominv,BorderLayout.EAST);
+                    SwingUtilities.updateComponentTreeUI(invFrame);
+
+                }
 
             }
         });
         down.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("down"));
+                desc.setText(player.move("down")  + player.exits());
                 center.setIcon(player.roomImage());
+                if(player.getRoomItems().size() != 0) {
+                    for(int i = 0; i < player.getRoomItems().size() ; i++)
+                        roominv.addItem(player.getRoomItems().get(i).getName());
+                    invFrame.add(roominv,BorderLayout.EAST);
+                    SwingUtilities.updateComponentTreeUI(invFrame);
+
+                }
 
             }
         });
         left.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("left"));
+                desc.setText(player.move("left") + player.exits());
                 center.setIcon(player.roomImage());
+                if(player.getRoomItems().size() != 0) {
+                    for(int i = 0; i < player.getRoomItems().size() ; i++)
+                        roominv.addItem(player.getRoomItems().get(i).getName());
+                    invFrame.add(roominv,BorderLayout.EAST);
+                    SwingUtilities.updateComponentTreeUI(invFrame);
+
+                }
 
             }
         });
         right.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("right"));
+                desc.setText(player.move("right") + player.exits());
                 center.setIcon(player.roomImage());
+                if(player.getRoomItems().size() != 0) {
+                    for(int i = 0; i < player.getRoomItems().size() ; i++)
+                        roominv.addItem(player.getRoomItems().get(i).getName());
+                    invFrame.add(roominv,BorderLayout.EAST);
+                    SwingUtilities.updateComponentTreeUI(invFrame);
+
+                }
 
             }
         });
@@ -112,18 +168,6 @@ public class GUI {
         frame.add(commands,BorderLayout.EAST);
         frame.setVisible(true);
 
-        JButton examine = new JButton("Examine");
-        JButton drop = new JButton("Drop");
-        JButton use = new JButton("Use");
-        JButton take = new JButton("Take");
-        JLabel invLabel = new JLabel("");
-        JLabel emptyInv = new JLabel("Your Inventory Does Not Contain Any Items.");
-        JLabel error = new JLabel("");
-
-        JComboBox<String> inv = new JComboBox<>();
-
-        JFrame invFrame = new JFrame("Inventory");
-        invFrame.setSize(1000, 1000);
 
 
 
@@ -169,6 +213,7 @@ public class GUI {
                 }else {
                     player.drop(inv.getSelectedItem().toString().toLowerCase());
                     inv.removeItem(inv.getSelectedItem());
+                    roominv.addItem(player.getRoomItems().get(player.getRoomItems().size() - 1).getName());
                     error.setText("");
                     invLabel.setText("");
                     desc.setText(player.look());
@@ -188,14 +233,30 @@ public class GUI {
                 if(player.getRoomItems().size() == 0) {
                     error.setText("There are no items in this room");
                 } else {
-                    player.take(player.getRoomItems().get(0).getName().toLowerCase());
-                    invFrame.remove(emptyInv);
-                    int i = (player.getInventory().size() - 1);
-                    inv.addItem(player.getInventory().get(i));
-                    invFrame.add(inv, BorderLayout.WEST);
-                    desc.setText(player.look());
-                    error.setText("");
-                    SwingUtilities.updateComponentTreeUI(invFrame);
+                    if (roominv.getSelectedItem() == null){
+                        error.setText("Please select an item.");
+                    }else {
+                        invFrame.remove(emptyInv);
+                        player.take(roominv.getSelectedItem().toString().toLowerCase());
+                        int i = (player.getInventory().size() - 1);
+                        inv.addItem(player.getInventory().get(i));
+                        invFrame.add(inv, BorderLayout.WEST);
+                        desc.setText(player.look());
+                        error.setText("");
+                        SwingUtilities.updateComponentTreeUI(invFrame);
+
+                        roominv.removeItem(roominv.getSelectedItem());
+                        error.setText("");
+                        invLabel.setText("");
+                        desc.setText(player.look());
+                        if(inv.getItemCount() == 0) {
+                            invFrame.remove(inv);
+                            invFrame.add(emptyInv);
+                            desc.setText(player.look());
+                            SwingUtilities.updateComponentTreeUI(invFrame);
+                        }
+                    }
+
                 }
 
             }
@@ -204,9 +265,9 @@ public class GUI {
         invComs.setPreferredSize(new Dimension(200,300));
         invComs.setLayout(new GridLayout(1,4));
         invComs.add(take);
+        invComs.add(drop);
         invComs.add(examine);
         invComs.add(use);
-        invComs.add(drop);
         invFrame.add(emptyInv, BorderLayout.WEST);
         invFrame.add(error, BorderLayout.CENTER);
         invFrame.add(invLabel, BorderLayout.EAST);
