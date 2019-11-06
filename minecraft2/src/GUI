@@ -178,9 +178,18 @@ public class GUI {
                     String no_item = "No items in inventory";
                     error.setText(no_item);
                 } else {
-                    String item_desc = player.examine(inv.getItemAt(inv.getSelectedIndex()));
-                    invLabel.setText(item_desc);
-                    error.setText("");
+                    if (inv.getSelectedItem() == null) {
+                        error.setText("Please select an item.");
+                    }
+                    else{
+                        String item_desc = player.examine(inv.getSelectedItem().toString());
+                        invLabel.setText(item_desc);
+                        error.setText("");
+                        invFrame.add(invLabel,BorderLayout.CENTER);
+                        SwingUtilities.updateComponentTreeUI(invFrame);
+
+                    }
+
                 }
             }
         });
