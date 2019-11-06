@@ -11,10 +11,17 @@ public class Player {
 		
 	}
 
+	//returns the room that the player is in
 	public String getRoom() {
 		return room.getName();
 	}
+	
+	//returns the items that are in the room the player is in 
+	public ArrayList<Item> getRoomItems() {
+		return room.getItems();
+	}
 
+	//Returns the description of the item the player chooses
 	public String examine(String item){
 		for (Item i: inventory){
 			if (i.getName().equals(item)){
@@ -24,6 +31,7 @@ public class Player {
 		return ("This item does not exist in your inventory.");
 	}
 	
+	//Moves the player based on whether the direction input matches a possible exit for the current room
 	public String move(String direction) {
 		HashMap<String, Room> exits = room.getExits();
 		if (exits.containsKey(direction)) {
@@ -36,6 +44,7 @@ public class Player {
 	}
 
 
+	//Takes an item from the current room if it contains one, otherwise returns error message
 	public String take(String item) {
 		for (Item i : room.getItems()) {
 			if (i.getName().toLowerCase().equals(item)) {
@@ -47,10 +56,12 @@ public class Player {
 		return ("This item does not exist here.");
 	}
 
+	//Drops the selected item in the current room if possible, otherwise returns error message
 	public String drop(String item) {
 		for (Item i : inventory) {
 			if (i.getName().toLowerCase().equals(item)) {
 				inventory.add(i);
+				room.addItem(i);
 				return (i.getName() + " has been removed from your inventory.");
 			}
 		}
@@ -58,6 +69,7 @@ public class Player {
 		}
 
 
+	//Uses the currently selected item if possible, otherwise returns error message
 	public String use(String item) {
 		for (Item i : inventory) {
 			if (i.getName().equals(item)) {
@@ -68,6 +80,7 @@ public class Player {
 		return ("This item is not in your inventory.");
 	}
 
+	//returns the player's inventory as an arraylist of the item's names
 	public ArrayList<String> getInventory(){
 		ArrayList<String> inven = new ArrayList<>();
 		for(Item item: inventory){
@@ -76,26 +89,32 @@ public class Player {
 		return inven;
 	}
 
+	//calls the look method from the room class
 	public String look() {
 		return room.look();
 	}
 
+	//calls the roomImage method from the room class
 	public ImageIcon roomImage() {
 		return room.getImage();
 	}
 
+	//calls the talk method from the mob class
 	public String talk(Mob mob){
 		return mob.talk();
 	}
 
+	//calls the pet method from the mob class
 	public String pet(Mob mob){
 		return mob.pet();
 	}
 
+	//calls the give method from the mob class
 	public String give(Mob mob, Item item){
 		return mob.give(item);
 	}
 
+	//returns an arraylist of the current room's exits
 	public ArrayList<String> exits(){
 		return this.room.exit();
 	}
