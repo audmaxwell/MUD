@@ -168,7 +168,8 @@ public class GUI {
             	} else {
             		player.take(player.getRoomItems().get(0).getName().toLowerCase());
             		invFrame.remove(emptyInv);
-            		inv.addItem(player.getInventory().get(0));
+            		int i = (player.getInventory().size() - 1);
+            		inv.addItem(player.getInventory().get(i));
             		invFrame.add(inv, BorderLayout.WEST);
             		SwingUtilities.updateComponentTreeUI(invFrame);
             		error.setText("");
