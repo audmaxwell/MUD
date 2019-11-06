@@ -115,7 +115,7 @@ public class GUI {
 
 
 
-        examine.addActionListener(new ActionListener() {
+       examine.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(player.getInventory().size() == 0) {
                     String no_item = "No items in inventory";
@@ -123,6 +123,7 @@ public class GUI {
                 } else {
                     String item_desc = player.examine(inv.getItemAt(inv.getSelectedIndex()));
                     invLabel.setText(item_desc);
+                    error.setText("");
                 }
             }
         });
@@ -133,7 +134,9 @@ public class GUI {
                     String no_item = "No items in inventory";
                     error.setText(no_item);
                 } else {
-                    player.use(inv.getItemAt(inv.getSelectedIndex()));
+                    player.use(player.getInventory().get(0).toLowerCase());
+                    error.setText("");
+
                 }
             }
         });
@@ -160,19 +163,18 @@ public class GUI {
 
         take.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (player.getRoomItems().size() == 0){
-                    error.setText("There are no items in this room.");
-                }
-                else{
-                    player.take(player.getRoomItems().get(0).getName().toLowerCase());
-                    invFrame.remove(emptyInv);
-                    inv.addItem(player.getInventory().get(0));
-                    invFrame.add(inv, BorderLayout.CENTER);
-                    SwingUtilities.updateComponentTreeUI(invFrame);
-                }
-
+            	if(player.getRoomItems().size() == 0) {
+            		error.setText("There are no items in this room");
+            	} else {
+            		player.take(player.getRoomItems().get(0).getName().toLowerCase());
+            		invFrame.remove(emptyInv);
+            		inv.addItem(player.getInventory().get(0));
+            		invFrame.add(inv, BorderLayout.WEST);
+            		SwingUtilities.updateComponentTreeUI(invFrame);
+            		error.setText("");
+            	}
+                
             }
-
         });
         JPanel invComs = new JPanel();
         invComs.setPreferredSize(new Dimension(200,300));
