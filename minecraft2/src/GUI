@@ -4,18 +4,31 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Scanner;
 
+/**
+ * GUI class to manage all visual components
+ */
 public class GUI {
     private Player player;
     private ImageIcon bedroom;
     private ImageIcon hallway;
     private JFrame frame;
     private JLabel center;
+
+    /**
+     * GUI constructor takes in a player to perform all commands and operations
+     * @param player
+     */
     public GUI(Player player){
         this.player = player;
         this.center = new JLabel();
 
 
     }
+
+    /**
+     * startGame method creates two windows; one for all movement commands, room images and descriptions,
+     * the other window handles inventory and inventory commands
+     */
     public void startGame(){
         JButton forwards = new JButton("forwards");
         JButton backwards = new JButton("backwards");
@@ -128,6 +141,10 @@ public class GUI {
             }
         });
 
+
+/**
+ * use actionlistener currently returns nothing as no items can be used until we implement the MOB class
+ */
         use.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(player.getInventory().size() == 0) {
@@ -146,7 +163,10 @@ public class GUI {
                 if(player.getInventory().size() == 0) {
                     String no_item = "No items in inventory";
                     error.setText(no_item);
-                } else {
+                }
+                if (inv.getSelectedItem() == null){
+                    error.setText("Please select an item.");
+                }else {
                     player.drop(inv.getSelectedItem().toString().toLowerCase());
                     inv.removeItem(inv.getSelectedItem());
                     error.setText("");
@@ -154,6 +174,7 @@ public class GUI {
                     if(inv.getItemCount() == 0) {
                         invFrame.remove(inv);
                         invFrame.add(emptyInv);
+                        desc.setText(player.look());
                         SwingUtilities.updateComponentTreeUI(invFrame);
                     }
                 }
@@ -171,8 +192,9 @@ public class GUI {
                     int i = (player.getInventory().size() - 1);
                     inv.addItem(player.getInventory().get(i));
                     invFrame.add(inv, BorderLayout.WEST);
-                    SwingUtilities.updateComponentTreeUI(invFrame);
+                    desc.setText(player.look());
                     error.setText("");
+                    SwingUtilities.updateComponentTreeUI(invFrame);
                 }
 
             }
