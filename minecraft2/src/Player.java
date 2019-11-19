@@ -8,15 +8,18 @@ public class Player {
 	public Player(Room room) {
 		this.room = room;
 		this.inventory = new ArrayList<>();
-		
+
 	}
 
 	//returns the room that the player is in
 	public String getRoom() {
 		return room.getName();
 	}
-	
-	//returns the items that are in the room the player is in 
+	public Room getRoomobj(){
+		return room;
+	}
+
+	//returns the items that are in the room the player is in
 	public ArrayList<Item> getRoomItems() {
 		return room.getItems();
 	}
@@ -30,7 +33,7 @@ public class Player {
 		}
 		return ("This item does not exist in your inventory.");
 	}
-	
+
 	//Moves the player based on whether the direction input matches a possible exit for the current room
 	public String move(String direction) {
 		HashMap<String, Room> exits = room.getExits();
@@ -60,13 +63,13 @@ public class Player {
 	public String drop(String item) {
 		for (Item i : inventory) {
 			if (i.getName().toLowerCase().equals(item)) {
-				inventory.add(i);
+				inventory.remove(i);
 				room.addItem(i);
 				return (i.getName() + " has been removed from your inventory.");
 			}
 		}
 		return ("This item is not in your inventory.");
-		}
+	}
 
 
 	//Uses the currently selected item if possible, otherwise returns error message
@@ -99,25 +102,10 @@ public class Player {
 		return room.getImage();
 	}
 
-	//calls the talk method from the mob class
-	public String talk(Mob mob){
-		return mob.talk();
-	}
-
-	//calls the pet method from the mob class
-	public String pet(Mob mob){
-		return mob.pet();
-	}
-
-	//calls the give method from the mob class
-	public String give(Mob mob, Item item){
-		return mob.give(item);
-	}
-
 	//returns an arraylist of the current room's exits
 	public ArrayList<String> exits(){
 		return this.room.exit();
 	}
-	
+
 
 }
