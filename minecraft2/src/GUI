@@ -2,17 +2,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
 import java.util.Scanner;
 
 /**
  * GUI class to manage all visual components
  */
-public class GUI {
+public class GUI extends Observable {
     private Player player;
     private ImageIcon bedroom;
     private ImageIcon hallway;
     private JFrame frame;
     private JLabel center;
+    private JComboBox<String> roominv;
+    private JFrame invFrame;
 
     /**
      * GUI constructor takes in a player to perform all commands and operations
@@ -21,6 +24,7 @@ public class GUI {
     public GUI(Player player){
         this.player = player;
         this.center = new JLabel();
+        this.startGame();
 
 
     }
@@ -46,27 +50,24 @@ public class GUI {
         JLabel error = new JLabel("");
 
         JComboBox<String> inv = new JComboBox<>();
-        JComboBox<String> roominv = new JComboBox<>();
+        roominv = new JComboBox<>();
 
-        JFrame invFrame = new JFrame("Inventory");
+        invFrame = new JFrame("Inventory");
         invFrame.setSize(1000, 1000);
 
         JTextArea desc = new JTextArea(player.look());
         desc.setFont(desc.getFont().deriveFont(20f));
         desc.setLineWrap(true);
         desc.setMaximumSize(new Dimension(1000,500));
+
+
+
         forwards.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 desc.setText(player.move("forwards") + player.exits());
                 center.setIcon(player.roomImage());
-                if(player.getRoomItems().size() != 0) {
-                    for(int i = 0; i < player.getRoomItems().size() ; i++)
-                    roominv.addItem(player.getRoomItems().get(i).getName());
-                    invFrame.add(roominv,BorderLayout.EAST);
-                    SwingUtilities.updateComponentTreeUI(invFrame);
-
-                }
+                comboTime();
 
             }
         });
@@ -75,13 +76,8 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 desc.setText(player.move("backwards")  + player.exits());
                 center.setIcon(player.roomImage());
-                if(player.getRoomItems().size() != 0) {
-                    for(int i = 0; i < player.getRoomItems().size() ; i++)
-                        roominv.addItem(player.getRoomItems().get(i).getName());
-                    invFrame.add(roominv,BorderLayout.EAST);
-                    SwingUtilities.updateComponentTreeUI(invFrame);
+                comboTime();
 
-                }
 
             }
         });
@@ -90,14 +86,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 desc.setText(player.move("up")  + player.exits());
                 center.setIcon(player.roomImage());
-                if(player.getRoomItems().size() != 0) {
-                    for(int i = 0; i < player.getRoomItems().size() ; i++)
-                        roominv.addItem(player.getRoomItems().get(i).getName());
-                    invFrame.add(roominv,BorderLayout.EAST);
-                    SwingUtilities.updateComponentTreeUI(invFrame);
-
-                }
-
+                comboTime();
             }
         });
         down.addActionListener(new ActionListener() {
@@ -105,13 +94,8 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 desc.setText(player.move("down")  + player.exits());
                 center.setIcon(player.roomImage());
-                if(player.getRoomItems().size() != 0) {
-                    for(int i = 0; i < player.getRoomItems().size() ; i++)
-                        roominv.addItem(player.getRoomItems().get(i).getName());
-                    invFrame.add(roominv,BorderLayout.EAST);
-                    SwingUtilities.updateComponentTreeUI(invFrame);
+                comboTime();
 
-                }
 
             }
         });
@@ -120,13 +104,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 desc.setText(player.move("left") + player.exits());
                 center.setIcon(player.roomImage());
-                if(player.getRoomItems().size() != 0) {
-                    for(int i = 0; i < player.getRoomItems().size() ; i++)
-                        roominv.addItem(player.getRoomItems().get(i).getName());
-                    invFrame.add(roominv,BorderLayout.EAST);
-                    SwingUtilities.updateComponentTreeUI(invFrame);
-
-                }
+                comboTime();
 
             }
         });
@@ -135,13 +113,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 desc.setText(player.move("right") + player.exits());
                 center.setIcon(player.roomImage());
-                if(player.getRoomItems().size() != 0) {
-                    for(int i = 0; i < player.getRoomItems().size() ; i++)
-                        roominv.addItem(player.getRoomItems().get(i).getName());
-                    invFrame.add(roominv,BorderLayout.EAST);
-                    SwingUtilities.updateComponentTreeUI(invFrame);
-
-                }
+                comboTime();
 
             }
         });
@@ -167,6 +139,7 @@ public class GUI {
         commands.setSize(new Dimension(300,500));
         frame.add(commands,BorderLayout.EAST);
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
 
@@ -174,10 +147,7 @@ public class GUI {
 
         examine.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(player.getInventory().size() == 0) {
-                    String no_item = "No items in inventory";
-                    error.setText(no_item);
-                } else {
+                if(player.getInventory().size() != 0) {
                     if (inv.getSelectedItem() == null) {
                         error.setText("Please select an item.");
                     }
@@ -187,8 +157,7 @@ public class GUI {
                         error.setText("");
                         invFrame.add(invLabel,BorderLayout.CENTER);
                         SwingUtilities.updateComponentTreeUI(invFrame);
-
-                    }
+                }
 
                 }
             }
@@ -213,33 +182,24 @@ public class GUI {
 
         drop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(player.getInventory().size() == 0) {
-                    String no_item = "No items in inventory";
-                    error.setText(no_item);
-                }
-                if (inv.getSelectedItem() == null){
-                    error.setText("Please select an item.");
-                }else {
+                if(player.getInventory().size() != 0) {
                     player.drop(inv.getSelectedItem().toString().toLowerCase());
                     inv.removeItem(inv.getSelectedItem());
-                    roominv.addItem(player.getRoomItems().get(player.getRoomItems().size() - 1).getName());
+                    roominv.addItem(player.getRoomobj().getItems().get(player.getRoomobj().getItems().size() - 1).getName());
                     error.setText("");
                     invLabel.setText("");
                     desc.setText(player.look());
-                    if(inv.getItemCount() == 0) {
-                        invFrame.remove(inv);
-                        invFrame.add(emptyInv);
-                        desc.setText(player.look());
-                        SwingUtilities.updateComponentTreeUI(invFrame);
-                    }
                 }
-            }
+                else if (inv.getSelectedItem() == null){
+                    error.setText("Please select an item.");
+                }
+                }
         });
 
 
         take.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(player.getRoomItems().size() == 0) {
+                if(player.getRoomobj().getItems().size() == 0) {
                     error.setText("There are no items in this room");
                 } else {
                     if (roominv.getSelectedItem() == null){
@@ -284,6 +244,19 @@ public class GUI {
         invFrame.setVisible(true);
         invFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
+
+    }
+    public void comboTime(){
+            for(int i = 0; i < roominv.getItemCount() ; i++){
+                    roominv.removeItemAt(i);
+
+            }
+            for(int i = 0; i < player.getRoomobj().getItems().size() ; i++){
+                roominv.addItem(player.getRoomobj().getItems().get(i).getName());
+            }
+            invFrame.add(roominv,BorderLayout.EAST);
+            SwingUtilities.updateComponentTreeUI(invFrame);
 
 
     }
