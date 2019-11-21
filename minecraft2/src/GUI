@@ -48,6 +48,12 @@ public class GUI extends Observable {
         JLabel invLabel = new JLabel("");
         JLabel emptyInv = new JLabel("Your Inventory Does Not Contain Any Items.");
         JLabel error = new JLabel("");
+        
+        JButton talk = new JButton("Talk");
+        JButton pet = new JButton("Pet");
+        JButton give = new JButton("Give");
+        JButton exit = new JButton("Exit");
+        JLabel noMob = new JLabel("There is nobody in the room right now.");
 
         JComboBox<String> inv = new JComboBox<>();
         roominv = new JComboBox<>();
@@ -140,7 +146,8 @@ public class GUI extends Observable {
         frame.add(commands,BorderLayout.EAST);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        
+        
 
 
 
@@ -243,6 +250,20 @@ public class GUI extends Observable {
         invFrame.add(invComs, BorderLayout.SOUTH);
         invFrame.setVisible(true);
         invFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        JFrame mobFrame = new JFrame("Mob Display");
+        JPanel mobComs = new JPanel();
+        mobComs.setPreferredSize(new Dimension(200,300));
+        mobComs.setLayout(new GridLayout(1,4));
+        mobComs.setSize(1000, 1000);
+        mobComs.add(talk);
+        mobComs.add(pet);
+        mobComs.add(give);
+        mobComs.add(exit);
+        mobFrame.add(mobComs, BorderLayout.SOUTH);
+       // ImageIcon mobimg = 
+        mobFrame.setVisible(true);
+        mobFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
 
