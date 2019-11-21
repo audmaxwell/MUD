@@ -1,19 +1,21 @@
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * game class initializes all objects needed for game and calls + runs GUI class
  */
-public class Game {
+public class Game extends Observable {
 	Player player;
+	boolean isOver;
 
     /**
      * constructor initializes all rooms and items and creates player object
      */
 	public Game() {
+		isOver = false;
 		HashMap<String, Room> bed_exits = new HashMap<>();
 		HashMap<String, Room> hall_exits = new HashMap<>();
 		HashMap<String, Room> guest_exits = new HashMap<>();
@@ -49,7 +51,6 @@ public class Game {
 		Room shelter = new Room("Shelter", "You find yourself in a makeshift shelter that seems to be an abandoned convenience store. Inside the building you see an old woman who looks like she might need something.", shelter_exits, new ArrayList<>(),sheltimg);
 		Room stream = new Room("Stream", "You followed a short trail into the woods and find yourself next to a flowing stream.", stream_exits, new ArrayList<>(),streamimg);
 		Room lab = new Room("Lab", "The deepest layer of the house, a medium sized room with various tables and strange instruments. In the corner of the room you can see a computer.", lab_exits, new ArrayList<>(),labimg);
-
 
 		bed_exits.put("forwards", hallway);
 		hall_exits.put("forwards", guestroom);
@@ -89,12 +90,31 @@ public class Game {
 		stream.addItem(bucket);
 		kitchen.addItem(eggs);
 		basement.addItem(computer);
-		Player player = new Player(bedroom);
-		this.player = player;
+		this.player =  new Player(bedroom);
+		ImageIcon tomimg = new ImageIcon("src/mobs/tom.jpg");
+		ImageIcon catimg = new ImageIcon("src/mobs/cat.jpg");
+		GUI gui = new GUI(player,this);
+		ArrayList<String> tomdialogue = new ArrayList<>(Arrays.asList("42","Hahahahahahaha 42", "Hello 42"));
+		ArrayList<String> catdialogue = new ArrayList<>(Arrays.asList("Meow","Purr","Leave this house, mortal being."));
+		Mob tom = new Mob("Tom",guestroom,tomdialogue,this,tomimg);
+		Mob cat = new Mob ("Cat", livingroom, catdialogue, this,catimg);
+		guestroom.addMob(tom);
+		livingroom.addMob(cat);
+		addObserver(tom);
+		addObserver(cat);
+		addObserver(gui);
+		ExecutorService service = Executors.newFixedThreadPool(2);
+		service.execute(cat);
+		service.execute(tom);
 
+	}
+	public void gameIsOver(){
+		isOver = true;
+	}
 
-
-
+	public void someoneMoves(){
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -104,8 +124,6 @@ public class Game {
 	 */
 		public static void main (String[]args){
 			Game game = new Game();
-			GUI gui = new GUI(game.player);
-			gui.startGame();
 
 
 		}
