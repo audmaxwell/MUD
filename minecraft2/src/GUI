@@ -3,28 +3,35 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 
 /**
  * GUI class to manage all visual components
  */
-public class GUI extends Observable {
+public class GUI implements Observer {
+
     private Player player;
     private ImageIcon bedroom;
     private ImageIcon hallway;
     private JFrame frame;
     private JLabel center;
+    private JLabel mobpic;
     private JComboBox<String> roominv;
     private JFrame invFrame;
+    private Game game;
+    private JFrame mobFrame;
+    private JLabel mobtext;
 
     /**
      * GUI constructor takes in a player to perform all commands and operations
      * @param player
      */
-    public GUI(Player player){
+    public GUI(Player player, Game game){
         this.player = player;
         this.center = new JLabel();
         this.startGame();
+        this.game = game;
 
 
     }
@@ -40,6 +47,7 @@ public class GUI extends Observable {
         JButton right = new JButton("right");
         JButton up = new JButton("up");
         JButton down = new JButton("down");
+        JButton exit = new JButton("exit");
 
         JButton examine = new JButton("Examine");
         JButton drop = new JButton("Drop");
@@ -48,12 +56,12 @@ public class GUI extends Observable {
         JLabel invLabel = new JLabel("");
         JLabel emptyInv = new JLabel("Your Inventory Does Not Contain Any Items.");
         JLabel error = new JLabel("");
-        
+
         JButton talk = new JButton("Talk");
         JButton pet = new JButton("Pet");
         JButton give = new JButton("Give");
-        JButton exit = new JButton("Exit");
         JLabel noMob = new JLabel("There is nobody in the room right now.");
+
 
         JComboBox<String> inv = new JComboBox<>();
         roominv = new JComboBox<>();
@@ -144,10 +152,19 @@ public class GUI extends Observable {
         commands.add(down);
         commands.setSize(new Dimension(300,500));
         frame.add(commands,BorderLayout.EAST);
+        frame.add(exit, BorderLayout.NORTH);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        
+
+
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                game.gameIsOver();
+                game.someoneMoves();
+            }
+        });
+
 
 
 
@@ -250,8 +267,9 @@ public class GUI extends Observable {
         invFrame.add(invComs, BorderLayout.SOUTH);
         invFrame.setVisible(true);
         invFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        JFrame mobFrame = new JFrame("Mob Display");
+
+        mobFrame = new JFrame("Mob Display");
+        mobFrame.setSize(1000,1000);
         JPanel mobComs = new JPanel();
         mobComs.setPreferredSize(new Dimension(200,300));
         mobComs.setLayout(new GridLayout(1,4));
@@ -259,11 +277,22 @@ public class GUI extends Observable {
         mobComs.add(talk);
         mobComs.add(pet);
         mobComs.add(give);
-        mobComs.add(exit);
         mobFrame.add(mobComs, BorderLayout.SOUTH);
-       // ImageIcon mobimg = 
+        mobtext = new JLabel("There is nobody around...");
         mobFrame.setVisible(true);
         mobFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mobpic = new JLabel();
+        mobFrame.add(mobtext,BorderLayout.CENTER);
+        mobtext.setFont(new Font("Serif", Font.PLAIN, 20));
+        mobFrame.add(mobpic, BorderLayout.WEST);
+
+        talk.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mobtext.setText(player.getRoomobj().getMob().get(0).talk());
+
+            }
+        });
 
 
 
@@ -277,9 +306,32 @@ public class GUI extends Observable {
                 roominv.addItem(player.getRoomobj().getItems().get(i).getName());
             }
             invFrame.add(roominv,BorderLayout.EAST);
+            game.someoneMoves();
             SwingUtilities.updateComponentTreeUI(invFrame);
 
 
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if(game.isOver){
+            System.exit(0);
+        }
+        else if(player.getRoomobj().getMob() != null){
+            for(Mob mob:player.getRoomobj().getMob()){
+                mobpic.setIcon(mob.getImage());
+                mobFrame.add(mobpic, BorderLayout.WEST);
+                mobtext.setText("");
+                SwingUtilities.updateComponentTreeUI(mobFrame);
+            }
+        }
+        else{
+            mobtext.setText("There is nobody around...");
+            mobFrame.remove(mobpic);
+            mobFrame.repaint();
+            SwingUtilities.updateComponentTreeUI(mobFrame);
+        }
+
+
+    }
 }
