@@ -14,14 +14,15 @@ public class GUI implements Observer {
     private Player player;
     private ImageIcon bedroom;
     private ImageIcon hallway;
-    private JFrame frame;
+    private JPanel playerPanel;
     private JLabel center;
     private JLabel mobpic;
     private JComboBox<String> roominv;
-    private JFrame invFrame;
+    private JPanel invPanel;
     private Game game;
-    private JFrame mobFrame;
+    private JPanel mobPanel;
     private JLabel mobtext;
+    private JFrame gameFrame;
 
     /**
      * GUI constructor takes in a player to perform all commands and operations
@@ -66,8 +67,7 @@ public class GUI implements Observer {
         JComboBox<String> inv = new JComboBox<>();
         roominv = new JComboBox<>();
 
-        invFrame = new JFrame("Inventory");
-        invFrame.setSize(1000, 1000);
+        invPanel = new JPanel();
 
         JTextArea desc = new JTextArea(player.look());
         desc.setFont(desc.getFont().deriveFont(20f));
@@ -133,14 +133,14 @@ public class GUI implements Observer {
         });
 
 
-        JFrame frame = new JFrame("Image display");
-        frame.setSize(1000, 1000);
+        JPanel playerPanel = new JPanel();
+        //frame.setSize(1000, 1000);
         ImageIcon roomimg = player.roomImage();
         center.setIcon(roomimg);
         center.setPreferredSize(new Dimension(1000,1000));
-        frame.add(center, BorderLayout.CENTER);
-        desc.setPreferredSize(new Dimension(300,100));
-        frame.add(desc,BorderLayout.SOUTH);
+        playerPanel.add(center, BorderLayout.CENTER);
+        desc.setPreferredSize(new Dimension(300,175));
+        playerPanel.add(desc,BorderLayout.SOUTH);
         JPanel commands = new JPanel();
         commands.setPreferredSize(new Dimension(200,300));
         commands.setLayout(new GridLayout(3,2));
@@ -151,10 +151,10 @@ public class GUI implements Observer {
         commands.add(up);
         commands.add(down);
         commands.setSize(new Dimension(300,500));
-        frame.add(commands,BorderLayout.EAST);
-        frame.add(exit, BorderLayout.NORTH);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        playerPanel.add(commands,BorderLayout.EAST);
+        playerPanel.add(exit, BorderLayout.NORTH);
+        //frame.setVisible(true);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
         exit.addActionListener(new ActionListener() {
@@ -179,8 +179,8 @@ public class GUI implements Observer {
                         String item_desc = player.examine(inv.getSelectedItem().toString());
                         invLabel.setText(item_desc);
                         error.setText("");
-                        invFrame.add(invLabel,BorderLayout.CENTER);
-                        SwingUtilities.updateComponentTreeUI(invFrame);
+                        invPanel.add(invLabel,BorderLayout.CENTER);
+                        SwingUtilities.updateComponentTreeUI(invPanel);
                 }
 
                 }
@@ -229,24 +229,24 @@ public class GUI implements Observer {
                     if (roominv.getSelectedItem() == null){
                         error.setText("Please select an item.");
                     }else {
-                        invFrame.remove(emptyInv);
+                        invPanel.remove(emptyInv);
                         player.take(roominv.getSelectedItem().toString().toLowerCase());
                         int i = (player.getInventory().size() - 1);
                         inv.addItem(player.getInventory().get(i));
-                        invFrame.add(inv, BorderLayout.WEST);
+                        invPanel.add(inv, BorderLayout.WEST);
                         desc.setText(player.look());
                         error.setText("");
-                        SwingUtilities.updateComponentTreeUI(invFrame);
+                        SwingUtilities.updateComponentTreeUI(invPanel);
 
                         roominv.removeItem(roominv.getSelectedItem());
                         error.setText("");
                         invLabel.setText("");
                         desc.setText(player.look());
                         if(inv.getItemCount() == 0) {
-                            invFrame.remove(inv);
-                            invFrame.add(emptyInv);
+                            invPanel.remove(inv);
+                            invPanel.add(emptyInv);
                             desc.setText(player.look());
-                            SwingUtilities.updateComponentTreeUI(invFrame);
+                            SwingUtilities.updateComponentTreeUI(invPanel);
                         }
                     }
 
@@ -256,20 +256,20 @@ public class GUI implements Observer {
         });
         JPanel invComs = new JPanel();
         invComs.setPreferredSize(new Dimension(200,300));
-        invComs.setLayout(new GridLayout(1,4));
+        invComs.setLayout(new GridLayout(4,1));
         invComs.add(take);
         invComs.add(drop);
         invComs.add(examine);
         invComs.add(use);
-        invFrame.add(emptyInv, BorderLayout.WEST);
-        invFrame.add(error, BorderLayout.CENTER);
-        invFrame.add(invLabel, BorderLayout.EAST);
-        invFrame.add(invComs, BorderLayout.SOUTH);
-        invFrame.setVisible(true);
-        invFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        invPanel.add(emptyInv, BorderLayout.WEST);
+        invPanel.add(error, BorderLayout.CENTER);
+        invPanel.add(invLabel, BorderLayout.EAST);
+        invPanel.add(invComs, BorderLayout.SOUTH);
+       // invFrame.setVisible(true);
+        //invFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        mobFrame = new JFrame("Mob Display");
-        mobFrame.setSize(1000,1000);
+        mobPanel = new JPanel();
+        //mobPanel.setSize(1000,1000);
         JPanel mobComs = new JPanel();
         mobComs.setPreferredSize(new Dimension(200,300));
         mobComs.setLayout(new GridLayout(1,4));
@@ -277,14 +277,14 @@ public class GUI implements Observer {
         mobComs.add(talk);
         mobComs.add(pet);
         mobComs.add(give);
-        mobFrame.add(mobComs, BorderLayout.SOUTH);
+        mobPanel.add(mobComs, BorderLayout.SOUTH);
         mobtext = new JLabel("There is nobody around...");
-        mobFrame.setVisible(true);
-        mobFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mobPanel.setVisible(true);
+        //mobPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mobpic = new JLabel();
-        mobFrame.add(mobtext,BorderLayout.CENTER);
+        mobPanel.add(mobtext,BorderLayout.CENTER);
         mobtext.setFont(new Font("Serif", Font.PLAIN, 20));
-        mobFrame.add(mobpic, BorderLayout.WEST);
+        mobPanel.add(mobpic, BorderLayout.WEST);
 
         talk.addActionListener(new ActionListener() {
             @Override
@@ -293,10 +293,21 @@ public class GUI implements Observer {
 
             }
         });
-
+        
+        gameFrame = new JFrame("game window");
+        gameFrame.setSize(2000,2000);
+        GridLayout gameLayout = new GridLayout(1,3);
+        gameFrame.setLayout(gameLayout);
+        gameFrame.add(invPanel);
+        gameFrame.add(playerPanel);
+        gameFrame.add(mobPanel);
+        gameFrame.setVisible(true);
+        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
     }
+    
+    
     public void comboTime(){
             for(int i = 0; i < roominv.getItemCount() ; i++){
                     roominv.removeItemAt(i);
@@ -305,9 +316,9 @@ public class GUI implements Observer {
             for(int i = 0; i < player.getRoomobj().getItems().size() ; i++){
                 roominv.addItem(player.getRoomobj().getItems().get(i).getName());
             }
-            invFrame.add(roominv,BorderLayout.EAST);
+            invPanel.add(roominv,BorderLayout.EAST);
             game.someoneMoves();
-            SwingUtilities.updateComponentTreeUI(invFrame);
+            SwingUtilities.updateComponentTreeUI(invPanel);
 
 
     }
@@ -320,16 +331,16 @@ public class GUI implements Observer {
         else if(player.getRoomobj().getMob() != null){
             for(Mob mob:player.getRoomobj().getMob()){
                 mobpic.setIcon(mob.getImage());
-                mobFrame.add(mobpic, BorderLayout.WEST);
+                mobPanel.add(mobpic, BorderLayout.WEST);
                 mobtext.setText("");
-                SwingUtilities.updateComponentTreeUI(mobFrame);
+                SwingUtilities.updateComponentTreeUI(mobPanel);
             }
         }
         else{
             mobtext.setText("There is nobody around...");
-            mobFrame.remove(mobpic);
-            mobFrame.repaint();
-            SwingUtilities.updateComponentTreeUI(mobFrame);
+            mobPanel.remove(mobpic);
+            mobPanel.repaint();
+            SwingUtilities.updateComponentTreeUI(mobPanel);
         }
 
 
