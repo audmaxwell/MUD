@@ -12,10 +12,9 @@ public class Game extends Observable {
 	boolean isOver;
 
     /**
-     * constructor initializes all rooms, items, mobs, and the player object
-     * Also executes the mob threads
+     * constructor initializes all rooms and items and creates player object
      */
-	public Game() {
+	public Game(int numPlayers) {
 		isOver = false;
 		HashMap<String, Room> bed_exits = new HashMap<>();
 		HashMap<String, Room> hall_exits = new HashMap<>();
@@ -29,17 +28,17 @@ public class Game extends Observable {
 		HashMap<String, Room> stream_exits = new HashMap<>();
 		HashMap<String, Room> lab_exits = new HashMap<>();
 
-		ImageIcon bedimg = new ImageIcon("images/bedroom.jpg");
-		ImageIcon hallimg = new ImageIcon("images/hallway.png");
-		ImageIcon guestimg = new ImageIcon("images/guestroom.jpg");
-		ImageIcon livingimg = new ImageIcon("images/livingroom.png");
-		ImageIcon frontimg = new ImageIcon("images/frontyard.jpeg");
-		ImageIcon kitchimg = new ImageIcon("images/kitchen.jpg");
-		ImageIcon baseimg = new ImageIcon("images/basement.jpeg");
-		ImageIcon rubbleimg = new ImageIcon("images/rubblepile.jpg");
-		ImageIcon sheltimg = new ImageIcon("images/shelter.jpg");
-		ImageIcon streamimg = new ImageIcon("images/stream.png");
-		ImageIcon labimg = new ImageIcon("images/lab.jpg");
+		ImageIcon bedimg = new ImageIcon("src/images/bedroom.jpg");
+		ImageIcon hallimg = new ImageIcon("src/images/hallway.png");
+		ImageIcon guestimg = new ImageIcon("src/images/guestroom.jpg");
+		ImageIcon livingimg = new ImageIcon("src/images/livingroom.png");
+		ImageIcon frontimg = new ImageIcon("src/images/frontyard.jpeg");
+		ImageIcon kitchimg = new ImageIcon("src/images/kitchen.jpg");
+		ImageIcon baseimg = new ImageIcon("src/images/basement.jpeg");
+		ImageIcon rubbleimg = new ImageIcon("src/images/rubblepile.jpg");
+		ImageIcon sheltimg = new ImageIcon("src/images/shelter.jpg");
+		ImageIcon streamimg = new ImageIcon("src/images/stream.png");
+		ImageIcon labimg = new ImageIcon("src/images/lab.jpg");
 
 		Room bedroom = new Room("Bed Room", "The room that you woke up in seems to be some kind of bedroom. A simple room design, there is the bed you woke up in, a dresser, and a mirror.", bed_exits, new ArrayList<>(), bedimg);
 		Room hallway = new Room("Hallway", "A short hallway with a door on the other side and stairs leading down.", hall_exits, new ArrayList<>(), hallimg);
@@ -92,49 +91,43 @@ public class Game extends Observable {
 		kitchen.addItem(eggs);
 		basement.addItem(computer);
 		this.player =  new Player(bedroom);
-		ImageIcon tomimg = new ImageIcon("mobs/tom.jpg");
-		ImageIcon catimg = new ImageIcon("mobs/cat.jpg");
-		GUI gui = new GUI(player,this);
-		/*guide for tom's dialogue
-		 * [0] = Hallway
-		 * [1] = Guest Room
-		 * [2] = Living Room
-		 * [3] = Kitchen
-		 * [4] = Basement
-		 * [5] = Yard
-		 * [6] = Rubble Pile
-		 * [7] = Shelter
-		 * [8] = Stream
-		 */
+		ImageIcon tomimg = new ImageIcon("src/mobs/tom.jpg");
+		ImageIcon catimg = new ImageIcon("src/mobs/cat.jpg");
+		GUI gui1 = new GUI(player,this);
+		if (numPlayers == 2){
+			Player player2 = new Player(hallway);
+			GUI gui2 = new GUI(player2, this);
+			addObserver(gui2);
+		}
 		ArrayList<String> tomdialogue = new ArrayList<>(Arrays.asList("This seems like a pretty nice house, too bad there aren't 42 bedrooms, it's just that one and the guest room...",
-		"Don't mind me, just came in to take a nap.Say, isn't that letter over there addressed to you?",
-		"Saw the picture that was in here, seems like you've got yourself a nice family. I wonder where they are?",
-		"This kitchen is pretty empty, not nearly enough ingredients for a 42 course meal.",
-		"Pretty big basement you got here, bet if you cleaned it out you could fit a 42 seat home theater down here.",
-		"Someone really ought mow this lawn. I happen to know a guy who'll do it for only $42.",
-		"You see that huge pile of rubble? I wonder how many pieces are in it. I'd guess 42.",
-		"Seems like some folks have decided to hole up here. I wonder if anyone could use some help.",
-		"Such a peaceful stream, wonder if people ever accidentaly drop their stuff in it."));
+				"Don't mind me, just came in to take a nap.Say, isn't that letter over there addressed to you?",
+				"Saw the picture that was in here, seems like you've got yourself a nice family. I wonder where they are?",
+				"This kitchen is pretty empty, not nearly enough ingredients for a 42 course meal.",
+				"Pretty big basement you got here, bet if you cleaned it out you could fit a 42 seat home theater down here.",
+				"Someone really ought mow this lawn. I happen to know a guy who'll do it for only $42.",
+				"You see that huge pile of rubble? I wonder how many pieces are in it. I'd guess 42.",
+				"Seems like some folks have decided to hole up here. I wonder if anyone could use some help.",
+				"Such a peaceful stream, wonder if people ever accidentally drop their stuff in it."));
 		ArrayList<String> catdialogue = new ArrayList<>(Arrays.asList("Meow","Purr","Leave this house, mortal being."));
+		ArrayList<String> oldladydialogue = new ArrayList<>();
+		StaticMob oldlady = new StaticMob("Old Lady", oldladydialogue);
 		Mob tom = new Mob("Tom",guestroom,tomdialogue,this,tomimg);
 		Mob cat = new Mob ("Cat", livingroom, catdialogue, this,catimg);
 		guestroom.addMob(tom);
 		livingroom.addMob(cat);
+		shelter.addStaticMob(oldlady);
 		addObserver(tom);
 		addObserver(cat);
-		addObserver(gui);
+		addObserver(gui1);
 		ExecutorService service = Executors.newFixedThreadPool(2);
 		service.execute(cat);
 		service.execute(tom);
 
 	}
-	
-	//Checks to see if the exit button has been pressed, if so the 'isOver' var is set to true so the system will shut down
 	public void gameIsOver(){
 		isOver = true;
 	}
 
-	//Notifies the observers whenever a mob or the player moves, or if the exit button is pressed
 	public void someoneMoves(){
 		setChanged();
 		notifyObservers();
@@ -145,10 +138,10 @@ public class Game extends Observable {
 	 * uses .startGame method in GUI to run the program
 	 * @param args
 	 */
-		public static void main (String[]args){
-			Game game = new Game();
+		//public static void main (String[]args){
+		//	Game game = new Game();
 
 
-		}
+		//}
 
 	}
