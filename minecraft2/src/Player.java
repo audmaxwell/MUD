@@ -45,6 +45,7 @@ public class Player {
 			return ("You cannot go this way.");
 		}
 	}
+	
 
 
 	//Takes an item from the current room if it contains one, otherwise returns error message
@@ -75,12 +76,27 @@ public class Player {
 	//Uses the currently selected item if possible, otherwise returns error message
 	public String use(String item) {
 		for (Item i : inventory) {
-			if (i.getName().equals(item)) {
-				if (i.getUseRoom().equals(room.getName()))
-					return (i.getUse());
+			if (i.getName().toLowerCase().equals(item)) {
+				if(i.getName().equals("Flash_drive")) {
+					if (i.getUseRoom().equals(room.getName())) {
+						inventory.remove(i);
+						return ("Congradulations! You've solved the mystery and finished the game!");
+					}
+				}
+				else {
+					if (i.getUseRoom().equals(room.getName())){
+						inventory.remove(i);
+						return ("You've succesfully used the " + item + "!");
+					}
+						
+				}	
 			}
+			else {
+				return ("You cannot use this item.");
+			}
+			
 		}
-		return ("This item is not in your inventory.");
+		return ("Please select an item.");
 	}
 
 	//returns the player's inventory as an arraylist of the item's names
@@ -101,6 +117,8 @@ public class Player {
 	public ImageIcon roomImage() {
 		return room.getImage();
 	}
+	
+	
 
 	//returns an arraylist of the current room's exits
 	public ArrayList<String> exits(){
