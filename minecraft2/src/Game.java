@@ -109,13 +109,24 @@ public class Game extends Observable {
 				"Seems like some folks have decided to hole up here. I wonder if anyone could use some help.",
 				"Such a peaceful stream, wonder if people ever accidentally drop their stuff in it."));
 		ArrayList<String> catdialogue = new ArrayList<>(Arrays.asList("Meow","Purr","Leave this house, mortal being."));
-		ArrayList<String> oldladydialogue = new ArrayList<>();
+		ArrayList<String> oldladydialogue = new ArrayList<>(Arrays.asList("Oh my bucket! Thank you so much for getting this for me dear.",
+				"Could you help me with something dear? I've lost my precious antique bucket, would you mind looking for it?",
+				"My life is so much better now that I've got my bucket back, it's all thanks to you."));
+		ArrayList<String> caesardialogue = new ArrayList<>(Arrays.asList("Ah! The block I've been missing! Thank you for returning it to me my friend.",
+				"Excuse me, would you happen to be some sort of adventerer? One of my cinderblocks is missing and I cannot rest until I add it back to the pile where it belongs.",
+				"Now that this rubble is in order I can continue my search for my comrade. Jojo must be around here somewhere..."));
+		ArrayList<String> scientistdialogue = new ArrayList<>(Arrays.asList("...", "Oh it's you. Well by the state of everything the experiment must've worked. What's that? You don't remember anything? Well all I can say is get to the lab, you'll find some answers there.",
+				""));
 		StaticMob oldlady = new StaticMob("Old Lady", oldladydialogue);
+		StaticMob caesar = new StaticMob("Caesar Zepelli", caesardialogue);
+		StaticMob scientist = new StaticMob("Scientist", scientistdialogue);
 		Mob tom = new Mob("Tom",guestroom,tomdialogue,this,tomimg);
 		Mob cat = new Mob ("Cat", livingroom, catdialogue, this,catimg);
 		guestroom.addMob(tom);
 		livingroom.addMob(cat);
 		shelter.addStaticMob(oldlady);
+		frontyard.addStaticMob(scientist);
+		rubblepile.addStaticMob(caesar);
 		addObserver(tom);
 		addObserver(cat);
 		addObserver(gui1);
