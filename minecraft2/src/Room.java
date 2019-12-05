@@ -11,6 +11,7 @@ public class Room {
     private ArrayList<Item> items;
     private ImageIcon image;
     private ArrayList<Mob> mobs;
+    private StaticMob staticmob;
 
     /*
      * @param exits
@@ -59,6 +60,14 @@ public class Room {
     //returns the name of a room
     public String getName(){
         return this.name;
+    }
+
+    public void addStaticMob(StaticMob mob){
+        staticmob = mob;
+
+    }
+    public StaticMob getStaticmob(){
+        return staticmob;
     }
 
     public void addMob(Mob mob){
