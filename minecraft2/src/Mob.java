@@ -69,6 +69,16 @@ public class Mob implements Runnable, Observer {
         }
 		return null;
     }
+    
+    public String pet() {
+    	if(this.name.equals("Cat")) {
+    		return dialogue.get(1);
+    	} else if(this.name.equals("Tom")) {
+    		return dialogue.get(9);
+    	} else {
+    		return null;
+    	}
+    }
 
     /*The run method is responsible for moving the mobs
      * It generates a random number between 11 and 20 and the mob will move at that interval after the start time has elapsed
