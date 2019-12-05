@@ -203,8 +203,7 @@ public class GUI implements Observer {
                     String no_item = "No items in inventory";
                     error.setText(no_item);
                 } else {
-                    player.use(player.getInventory().get(0).toLowerCase());
-                    error.setText("");
+                    invLabel.setText(player.use(inv.getSelectedItem().toString().toLowerCase()));
 
                 }
             }
