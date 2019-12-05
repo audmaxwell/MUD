@@ -45,7 +45,7 @@ public class Player {
 			return ("You cannot go this way.");
 		}
 	}
-	
+
 
 
 	//Takes an item from the current room if it contains one, otherwise returns error message
@@ -83,21 +83,23 @@ public class Player {
 						return ("Congradulations! You've solved the mystery and finished the game!");
 					}
 				}
-				else {
-					if (i.getUseRoom().equals(room.getName())){
+				else if (i.getUseRoom().equals(room.getName())){
 						inventory.remove(i);
 						return ("You've succesfully used the " + item + "!");
 					}
-						
-				}	
+				else {
+					return ("You cannot use this item.");
+				}
+				}
+
 			}
-			else {
-				return ("You cannot use this item.");
-			}
-			
+
+		return("Please select an item.");
+
+
 		}
-		return ("Please select an item.");
-	}
+
+
 
 	//returns the player's inventory as an arraylist of the item's names
 	public ArrayList<String> getInventory(){
@@ -117,8 +119,8 @@ public class Player {
 	public ImageIcon roomImage() {
 		return room.getImage();
 	}
-	
-	
+
+
 
 	//returns an arraylist of the current room's exits
 	public ArrayList<String> exits(){
