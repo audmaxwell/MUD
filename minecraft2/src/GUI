@@ -347,11 +347,6 @@ public class GUI implements Observer {
                 SwingUtilities.updateComponentTreeUI(mobPanel);
             }
         }
-        else if(player.getRoom().equals("Shelter")){
-            ImageIcon oldlady = new ImageIcon("src/mobs/oldwoman.jpg");
-            mobpic.setIcon(oldlady);
-            SwingUtilities.updateComponentTreeUI(mobPanel);
-        }
         else{
             mobtext.setText("There is nobody around...");
             mobpic.setIcon(null);
