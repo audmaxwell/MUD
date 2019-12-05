@@ -301,6 +301,14 @@ public class GUI implements Observer {
 
             }
         });
+        
+        pet.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if(player.getRoomobj().getMob() != null) {
+        			mobtext.setText(player.getRoomobj().getMob().get(0).pet());
+        		}
+        	}
+        });
 
         gameFrame = new JFrame("game window");
         gameFrame.setResizable(false);
