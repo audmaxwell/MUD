@@ -112,15 +112,15 @@ public class Game extends Observable {
 		ArrayList<String> oldladydialogue = new ArrayList<>(Arrays.asList("Oh my bucket! Thank you so much for getting this for me dear.",
 				"Could you help me with something dear? I've lost my precious antique bucket, would you mind looking for it?",
 				"My life is so much better now that I've got my bucket back, it's all thanks to you.",
-				"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
+				"Im sorry dear but I'm afraid that this isn't my bucket. You know what a bucket looks like don't you?"));
 		ArrayList<String> caesardialogue = new ArrayList<>(Arrays.asList("Ah! The block I've been missing! Thank you for returning it to me my friend.",
 				"Excuse me, would you happen to be some sort of adventurer? One of my cinder blocks is missing and I cannot rest until I add it back to the pile where it belongs.",
 				"Now that this rubble is in order I can continue my search for my comrade. Jojo must be around here somewhere...",
-				"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
+				"Huh? This isn't my missing cinder block..."));
 		ArrayList<String> scientistdialogue = new ArrayList<>(Arrays.asList("...",
 				"Oh it's you. Well by the state of everything the experiment must've worked. What's that? You don't remember anything? Well all I can say is get to the lab, you'll find some answers there.",
 				"",
-				"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
+				"Are you trying to give this to me? Sorry I don't think I need this."));
 		StaticMob oldlady = new StaticMob("Old Lady", oldladydialogue, "Bucket");
 		StaticMob caesar = new StaticMob("Caesar Zepelli", caesardialogue, "Cinder Block");
 		StaticMob scientist = new StaticMob("Scientist", scientistdialogue, "");
@@ -148,13 +148,13 @@ public class Game extends Observable {
 		notifyObservers();
 	}
 
-	/**
+	/*
 	 * main creates a game and GUI object, passes the player from game into the GUI constructor
 	 * uses .startGame method in GUI to run the program
 	 * @param args
 	 */
 		//public static void main (String[]args){
-		//	Game game = new Game();
+			//Game game = new Game();
 
 
 		//}
