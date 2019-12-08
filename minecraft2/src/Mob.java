@@ -42,47 +42,55 @@ public class Mob implements Runnable, Observer {
             return dialogue.get(0);
         }
         else if(this.name.equals("Tom")) {
-        	switch(this.room.getName()) {
-        	case "Hallway":
-        		return dialogue.get(0);
-			case "Guest Room":
-        		return dialogue.get(1);
-			case "Living Room":
-        		return dialogue.get(2);
-			case "Kitchen":
-        		return dialogue.get(3);
-			case "Basement":
-        		return dialogue.get(4);
-			case "Front Yard":
-        		return dialogue.get(5);
-			case "Rubble Pile":
-        		return dialogue.get(6);
-        	case "Shelter":
-        		return dialogue.get(7);
-			case "Stream":
-        		return dialogue.get(8);
-        	}
+            switch(this.room.getName()) {
+                case "Hallway":
+                    return dialogue.get(0);
+                case "Guest Room":
+                    return dialogue.get(1);
+                case "Living Room":
+                    return dialogue.get(2);
+                case "Kitchen":
+                    return dialogue.get(3);
+                case "Basement":
+                    return dialogue.get(4);
+                case "Front Yard":
+                    return dialogue.get(5);
+                case "Rubble Pile":
+                    return dialogue.get(6);
+                case "Shelter":
+                    return dialogue.get(7);
+                case "Stream":
+                    return dialogue.get(8);
+            }
         }
         else{
             Random rand = new Random();
             return dialogue.get(rand.nextInt(dialogue.size()));
         }
-		return null;
+        return null;
     }
-    
+    public String give(){
+        if(this.name.equals("Tom")){
+            return this.dialogue.get(10);
+        }
+        else{
+            return this.dialogue.get(0);
+        }
+    }
+
     public String pet() {
-    	if(this.name.equals("Cat")) {
-    		return dialogue.get(1);
-    	} else if(this.name.equals("Tom")) {
-    		return dialogue.get(9);
-    	} else {
-    		return null;
-    	}
+        if(this.name.equals("Cat")) {
+            return dialogue.get(1);
+        } else if(this.name.equals("Tom")) {
+            return dialogue.get(9);
+        } else {
+            return null;
+        }
     }
 
     /*The run method is responsible for moving the mobs
      * It generates a random number between 11 and 20 and the mob will move at that interval after the start time has elapsed
-     * 
+     *
      */
     @Override
     public void run() {
