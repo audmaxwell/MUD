@@ -1,411 +1,44 @@
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
 
-/**
- * GUI class to manage all visual components
- */
-public class GUI implements Observer {
-
-    private Player player;
-    private JPanel playerPanel;
-    private JLabel center;
-    private JTextArea invLabel;
-    private JLabel mobpic;
-    private JComboBox<String> roominv;
-    private JPanel invPanel;
-    private Game game;
-    private JPanel mobPanel;
-    private JTextArea mobtext;
-    private JFrame gameFrame;
-
-    /**
-     * GUI constructor takes in a player to perform all commands and operations
-     * @param player
-     */
-    public GUI(Player player, Game game){
-        this.player = player;
-        this.center = new JLabel();
-        this.startGame();
-        this.game = game;
-
+public class StaticMob {
+    private boolean hasItem;
+    private String item;
+    private ArrayList<String> dialogue;
+    private String name;
+    public StaticMob(String name, ArrayList<String> dialogue, String item){
+        this.hasItem = false;
+        this.item = item;
+        this.dialogue = dialogue;
+        this.name = name;
 
     }
+    public boolean isHasItem(){
+        return this.hasItem;
+    }
+    public String getName(){
+        return this.name;
+    }
+    public String talk(){
+        if(!this.hasItem){
+            return this.dialogue.get(1);
+        }
+        else{
+            return this.dialogue.get(2);
+        }
+    }
+    public String give(String item){
+        if(item.equals(this.item)){
+            this.hasItem = true;
+            return this.dialogue.get(0);
 
-    /**
-     * startGame method creates two windows; one for all movement commands, room images and descriptions,
-     * the other window handles inventory and inventory commands
-     */
-    public void startGame(){
-        JButton forwards = new JButton("forwards");
-        JButton backwards = new JButton("backwards");
-        JButton left = new JButton("left");
-        JButton right = new JButton("right");
-        JButton up = new JButton("up");
-        JButton down = new JButton("down");
-        JButton exit = new JButton("exit");
-
-        JButton examine = new JButton("Examine");
-        JButton drop = new JButton("Drop");
-        JButton use = new JButton("Use");
-        JButton take = new JButton("Take");
-        invLabel = new JTextArea("Your inventory does not contain any items.");
-        Border border = BorderFactory.createLineBorder(Color.BLACK);
-        invLabel.setBorder(BorderFactory.createCompoundBorder(border,
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-        invLabel.setEditable(false);
-        invLabel.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        invLabel.setWrapStyleWord(true);
-        invLabel.setLineWrap(true);
-        JLabel error = new JLabel("");
-
-        JButton talk = new JButton("Talk");
-        JButton pet = new JButton("Pet");
-        JButton give = new JButton("Give");
-        give.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        pet.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        talk.setFont(new Font("Helvetica", Font.PLAIN, 40));
-
-
-        JComboBox<String> inv = new JComboBox<>();
-        inv.setFont(new Font("Helvetica", Font.PLAIN, 80));
-        roominv = new JComboBox<>();
-        roominv.setFont(new Font("Helvetica", Font.PLAIN, 80));
-
-        invPanel = new JPanel();
-        invPanel.setLayout(new GridLayout(4,1));
-
-        JTextArea desc = new JTextArea(player.look());
-        desc.setWrapStyleWord(true);
-        desc.setBorder(BorderFactory.createCompoundBorder(border,
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-        desc.setEditable(false);
-        desc.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        desc.setLineWrap(true);
-
-
-        forwards.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("forwards") + player.exits());
-                center.setIcon(player.roomImage());
-                comboTime();
-
-            }
-        });
-        backwards.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("backwards")  + player.exits());
-                center.setIcon(player.roomImage());
-                comboTime();
-
-
-            }
-        });
-        up.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("up")  + player.exits());
-                center.setIcon(player.roomImage());
-                comboTime();
-            }
-        });
-        down.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("down")  + player.exits());
-                center.setIcon(player.roomImage());
-                comboTime();
-
-
-            }
-        });
-        left.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("left") + player.exits());
-                center.setIcon(player.roomImage());
-                comboTime();
-
-            }
-        });
-        right.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                desc.setText(player.move("right") + player.exits());
-                center.setIcon(player.roomImage());
-                comboTime();
-
-            }
-        });
-
-
-        playerPanel = new JPanel();
-        playerPanel.setLayout( new GridLayout(4,1));
-        //frame.setSize(1000, 1000);
-        ImageIcon roomimg = player.roomImage();
-        center.setIcon(roomimg);
-
-        //desc.setPreferredSize(new Dimension(300,175));
-        JPanel commands = new JPanel();
-        //commands.setPreferredSize(new Dimension(200,300));
-        commands.setLayout(new GridLayout(3,2));
-        commands.add(forwards);
-        commands.add(backwards);
-        commands.add(right);
-        commands.add(left);
-        commands.add(up);
-        commands.add(down);
-        forwards.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        backwards.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        left.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        right.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        up.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        down.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        desc.setSize(500,200);
-        playerPanel.add(center);
-        playerPanel.add(desc);
-        playerPanel.add(commands);
-        playerPanel.add(exit);
-        //frame.setVisible(true);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                game.gameIsOver();
-                game.someoneMoves();
-            }
-        });
-
-
-
-
-
-        examine.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(player.getInventory().size() != 0) {
-                    if (inv.getSelectedItem() == null) {
-                        invLabel.setText("Please select an item.");
-                    }
-                    else{
-                        String item_desc = player.examine(inv.getSelectedItem().toString());
-                        invLabel.setText(item_desc);
-                        SwingUtilities.updateComponentTreeUI(invPanel);
-                    }
-
-                }
-            }
-        });
-
-
-/**
- * use actionlistener currently returns nothing as no items can be used until we implement the MOB class
- */
-        use.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(player.getInventory().size() == 0) {
-                    String no_item = "No items in inventory";
-                    error.setText(no_item);
-                } else {
-                    invLabel.setText(player.use(inv.getSelectedItem().toString().toLowerCase()));
-
-                }
-            }
-        });
-
-        drop.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(player.getInventory().size() != 0) {
-                    player.drop(inv.getSelectedItem().toString().toLowerCase());
-                    inv.removeItem(inv.getSelectedItem());
-                    roominv.addItem(player.getRoomobj().getItems().get(player.getRoomobj().getItems().size() - 1).getName());
-                    error.setText("");
-                    invLabel.setText("");
-                    desc.setText(player.look());
-                }
-                else if (inv.getSelectedItem() == null){
-                    error.setText("Please select an item.");
-                }
-            }
-        });
-
-
-        take.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(player.getRoomobj().getItems().size() == 0) {
-                    error.setText("There are no items in this room");
-                } else {
-                    if (roominv.getSelectedItem() == null){
-                        error.setText("Please select an item.");
-                    }else {
-                        player.take(roominv.getSelectedItem().toString().toLowerCase());
-                        int i = (player.getInventory().size() - 1);
-                        inv.addItem(player.getInventory().get(i));
-                        desc.setText(player.look());
-                        error.setText("");
-                        roominv.removeItem(roominv.getSelectedItem());
-                        error.setText("");
-                        invLabel.setText("");
-                        desc.setText(player.look());
-                        SwingUtilities.updateComponentTreeUI(invPanel);
-                        if(inv.getItemCount() == 0) {
-                            invPanel.remove(inv);
-                            desc.setText(player.look());
-                            SwingUtilities.updateComponentTreeUI(invPanel);
-                        }
-                    }
-
-                }
-
-            }
-        });
-        JPanel invComs = new JPanel();
-        //invComs.setPreferredSize(new Dimension(200,300));
-        invComs.setLayout(new GridLayout(4,1));
-        invComs.add(take);
-        invComs.add(drop);
-        invComs.add(examine);
-        invComs.add(use);
-        take.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        drop.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        examine.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        use.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        invPanel.add(roominv);
-        invPanel.add(invLabel);
-        invPanel.add(invComs);
-        invPanel.add(inv);
-        // invFrame.setVisible(true);
-        //invFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        mobPanel = new JPanel();
-        mobPanel.setLayout(new GridLayout(4,1));
-        JPanel mobComs = new JPanel();
-        mobComs.setLayout(new GridLayout(3,1));
-        mobComs.add(talk);
-        mobComs.add(pet);
-        mobComs.add(give);
-        mobtext = new JTextArea("There is nobody around...");
-        mobtext.setBorder(BorderFactory.createCompoundBorder(border,
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-        mobtext.setEditable(false);
-        mobtext.setWrapStyleWord(true);
-        mobtext.setFont(new Font("Helvetica", Font.PLAIN, 40));
-        mobtext.setLineWrap(true);
-        mobpic = new JLabel();
-        mobPanel.add(mobpic);
-        mobPanel.add(mobtext);
-        mobPanel.add(mobComs);
-
-
-        talk.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(player.getRoomobj().getMob() != null){
-                    mobtext.setText(player.getRoomobj().getMob().get(0).talk());
-
-                }
-                else if(player.getRoomobj().getStaticmob() != null){
-                    mobtext.setText(player.getRoomobj().getStaticmob().talk());
-                }
-
-            }
-        });
-
-        give.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(player.getInventory().size() == 0){
-                }
-                else if(player.getRoomobj().getStaticmob() != null){
-                    mobtext.setText(player.give(inv.getSelectedItem().toString()));
-                    if(player.getRoomobj().getStaticmob().isHasItem()){
-                        inv.removeItem(inv.getSelectedItem());
-                    }
-                }
-                else if(player.getRoomobj().getMob() != null){
-                    mobtext.setText(player.give(inv.getSelectedItem().toString()));
-                }
-
-            }
-        });
-
-        pet.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(player.getRoomobj().getMob() != null) {
-                    mobtext.setText(player.getRoomobj().getMob().get(0).pet());
-                }
-            }
-        });
-
-        gameFrame = new JFrame("game window");
-        //gameFrame.setResizable(false);
-        GridLayout gameLayout = new GridLayout(1,3);
-        gameFrame.setLayout(gameLayout);
-        // gameFrame.add(invPanel, BorderLayout.LINE_START);
-        gameFrame.add(invPanel);
-        gameFrame.add(playerPanel);
-        gameFrame.add(mobPanel);
-        //gameFrame.add(mobPanel, BorderLayout.LINE_END);
-        gameFrame.pack();
-        gameFrame.setVisible(true);
-        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
+        }
+        else{
+            return this.dialogue.get(3);
+        }
     }
 
 
-    public void comboTime(){
-        for(int i = 0; i < roominv.getItemCount() ; i++){
-            roominv.removeItemAt(i--);
-        }
-        for(int i = 0; i < player.getRoomobj().getItems().size() ; i++){
-            roominv.addItem(player.getRoomobj().getItems().get(i).getName());
-        }
-        if(player.getRoomobj().getStaticmob() != null){
-            mobtext.setText("");
-        }
-        game.someoneMoves();
-        SwingUtilities.updateComponentTreeUI(invPanel);
-
-
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if(game.isOver){
-            System.exit(0);
-        }
-        else if(player.getRoom().equals("Shelter")){
-            ImageIcon oldladypic = new ImageIcon("src/mobs/oldlady.jpg");
-            mobpic.setIcon(oldladypic);
-        }
-        else if(player.getRoom().equals("Rubble Pile")){
-            ImageIcon caesarpic = new ImageIcon("src/mobs/caesar.jpg");
-            mobpic.setIcon(caesarpic);
-        }
-        else if(player.getRoomobj().getMob() != null){
-            for(Mob mob:player.getRoomobj().getMob()){
-                mobpic.setIcon(mob.getImage());
-                mobtext.setText("");
-                invLabel.setText("");
-
-                SwingUtilities.updateComponentTreeUI(mobPanel);
-            }
-        }
-        else if(player.getRoomobj().getStaticmob() == null && player.getRoomobj().getMob() == null){
-            mobtext.setText("There is nobody around...");
-            mobpic.setIcon(null);
-            SwingUtilities.updateComponentTreeUI(mobPanel);
-        }
-
-
-    }
 }
