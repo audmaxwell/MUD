@@ -15,7 +15,7 @@ public class GUI implements Observer {
     private Player player;
     private JPanel playerPanel;
     private JLabel center;
-    private JLabel invLabel;
+    private JTextArea invLabel;
     private JLabel mobpic;
     private JComboBox<String> roominv;
     private JPanel invPanel;
@@ -54,8 +54,14 @@ public class GUI implements Observer {
         JButton drop = new JButton("Drop");
         JButton use = new JButton("Use");
         JButton take = new JButton("Take");
-        invLabel = new JLabel("Your inventory does not contain any items.");
+        invLabel = new JTextArea("Your inventory does not contain any items.");
+        Border border = BorderFactory.createLineBorder(Color.BLACK);
+        invLabel.setBorder(BorderFactory.createCompoundBorder(border,
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+        invLabel.setEditable(false);
         invLabel.setFont(new Font("Helvetica", Font.PLAIN, 40));
+        invLabel.setWrapStyleWord(true);
+        invLabel.setLineWrap(true);
         JLabel error = new JLabel("");
 
         JButton talk = new JButton("Talk");
@@ -67,12 +73,18 @@ public class GUI implements Observer {
 
 
         JComboBox<String> inv = new JComboBox<>();
+        inv.setFont(new Font("Helvetica", Font.PLAIN, 80));
         roominv = new JComboBox<>();
+        roominv.setFont(new Font("Helvetica", Font.PLAIN, 80));
 
         invPanel = new JPanel();
         invPanel.setLayout(new GridLayout(4,1));
 
         JTextArea desc = new JTextArea(player.look());
+        desc.setWrapStyleWord(true);
+        desc.setBorder(BorderFactory.createCompoundBorder(border,
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+        desc.setEditable(false);
         desc.setFont(new Font("Helvetica", Font.PLAIN, 40));
         desc.setLineWrap(true);
 
@@ -266,10 +278,10 @@ public class GUI implements Observer {
         drop.setFont(new Font("Helvetica", Font.PLAIN, 40));
         examine.setFont(new Font("Helvetica", Font.PLAIN, 40));
         use.setFont(new Font("Helvetica", Font.PLAIN, 40));
+        invPanel.add(roominv);
         invPanel.add(invLabel);
         invPanel.add(invComs);
         invPanel.add(inv);
-        invPanel.add(roominv);
         // invFrame.setVisible(true);
         //invFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -281,6 +293,10 @@ public class GUI implements Observer {
         mobComs.add(pet);
         mobComs.add(give);
         mobtext = new JTextArea("There is nobody around...");
+        mobtext.setBorder(BorderFactory.createCompoundBorder(border,
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+        mobtext.setEditable(false);
+        mobtext.setWrapStyleWord(true);
         mobtext.setFont(new Font("Helvetica", Font.PLAIN, 40));
         mobtext.setLineWrap(true);
         mobpic = new JLabel();
@@ -296,24 +312,44 @@ public class GUI implements Observer {
                     mobtext.setText(player.getRoomobj().getMob().get(0).talk());
 
                 }
-
+                else if(player.getRoomobj().getStaticmob() != null){
+                    mobtext.setText(player.getRoomobj().getStaticmob().talk());
+                }
 
             }
         });
-        
+
+        give.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(player.getInventory().size() == 0){
+                }
+                else if(player.getRoomobj().getStaticmob() != null){
+                    mobtext.setText(player.give(inv.getSelectedItem().toString()));
+                    if(player.getRoomobj().getStaticmob().isHasItem()){
+                        inv.removeItem(inv.getSelectedItem());
+                    }
+                }
+                else if(player.getRoomobj().getMob() != null){
+                    mobtext.setText(player.give(inv.getSelectedItem().toString()));
+                }
+
+            }
+        });
+
         pet.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if(player.getRoomobj().getMob() != null) {
-        			mobtext.setText(player.getRoomobj().getMob().get(0).pet());
-        		}
-        	}
+            public void actionPerformed(ActionEvent e) {
+                if(player.getRoomobj().getMob() != null) {
+                    mobtext.setText(player.getRoomobj().getMob().get(0).pet());
+                }
+            }
         });
 
         gameFrame = new JFrame("game window");
-        gameFrame.setResizable(false);
+        //gameFrame.setResizable(false);
         GridLayout gameLayout = new GridLayout(1,3);
         gameFrame.setLayout(gameLayout);
-       // gameFrame.add(invPanel, BorderLayout.LINE_START);
+        // gameFrame.add(invPanel, BorderLayout.LINE_START);
         gameFrame.add(invPanel);
         gameFrame.add(playerPanel);
         gameFrame.add(mobPanel);
@@ -333,7 +369,9 @@ public class GUI implements Observer {
         for(int i = 0; i < player.getRoomobj().getItems().size() ; i++){
             roominv.addItem(player.getRoomobj().getItems().get(i).getName());
         }
-        invPanel.add(roominv);
+        if(player.getRoomobj().getStaticmob() != null){
+            mobtext.setText("");
+        }
         game.someoneMoves();
         SwingUtilities.updateComponentTreeUI(invPanel);
 
@@ -345,6 +383,14 @@ public class GUI implements Observer {
         if(game.isOver){
             System.exit(0);
         }
+        else if(player.getRoom().equals("Shelter")){
+            ImageIcon oldladypic = new ImageIcon("src/mobs/oldlady.jpg");
+            mobpic.setIcon(oldladypic);
+        }
+        else if(player.getRoom().equals("Rubble Pile")){
+            ImageIcon caesarpic = new ImageIcon("src/mobs/caesar.jpg");
+            mobpic.setIcon(caesarpic);
+        }
         else if(player.getRoomobj().getMob() != null){
             for(Mob mob:player.getRoomobj().getMob()){
                 mobpic.setIcon(mob.getImage());
@@ -354,7 +400,7 @@ public class GUI implements Observer {
                 SwingUtilities.updateComponentTreeUI(mobPanel);
             }
         }
-        else{
+        else if(player.getRoomobj().getStaticmob() == null && player.getRoomobj().getMob() == null){
             mobtext.setText("There is nobody around...");
             mobpic.setIcon(null);
             SwingUtilities.updateComponentTreeUI(mobPanel);
