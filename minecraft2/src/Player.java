@@ -45,7 +45,7 @@ public class Player {
 			return ("You cannot go this way.");
 		}
 	}
-
+	
 
 
 	//Takes an item from the current room if it contains one, otherwise returns error message
@@ -80,26 +80,29 @@ public class Player {
 				if(i.getName().equals("Flash_drive")) {
 					if (i.getUseRoom().equals(room.getName())) {
 						inventory.remove(i);
-						return ("Congradulations! You've solved the mystery and finished the game!");
+						return ("You plug the flash drive into the computer. A small window opens up containing several files, one is labeled 'ExperimentSummary.txt' "
+								+ "You open the file and glance at the author name. It's your name in the file. You start reading the contents of the file that is "
+								+ "somehow written by you. According to what you read, you were a scientist doing research on nuclear fusion. "
+								+ "The file details an experiment to test a small-scale fusion reactor. You read how there was a chance the device could fail and the "
+								+ "radiation that would be released in failure could cause damage to yourself and possibly the area around them. However there were supposed to "
+								+ "be safety measures in place. Clearly the experiment failed, causing you to lose your memory and destroy the surrounding area.");
 					}
 				}
-				else if (i.getUseRoom().equals(room.getName())){
+				else {
+					if (i.getUseRoom().equals(room.getName())){
 						inventory.remove(i);
 						return ("You've succesfully used the " + item + "!");
 					}
-				else {
-					return ("You cannot use this item.");
-				}
-				}
-
+						
+				}	
 			}
-
-		return("Please select an item.");
-
-
+			else {
+				return ("You cannot use this item.");
+			}
+			
 		}
-
-
+		return ("Please select an item.");
+	}
 
 	//returns the player's inventory as an arraylist of the item's names
 	public ArrayList<String> getInventory(){
@@ -119,8 +122,8 @@ public class Player {
 	public ImageIcon roomImage() {
 		return room.getImage();
 	}
-
-
+	
+	
 
 	//returns an arraylist of the current room's exits
 	public ArrayList<String> exits(){
