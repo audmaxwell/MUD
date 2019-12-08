@@ -75,21 +75,19 @@ public class Game extends Observable {
 
 		Item letter = new Item("Letter", "A small letter that seems to be addressed to you.", "", "K");
 		Item picture = new Item("Picture", "A framed picture of you alongside what seems to be a family.", "", "K");
-		Item cinder_block = new Item("Cinder_block", "A heavy piece of concrete, seems very sturdy.", "", "K");
-		Item flash_drive = new Item("Flash_drive", "A small flash drive given to you by the scientist. You'll need some sort of computer to see what's on it.", "Lab", "K");
+		Item cinder_block = new Item("Cinder Block", "A heavy piece of concrete, seems very sturdy.", "", "K");
+		Item flash_drive = new Item("Flash Drive", "A small flash drive given to you by the scientist. You'll need some sort of computer to see what's on it.", "Lab", "K");
 		Item eggs = new Item("Eggs", "A carton of a dozen eggs. Have probably been rotten for a while...", "Rubble_pile", "You insert the flash drive into the computer and a list of files and documents pop up on screen. Your eyes are drawn to a document labeled ‘Final experiment thoughts’.");
-		Item key = new Item("Key", "A small brass key. Perhaps it unlocks a door somewhere.", "Basement", "You put the key into the lock and turn, prepared for it to do nothing. To your surprise the key turns and the door opens. You see a dark room through the doorway. There must be a reason as to why this room has been locked away...");
 		Item bucket = new Item("Bucket", "A yellow plastic bucket, probably belongs to someone.", "Shelter", "K");
 		Item computer = new Item("Computer", "A standard desktop computer, looks like a flash drive could be plugged into it.", "Lab", "K");
 
 		guestroom.addItem(letter);
 		livingroom.addItem(picture);
 		rubblepile.addItem(cinder_block);
-		shelter.addItem(flash_drive);
-		shelter.addItem(key);
 		stream.addItem(bucket);
 		kitchen.addItem(eggs);
 		basement.addItem(computer);
+		shelter.addItem(flash_drive);
 		this.player =  new Player(bedroom);
 		ImageIcon tomimg = new ImageIcon("src/mobs/tom.jpg");
 		ImageIcon catimg = new ImageIcon("src/mobs/cat.jpg");
@@ -107,25 +105,31 @@ public class Game extends Observable {
 				"Someone really ought mow this lawn. I happen to know a guy who'll do it for only $42.",
 				"You see that huge pile of rubble? I wonder how many pieces are in it. I'd guess 42.",
 				"Seems like some folks have decided to hole up here. I wonder if anyone could use some help.",
-				"Such a peaceful stream, wonder if people ever accidentally drop their stuff in it."));
+				"Such a peaceful stream, wonder if people ever accidentally drop their stuff in it.",
+				"Uhh, please stop that.",
+				"Unless you have 41 others, I don't want that."));
 		ArrayList<String> catdialogue = new ArrayList<>(Arrays.asList("Meow","Purr","Leave this house, mortal being."));
 		ArrayList<String> oldladydialogue = new ArrayList<>(Arrays.asList("Oh my bucket! Thank you so much for getting this for me dear.",
 				"Could you help me with something dear? I've lost my precious antique bucket, would you mind looking for it?",
-				"My life is so much better now that I've got my bucket back, it's all thanks to you."));
+				"My life is so much better now that I've got my bucket back, it's all thanks to you.",
+				"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
 		ArrayList<String> caesardialogue = new ArrayList<>(Arrays.asList("Ah! The block I've been missing! Thank you for returning it to me my friend.",
-				"Excuse me, would you happen to be some sort of adventerer? One of my cinderblocks is missing and I cannot rest until I add it back to the pile where it belongs.",
-				"Now that this rubble is in order I can continue my search for my comrade. Jojo must be around here somewhere..."));
-		ArrayList<String> scientistdialogue = new ArrayList<>(Arrays.asList("...", "Oh it's you. Well by the state of everything the experiment must've worked. What's that? You don't remember anything? Well all I can say is get to the lab, you'll find some answers there.",
-				""));
-		StaticMob oldlady = new StaticMob("Old Lady", oldladydialogue);
-		StaticMob caesar = new StaticMob("Caesar Zepelli", caesardialogue);
-		StaticMob scientist = new StaticMob("Scientist", scientistdialogue);
+				"Excuse me, would you happen to be some sort of adventurer? One of my cinder blocks is missing and I cannot rest until I add it back to the pile where it belongs.",
+				"Now that this rubble is in order I can continue my search for my comrade. Jojo must be around here somewhere...",
+				"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
+		ArrayList<String> scientistdialogue = new ArrayList<>(Arrays.asList("...",
+				"Oh it's you. Well by the state of everything the experiment must've worked. What's that? You don't remember anything? Well all I can say is get to the lab, you'll find some answers there.",
+				"",
+				"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
+		StaticMob oldlady = new StaticMob("Old Lady", oldladydialogue, "Bucket");
+		StaticMob caesar = new StaticMob("Caesar Zepelli", caesardialogue, "Cinder Block");
+		StaticMob scientist = new StaticMob("Scientist", scientistdialogue, "");
 		Mob tom = new Mob("Tom",guestroom,tomdialogue,this,tomimg);
 		Mob cat = new Mob ("Cat", livingroom, catdialogue, this,catimg);
 		guestroom.addMob(tom);
 		livingroom.addMob(cat);
 		shelter.addStaticMob(oldlady);
-		frontyard.addStaticMob(scientist);
+		lab.addStaticMob(scientist);
 		rubblepile.addStaticMob(caesar);
 		addObserver(tom);
 		addObserver(cat);
