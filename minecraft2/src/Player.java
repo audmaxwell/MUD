@@ -11,20 +11,35 @@ public class Player {
 
 	}
 
-	//returns the room that the player is in
+	/**
+	 *
+	 * @return room name
+	 */
 	public String getRoom() {
 		return room.getName();
 	}
+
+	/**
+	 *
+	 * @return room object
+	 */
 	public Room getRoomobj(){
 		return room;
 	}
 
-	//returns the items that are in the room the player is in
+	/**
+	 *
+	 * @return list of items in the player's room
+	 */
 	public ArrayList<Item> getRoomItems() {
 		return room.getItems();
 	}
 
-	//Returns the description of the item the player chooses
+	/**
+	 *
+	 * @param item
+	 * @return description of the item selected in jcombobox
+	 */
 	public String examine(String item){
 		for (Item i: inventory){
 			if (i.getName().equals(item)){
@@ -34,7 +49,11 @@ public class Player {
 		return ("This item does not exist in your inventory.");
 	}
 
-	//Moves the player based on whether the direction input matches a possible exit for the current room
+	/**
+	 *
+	 * @param direction
+	 * @return correct text for when player moves to a new location
+	 */
 	public String move(String direction) {
 		HashMap<String, Room> exits = room.getExits();
 		if (exits.containsKey(direction)) {
@@ -47,8 +66,12 @@ public class Player {
 	}
 
 
-
-	//Takes an item from the current room if it contains one, otherwise returns error message
+	/**
+	 *
+	 * @param item
+	 * adds an item to your inventory
+	 * @return a statement saying you have taken that item
+	 */
 	public String take(String item) {
 		for (Item i : room.getItems()) {
 			if (i.getName().toLowerCase().equals(item)) {
@@ -60,7 +83,11 @@ public class Player {
 		return ("This item does not exist here.");
 	}
 
-	//Drops the selected item in the current room if possible, otherwise returns error message
+	/**
+	 * drops the selected item into the player's room and removes it from the player's inventory
+	 * @param item
+	 * @return
+	 */
 	public String drop(String item) {
 		for (Item i : inventory) {
 			if (i.getName().toLowerCase().equals(item)) {
@@ -77,7 +104,7 @@ public class Player {
 	public String use(String item) {
 		for (Item i : inventory) {
 			if (i.getName().toLowerCase().equals(item)) {
-				if(i.getName().equals("Flash_drive")) {
+				if(i.getName().equals("Flash Drive")) {
 					if (i.getUseRoom().equals(room.getName())) {
 						inventory.remove(i);
 						return ("You plug the flash drive into the computer. A small window opens up containing several files, one is labeled 'ExperimentSummary.txt' "
