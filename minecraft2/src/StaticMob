@@ -8,6 +8,14 @@ public class StaticMob {
     private String item;
     private ArrayList<String> dialogue;
     private String name;
+    /*
+     * @param name
+     * @return the name of the static mob
+     * @param dialogue
+     * @return ArrayList of dialogue
+     * @param item
+     * @return the item that a static mob can be given
+     */
     public StaticMob(String name, ArrayList<String> dialogue, String item){
         this.hasItem = false;
         this.item = item;
@@ -15,12 +23,24 @@ public class StaticMob {
         this.name = name;
 
     }
+    /*
+     * checks the 'hasItem' boolean
+     * @return true or false boolean
+     */
     public boolean isHasItem(){
         return this.hasItem;
     }
+    
+    /*
+     * @return the name of the static mob
+     */
     public String getName(){
         return this.name;
     }
+    
+    /*
+     * @return dialogue based off of the hasItem boolean
+     */
     public String talk(){
         if(!this.hasItem){
             return this.dialogue.get(1);
@@ -29,6 +49,11 @@ public class StaticMob {
             return this.dialogue.get(2);
         }
     }
+    
+    /*
+     * @param item
+     * @return dialogue based off of whether item given is correct or not
+     */
     public String give(String item){
         if(item.equals(this.item)){
             this.hasItem = true;
