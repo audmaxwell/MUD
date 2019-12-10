@@ -45,7 +45,7 @@ public class Player {
 			return ("You cannot go this way.");
 		}
 	}
-	
+
 
 
 	//Takes an item from the current room if it contains one, otherwise returns error message
@@ -88,21 +88,23 @@ public class Player {
 								+ "be safety measures in place. Clearly the experiment failed, causing you to lose your memory and destroy the surrounding area.");
 					}
 				}
-				else {
-					if (i.getUseRoom().equals(room.getName())){
+				else if (i.getUseRoom().equals(room.getName())){
 						inventory.remove(i);
 						return ("You've succesfully used the " + item + "!");
 					}
-						
-				}	
+				else {
+					return ("You cannot use this item.");
+				}
+				}
+
 			}
-			else {
-				return ("You cannot use this item.");
-			}
-			
+
+		return("Please select an item.");
+
+
 		}
-		return ("Please select an item.");
-	}
+
+
 
 	//returns the player's inventory as an arraylist of the item's names
 	public ArrayList<String> getInventory(){
@@ -122,12 +124,30 @@ public class Player {
 	public ImageIcon roomImage() {
 		return room.getImage();
 	}
-	
-	
+
+
 
 	//returns an arraylist of the current room's exits
 	public ArrayList<String> exits(){
 		return this.room.exit();
+	}
+	public String give(String itemgiven){
+		String text = "";
+		if(this.getRoomobj().getStaticmob() == null){
+			text =  this.getRoomobj().getMob().get(0).give();
+		}
+		else{
+			text = this.getRoomobj().getStaticmob().give(itemgiven);
+			if(this.getRoomobj().getStaticmob().isHasItem()){
+				for(Item i: inventory){
+					if (i.getName().equals(itemgiven)){
+						inventory.remove(i);
+						return text;
+					}
+				}
+			}
+		}
+		return text;
 	}
 
 
