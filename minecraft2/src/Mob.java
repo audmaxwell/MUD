@@ -32,11 +32,15 @@ public class Mob implements Runnable, Observer {
         playerinRoom = false;
 
     }
-    //Returns a mob's image
+    /*
+     * @return room ImageIcon
+     */
     public ImageIcon getImage(){
         return image;
     }
-    //Returns dialogue based on which mob the player is talking to and will randomly pick from the available dialogue
+    /*
+     * @return dialogue based off of which mob is being spoken to and where
+     */
     public String talk(){
         if(this.name.equals("Cat")){
             return dialogue.get(0);
@@ -69,6 +73,9 @@ public class Mob implements Runnable, Observer {
         }
         return null;
     }
+    /*
+     * @return unique mob dialogue when using the 'give' button
+     */
     public String give(){
         if(this.name.equals("Tom")){
             return this.dialogue.get(10);
@@ -78,6 +85,9 @@ public class Mob implements Runnable, Observer {
         }
     }
 
+    /*
+     *@return unique dialogue for Tom and Cat when using the 'pet' button, returns null for other mobs
+     */
     public String pet() {
         if(this.name.equals("Cat")) {
             return dialogue.get(1);
