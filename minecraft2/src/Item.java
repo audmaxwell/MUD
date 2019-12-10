@@ -20,24 +20,34 @@ public class Item {
 
     }
 
-    //returns an item's name
+    /*
+     * @return name of item
+     */
     public String getName(){
         return this.name;
     }
 
-    //returns an item's use
+    /*
+     * @return calls Player.use on item
+     */
     public String getUse(){
         return this.use;
     }
-    //returns an item's description
+    
+    /*
+     * @return item's description
+     */
     public String examine() {
         return this.desc;
     }
 
-    //returns an item's use room
+    /*
+     * @return room item can be used in
+     */
     public String getUseRoom() {
         return use_room;
     }
+    
     
     @Override
     public String toString() {
