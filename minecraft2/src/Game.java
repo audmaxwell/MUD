@@ -14,8 +14,9 @@ public class Game extends Observable {
 	boolean isTaken;
 
     /**
-     * constructor initializes all rooms and items and creates player object
+     * constructor initializes all rooms, mobs, static mobs, images, exits, and items and creates player object
 	 * takes in  parameter to establish the number of players
+	 * All mob dialogue is initialized and all mobs and static mobs are added to their rooms
      */
 	public Game(int numPlayers) {
 		isOver = false;
