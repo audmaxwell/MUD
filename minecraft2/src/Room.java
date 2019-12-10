@@ -29,25 +29,37 @@ public class Room {
         this.image = image;
         mobs = new ArrayList<>();
     }
-    //Returns the items from a room's arraylist of items
+    /*
+     * @return A room's arrayList of items
+     */
     public ArrayList<Item> getItems(){
         return items;
     }
 
-    //Returns a room's image
+    /*
+     * @return A room's ImageIcon
+     */
     public ImageIcon getImage(){
         return image;
     }
-    //Adds an item to a room
+    /*
+     * @param item object
+     * adds an item to a room
+     */
     public void addItem(Item item){
         items.add(item);
 
     }
-    //Removes an item from a room
+    /*@param item object
+     * Removes an item from a room
+     */
     public void removeItem(Item item){
         items.remove(item);
     }
 
+    /*
+     * @return the mob in a room if the room is found to contain more than zero mobs, else returns null
+     */
     public ArrayList<Mob> getMob(){
         if (mobs.size() > 0){
             return mobs;
@@ -57,22 +69,38 @@ public class Room {
         }
     }
 
-    //returns the name of a room
+    /*
+     * @return name of the room
+     */
     public String getName(){
         return this.name;
     }
 
+    /*@param StaticMob object
+     * adds a static mob to a room
+     */
     public void addStaticMob(StaticMob mob){
         staticmob = mob;
 
     }
+    
+    /*
+     * @return any Static Mob present in the room
+     */
     public StaticMob getStaticmob(){
         return staticmob;
     }
 
+    /*@param mob object
+     * Adds a mob to the room
+     */
     public void addMob(Mob mob){
         mobs.add(mob);
     }
+    
+    /*@param mob object
+     * Removes a mob from the room
+     */
     public void removeMob(Mob mob){
         mobs.remove(mob);
     }
@@ -96,12 +124,16 @@ public class Room {
         return output;
     }
 
-    //Returns a room's exits
+    /*
+     *@return Hashmap of a room's exits
+     */
     public HashMap<String, Room> getExits(){
         return exits;
     }
 
-    //Returns a string of the exits that a room contains
+    /*
+     * @return the directions for a room based off of the current room and the exits
+     */
     public ArrayList<String> exit() {
         ArrayList<String> directions = new ArrayList<>();
         for(String key : exits.keySet()){
