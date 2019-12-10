@@ -86,7 +86,7 @@ public class Player {
 	/**
 	 * drops the selected item into the player's room and removes it from the player's inventory
 	 * @param item
-	 * @return
+	 * @return a statement saying item has been removed from inventory
 	 */
 	public String drop(String item) {
 		for (Item i : inventory) {
@@ -100,7 +100,11 @@ public class Player {
 	}
 
 
-	//Uses the currently selected item if possible, otherwise returns error message
+	/*
+	 * Uses the currently selected item if possible, otherwise returns error message
+	 * @param item
+	 * @return text saying player has used an item, if the flash drive is used unique text is returned
+	 */
 	public String use(String item) {
 		for (Item i : inventory) {
 			if (i.getName().toLowerCase().equals(item)) {
@@ -133,7 +137,9 @@ public class Player {
 
 
 
-	//returns the player's inventory as an arraylist of the item's names
+	/*
+	 * @return the player's inventory as an arraylist of the item's names
+	 */
 	public ArrayList<String> getInventory(){
 		ArrayList<String> inven = new ArrayList<>();
 		for(Item item: inventory){
@@ -142,22 +148,34 @@ public class Player {
 		return inven;
 	}
 
-	//calls the look method from the room class
+	/*
+	 * @return calls the look method from the room class
+	 */
 	public String look() {
 		return room.look();
 	}
 
-	//calls the roomImage method from the room class
+	/*
+	 * @return calls the roomImage method from the room class
+	 */
 	public ImageIcon roomImage() {
 		return room.getImage();
 	}
 
 
 
-	//returns an arraylist of the current room's exits
+	/*
+	 * @return an arraylist of the current room's exits
+	 */
 	public ArrayList<String> exits(){
 		return this.room.exit();
 	}
+	
+	/*
+	 * player tries to give a mob an item, if the item matches the item they want then the item is removed from inventory and text is returned
+	 * @param itemgiven
+	 * @return text pulled from mob dialogue
+	 */
 	public String give(String itemgiven){
 		String text = "";
 		if(this.getRoomobj().getStaticmob() == null){
