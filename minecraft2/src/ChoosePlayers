@@ -1,0 +1,84 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+public class ChoosePlayers extends JFrame {
+    private int numPlayers;
+    private JButton oneplayer;
+    private JButton twoplayer;
+    public ChoosePlayers(){
+        oneplayer = new JButton("One Player");
+        twoplayer = new JButton("Two Player");
+        JFrame mainmenu = new JFrame();
+        mainmenu.add(oneplayer, BorderLayout.WEST);
+        mainmenu.add(twoplayer,BorderLayout.EAST);
+        oneplayer.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Game game = new Game(1);
+                mainmenu.dispose();
+
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        twoplayer.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Game game = new Game(2);
+                mainmenu.dispose();
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        mainmenu.setSize(500,500);
+        mainmenu.setVisible(true);
+        mainmenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    }
+
+    public static void main(String[] args) {
+        ChoosePlayers start = new ChoosePlayers();
+    }
+
+}
