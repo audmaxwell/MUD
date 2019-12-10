@@ -10,12 +10,17 @@ import java.util.concurrent.Executors;
 public class Game extends Observable {
 	Player player;
 	boolean isOver;
+	boolean isWon;
+	boolean isTaken;
 
     /**
      * constructor initializes all rooms and items and creates player object
+	 * takes in  parameter to establish the number of players
      */
 	public Game(int numPlayers) {
 		isOver = false;
+		isWon = false;
+		isTaken = false;
 		HashMap<String, Room> bed_exits = new HashMap<>();
 		HashMap<String, Room> hall_exits = new HashMap<>();
 		HashMap<String, Room> guest_exits = new HashMap<>();
@@ -79,14 +84,13 @@ public class Game extends Observable {
 		Item flash_drive = new Item("Flash Drive", "A small flash drive given to you by the scientist. You'll need some sort of computer to see what's on it.", "Lab", "K");
 		Item eggs = new Item("Eggs", "A carton of a dozen eggs. Have probably been rotten for a while...", "Rubble_pile", "You insert the flash drive into the computer and a list of files and documents pop up on screen. Your eyes are drawn to a document labeled ‘Final experiment thoughts’.");
 		Item bucket = new Item("Bucket", "A yellow plastic bucket, probably belongs to someone.", "Shelter", "K");
-		Item computer = new Item("Computer", "A standard desktop computer, looks like a flash drive could be plugged into it.", "Lab", "K");
 
 		guestroom.addItem(letter);
 		livingroom.addItem(picture);
 		rubblepile.addItem(cinder_block);
 		stream.addItem(bucket);
 		kitchen.addItem(eggs);
-		basement.addItem(computer);
+
 		shelter.addItem(flash_drive);
 		this.player =  new Player(bedroom);
 		ImageIcon tomimg = new ImageIcon("src/mobs/tom.jpg");
@@ -98,7 +102,7 @@ public class Game extends Observable {
 			addObserver(gui2);
 		}
 		ArrayList<String> tomdialogue = new ArrayList<>(Arrays.asList("This seems like a pretty nice house, too bad there aren't 42 bedrooms, it's just that one and the guest room...",
-				"Don't mind me, just came in to take a nap.Say, isn't that letter over there addressed to you?",
+				"Don't mind me, just came in to take a nap. Say, isn't that letter over there addressed to you?",
 				"Saw the picture that was in here, seems like you've got yourself a nice family. I wonder where they are?",
 				"This kitchen is pretty empty, not nearly enough ingredients for a 42 course meal.",
 				"Pretty big basement you got here, bet if you cleaned it out you could fit a 42 seat home theater down here.",
@@ -112,24 +116,19 @@ public class Game extends Observable {
 		ArrayList<String> oldladydialogue = new ArrayList<>(Arrays.asList("Oh my bucket! Thank you so much for getting this for me dear.",
 				"Could you help me with something dear? I've lost my precious antique bucket, would you mind looking for it?",
 				"My life is so much better now that I've got my bucket back, it's all thanks to you.",
-				"Im sorry dear but I'm afraid that this isn't my bucket. You know what a bucket looks like don't you?"));
+				"I'm sorry dear but I'm afraid that this isn't my bucket. You know what a bucket looks like don't you?"));
 		ArrayList<String> caesardialogue = new ArrayList<>(Arrays.asList("Ah! The block I've been missing! Thank you for returning it to me my friend.",
 				"Excuse me, would you happen to be some sort of adventurer? One of my cinder blocks is missing and I cannot rest until I add it back to the pile where it belongs.",
 				"Now that this rubble is in order I can continue my search for my comrade. Jojo must be around here somewhere...",
 				"Huh? This isn't my missing cinder block..."));
-		ArrayList<String> scientistdialogue = new ArrayList<>(Arrays.asList("...",
-				"Oh it's you. Well by the state of everything the experiment must've worked. What's that? You don't remember anything? Well all I can say is get to the lab, you'll find some answers there.",
-				"",
-				"Are you trying to give this to me? Sorry I don't think I need this."));
+
 		StaticMob oldlady = new StaticMob("Old Lady", oldladydialogue, "Bucket");
 		StaticMob caesar = new StaticMob("Caesar Zepelli", caesardialogue, "Cinder Block");
-		StaticMob scientist = new StaticMob("Scientist", scientistdialogue, "");
 		Mob tom = new Mob("Tom",guestroom,tomdialogue,this,tomimg);
 		Mob cat = new Mob ("Cat", livingroom, catdialogue, this,catimg);
 		guestroom.addMob(tom);
 		livingroom.addMob(cat);
 		shelter.addStaticMob(oldlady);
-		lab.addStaticMob(scientist);
 		rubblepile.addStaticMob(caesar);
 		addObserver(tom);
 		addObserver(cat);
@@ -139,24 +138,29 @@ public class Game extends Observable {
 		service.execute(tom);
 
 	}
+	public void itemIsTaken(boolean tf){
+		isTaken = tf;
+
+	}
+
+	/**
+	 * gameIsOver method is used when the exit or end game buttons are pressed, sets isOver bool to true
+	 */
 	public void gameIsOver(){
 		isOver = true;
 	}
+	/**
+	 * gameIsWon method is used when a player uses the flash drive in the lab, effectively solving the game's puzzle
+	 */
+	public void gameIsWon(){ isWon = true;}
 
+	/**
+	 * used to notify observers and set changes implemented by mob or GUI class
+	 */
 	public void someoneMoves(){
 		setChanged();
 		notifyObservers();
 	}
 
-	/*
-	 * main creates a game and GUI object, passes the player from game into the GUI constructor
-	 * uses .startGame method in GUI to run the program
-	 * @param args
-	 */
-		//public static void main (String[]args){
-			//Game game = new Game();
-
-
-		//}
 
 	}
