@@ -27,6 +27,7 @@ public class GUI implements Observer {
     private JFrame endGameFrame;
     private JButton exit;
     private JButton gameFinished;
+    private final Object lock = new Object();
 
 
     /**
@@ -274,7 +275,6 @@ public class GUI implements Observer {
                     error.setText("");
                     invLabel.setText("");
                     desc.setText(player.look());
-                    game.itemIsTaken(true);
                     game.someoneMoves();
                 }
                 else if (inv.getSelectedItem() == null){
@@ -302,7 +302,6 @@ public class GUI implements Observer {
                         invLabel.setText("");
                         desc.setText(player.look());
                         SwingUtilities.updateComponentTreeUI(invPanel);
-                        game.itemIsTaken(true);
                         game.someoneMoves();
                         if(inv.getItemCount() == 0) {
                             invPanel.remove(inv);
@@ -426,56 +425,59 @@ public class GUI implements Observer {
 
     }
     public void updateRoominv(){
-        for(int i = 0; i < roominv.getItemCount() ; i++){
-            roominv.removeItemAt(i--);
+        if(roominv.getItemCount() > 0){
+            for(int i = 0; i < roominv.getItemCount() ; i++){
+                roominv.removeItemAt(i--);
+            }
         }
-        for(int i = 0; i < player.getRoomobj().getItems().size() ; i++){
-            roominv.addItem(player.getRoomobj().getItems().get(i).getName());
+        if(player.getRoomobj().getItems().size() >0){
+            for(int i = 0; i < player.getRoomobj().getItems().size() ; i++){
+                roominv.addItem(player.getRoomobj().getItems().get(i).getName());
+            }
+
+
         }
-        SwingUtilities.updateComponentTreeUI(invPanel);
+
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        if(game.isOver){
-            System.exit(0);
-        }
-        else if(game.isWon){
-            gameFrame.setVisible(false);
-            endGameFrame.setVisible(true);
-        }
-        while(game.isTaken){
-            updateRoominv();
-            game.itemIsTaken(false);
-        }
+        synchronized (lock){
+            if(game.isOver){
+                System.exit(0);
+            }
+            else if(game.isWon){
+                gameFrame.setVisible(false);
+                endGameFrame.setVisible(true);
+            }
 
-        if(player.getRoom().equals("Shelter")){
-            ImageIcon oldladypic = new ImageIcon("src/mobs/oldlady.jpg");
-            mobpic.setIcon(oldladypic);
-        }
-        else if(player.getRoom().equals("Rubble Pile")){
-            ImageIcon caesarpic = new ImageIcon("src/mobs/caesar.jpg");
-            mobpic.setIcon(caesarpic);
-        }
-        else if(player.getRoomobj().getMob() != null){
-            for(Mob mob:player.getRoomobj().getMob()){
-                mobpic.setIcon(mob.getImage());
+            updateRoominv();
+            if(player.getRoom().equals("Shelter")){
+                ImageIcon oldladypic = new ImageIcon("src/mobs/oldlady.jpg");
+                mobpic.setIcon(oldladypic);
+            }
+            else if(player.getRoom().equals("Rubble Pile")){
+                ImageIcon caesarpic = new ImageIcon("src/mobs/caesar.jpg");
+                mobpic.setIcon(caesarpic);
+            }
+            else if(player.getRoomobj().getMob() != null){
+                mobpic.setIcon(player.getRoomobj().getMob().get(0).getImage());
                 mobtext.setText("");
                 invLabel.setText("");
 
-                SwingUtilities.updateComponentTreeUI(mobPanel);
+
             }
+            else if(player.getRoomobj().getStaticmob() == null && player.getRoomobj().getMob() == null){
+                mobtext.setText("There is nobody around...");
+                mobpic.setIcon(null);
+            }
+            else if(player.getRoomobj().getMob() == null){
+                mobtext.setText("There is nobody around...");
+                mobpic.setIcon(null);
+            }
+
         }
-        else if(player.getRoomobj().getStaticmob() == null && player.getRoomobj().getMob() == null){
-            mobtext.setText("There is nobody around...");
-            mobpic.setIcon(null);
-            SwingUtilities.updateComponentTreeUI(mobPanel);
-        }
-        else if(player.getRoomobj().getMob() == null){
-            mobtext.setText("There is nobody around...");
-            mobpic.setIcon(null);
-            SwingUtilities.updateComponentTreeUI(mobPanel);
-        }
+
 
 
     }
