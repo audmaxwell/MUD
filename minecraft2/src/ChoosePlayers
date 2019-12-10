@@ -7,6 +7,10 @@ public class ChoosePlayers extends JFrame {
     private int numPlayers;
     private JButton oneplayer;
     private JButton twoplayer;
+    /*
+     * Constructor creates JFrame with two buttons for single player and two player
+     * creates action listeners for the buttons that create a new game object with either one or two players respectively
+     */
     public ChoosePlayers(){
         oneplayer = new JButton("One Player");
         twoplayer = new JButton("Two Player");
@@ -77,6 +81,9 @@ public class ChoosePlayers extends JFrame {
 
     }
 
+    /*
+     * Creates new ChoosePlayers object
+     */
     public static void main(String[] args) {
         ChoosePlayers start = new ChoosePlayers();
     }
